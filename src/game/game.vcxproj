@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4F8332D7-5687-4875-813A-A1B7AA479C2D}</ProjectGuid>
+    <RootNamespace>game</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.28307.799</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/game.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\Omnibot\Common;..\..\Omnibot\ET;..\lua-5.1.4\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;BUILDING_REF_GL;DEBUG;GAMEDLL;USE_MDXFILE;NO_BOT_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Debug/game.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <ObjectFileName>.\Debug/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug/</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Debug\qagame_mp_x86.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ModuleDefinitionFile>.\game.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Debug/qagame_mp_x86.pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>.\Debug/qagame_mp_x86.map</MapFileName>
+      <SubSystem>Windows</SubSystem>
+      <BaseAddress>0x20000000</BaseAddress>
+      <ImportLibrary>.\Debug/qagame_mp_x86.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copy to ET</Message>
+      <Command>copy "$(TargetPath)" "$(ETDIR)\etpub\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/game.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <OmitFramePointers>false</OmitFramePointers>
+      <AdditionalIncludeDirectories>..\..\Omnibot\Common;..\..\Omnibot\ET;..\lua-5.1.4\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;GAMEDLL;USE_MDXFILE;NO_BOT_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Release/game.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <BrowseInformation />
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Release/qagame_mp_x86.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ModuleDefinitionFile>.\game.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Release/qagame_mp_x86.pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>.\Release/qagame_mp_x86.map</MapFileName>
+      <SubSystem>Windows</SubSystem>
+      <BaseAddress>0x20000000</BaseAddress>
+      <ImportLibrary>.\Release/qagame_mp_x86.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copy to ET</Message>
+      <Command>copy "$(TargetPath)" "$(ETDIR)\etpub\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Omnibot\Common\BotLoadLibrary.cpp" />
+    <ClCompile Include="..\lua-5.1.4\src\lapi.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lauxlib.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lbaselib.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lcode.c" />
+    <ClCompile Include="..\lua-5.1.4\src\ldblib.c" />
+    <ClCompile Include="..\lua-5.1.4\src\ldebug.c" />
+    <ClCompile Include="..\lua-5.1.4\src\ldo.c" />
+    <ClCompile Include="..\lua-5.1.4\src\ldump.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lfunc.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lgc.c" />
+    <ClCompile Include="..\lua-5.1.4\src\linit.c" />
+    <ClCompile Include="..\lua-5.1.4\src\liolib.c" />
+    <ClCompile Include="..\lua-5.1.4\src\llex.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lmathlib.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lmem.c" />
+    <ClCompile Include="..\lua-5.1.4\src\loadlib.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lobject.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lopcodes.c" />
+    <ClCompile Include="..\lua-5.1.4\src\loslib.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lparser.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lstate.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lstring.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lstrlib.c" />
+    <ClCompile Include="..\lua-5.1.4\src\ltable.c" />
+    <ClCompile Include="..\lua-5.1.4\src\ltablib.c" />
+    <ClCompile Include="..\lua-5.1.4\src\ltm.c" />
+    <ClCompile Include="..\lua-5.1.4\src\luac.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lundump.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lvm.c" />
+    <ClCompile Include="..\lua-5.1.4\src\lzio.c" />
+    <ClCompile Include="..\lua-5.1.4\src\print.c" />
+    <ClCompile Include="bg_animation.c" />
+    <ClCompile Include="bg_animgroup.c" />
+    <ClCompile Include="bg_campaign.c" />
+    <ClCompile Include="bg_character.c" />
+    <ClCompile Include="bg_classes.c" />
+    <ClCompile Include="bg_lib.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="bg_misc.c" />
+    <ClCompile Include="bg_pmove.c" />
+    <ClCompile Include="bg_slidemove.c" />
+    <ClCompile Include="bg_sscript.c" />
+    <ClCompile Include="bg_stats.c" />
+    <ClCompile Include="bg_tracemap.c" />
+    <ClCompile Include="et-antiwarp.c" />
+    <ClCompile Include="etpro_mdx.c" />
+    <ClCompile Include="geoip.c" />
+    <ClCompile Include="g_active.c" />
+    <ClCompile Include="g_alarm.c" />
+    <ClCompile Include="g_antilag.c" />
+    <ClCompile Include="g_bot.c" />
+    <ClCompile Include="g_buddy_list.c" />
+    <ClCompile Include="g_censor.c" />
+    <ClCompile Include="g_character.c" />
+    <ClCompile Include="g_client.c" />
+    <ClCompile Include="g_cmds.c" />
+    <ClCompile Include="g_cmds_ext.c" />
+    <ClCompile Include="g_combat.c" />
+    <ClCompile Include="g_config.c" />
+    <ClCompile Include="g_crash.c" />
+    <ClCompile Include="g_etbot_interface.cpp" />
+    <ClCompile Include="g_fireteams.c" />
+    <ClCompile Include="g_http_client.c" />
+    <ClCompile Include="g_items.c" />
+    <ClCompile Include="g_lua.c" />
+    <ClCompile Include="g_main.c" />
+    <ClCompile Include="g_match.c" />
+    <ClCompile Include="g_matchinfo.c" />
+    <ClCompile Include="g_mem.c" />
+    <ClCompile Include="g_misc.c" />
+    <ClCompile Include="g_missile.c" />
+    <ClCompile Include="g_mover.c" />
+    <ClCompile Include="g_multiview.c" />
+    <ClCompile Include="g_player_rating.c" />
+    <ClCompile Include="g_props.c" />
+    <ClCompile Include="g_referee.c" />
+    <ClCompile Include="g_save.c" />
+    <ClCompile Include="g_script.c" />
+    <ClCompile Include="g_script_actions.c" />
+    <ClCompile Include="g_session.c" />
+    <ClCompile Include="g_settings.c" />
+    <ClCompile Include="g_shrubbot.c" />
+    <ClCompile Include="g_spawn.c" />
+    <ClCompile Include="g_stats.c" />
+    <ClCompile Include="g_svcmds.c" />
+    <ClCompile Include="g_sv_entities.c" />
+    <ClCompile Include="g_syscalls.c" />
+    <ClCompile Include="g_systemmsg.c" />
+    <ClCompile Include="g_target.c" />
+    <ClCompile Include="g_team.c" />
+    <ClCompile Include="g_teammapdata.c" />
+    <ClCompile Include="g_trigger.c" />
+    <ClCompile Include="g_utils.c" />
+    <ClCompile Include="g_vote.c" />
+    <ClCompile Include="g_weapon.c" />
+    <ClCompile Include="g_xpsave.c" />
+    <ClCompile Include="q_math.c" />
+    <ClCompile Include="q_shared.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\botai\botai.h" />
+    <ClInclude Include="..\botai\chars.h" />
+    <ClInclude Include="..\botai\inv.h" />
+    <ClInclude Include="..\botai\match.h" />
+    <ClInclude Include="..\botai\syn.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lapi.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lauxlib.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lcode.h" />
+    <ClInclude Include="..\lua-5.1.4\src\ldebug.h" />
+    <ClInclude Include="..\lua-5.1.4\src\ldo.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lfunc.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lgc.h" />
+    <ClInclude Include="..\lua-5.1.4\src\llex.h" />
+    <ClInclude Include="..\lua-5.1.4\src\llimits.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lmem.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lobject.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lopcodes.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lparser.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lstate.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lstring.h" />
+    <ClInclude Include="..\lua-5.1.4\src\ltable.h" />
+    <ClInclude Include="..\lua-5.1.4\src\ltm.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lua.h" />
+    <ClInclude Include="..\lua-5.1.4\src\luaconf.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lualib.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lundump.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lvm.h" />
+    <ClInclude Include="..\lua-5.1.4\src\lzio.h" />
+    <ClInclude Include="be_aas.h" />
+    <ClInclude Include="be_ai_char.h" />
+    <ClInclude Include="be_ai_chat.h" />
+    <ClInclude Include="be_ai_gen.h" />
+    <ClInclude Include="be_ai_goal.h" />
+    <ClInclude Include="be_ai_move.h" />
+    <ClInclude Include="be_ai_weap.h" />
+    <ClInclude Include="be_ea.h" />
+    <ClInclude Include="bg_classes.h" />
+    <ClInclude Include="bg_local.h" />
+    <ClInclude Include="bg_public.h" />
+    <ClInclude Include="botlib.h" />
+    <ClInclude Include="etpro_mdx.h" />
+    <ClInclude Include="etpro_mdx_lut.h" />
+    <ClInclude Include="etpub.h" />
+    <ClInclude Include="g_censor.h" />
+    <ClInclude Include="g_etbot_interface.h" />
+    <ClInclude Include="g_http_client.h" />
+    <ClInclude Include="g_local.h" />
+    <ClInclude Include="g_matchinfo.h" />
+    <ClInclude Include="g_player_rating.h" />
+    <ClInclude Include="g_public.h" />
+    <ClInclude Include="g_settings.h" />
+    <ClInclude Include="g_shrubbot.h" />
+    <ClInclude Include="g_team.h" />
+    <ClInclude Include="g_xpsave.h" />
+    <ClInclude Include="q_shared.h" />
+    <ClInclude Include="surfaceflags.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="game.def" />
+    <None Include="Jamfile" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

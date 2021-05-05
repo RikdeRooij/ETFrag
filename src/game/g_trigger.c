@@ -1,42 +1,14 @@
-/*
-===========================================================================
-
-Wolfenstein: Enemy Territory GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
-
-This file is part of the Wolfenstein: Enemy Territory GPL Source Code (Wolf ET Source Code).  
-
-Wolf ET Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Wolf ET Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Wolf ET Source Code.  If not, see <http://www.gnu.org/licenses/>.
-
-In addition, the Wolf: ET Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Wolf ET Source Code.  If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
-===========================================================================
-*/
-
 #include "g_local.h"
 
 
-void InitTrigger( gentity_t *self ) {
-	if ( !VectorCompare( self->s.angles, vec3_origin ) ) {
-		G_SetMovedir( self->s.angles, self->movedir );
-	}
+void InitTrigger( gentity_t *self) {
+	if (!VectorCompare (self->s.angles, vec3_origin))
+		G_SetMovedir (self->s.angles, self->movedir);
 
-	trap_SetBrushModel( self, self->model );
+	if(self->model)
+		trap_SetBrushModel( self, self->model );
 
-	self->r.contents = CONTENTS_TRIGGER;        // replaces the -1 from trap_SetBrushModel
+	self->r.contents = CONTENTS_TRIGGER;		// replaces the -1 from trap_SetBrushModel
 	self->r.svFlags = SVF_NOCLIENT;
 }
 
@@ -56,10 +28,10 @@ void multi_trigger( gentity_t *ent, gentity_t *activator ) {
 	G_Script_ScriptEvent( ent, "activate", NULL );
 
 	if ( ent->nextthink ) {
-		return;     // can't retrigger until the wait is over
+		return;		// can't retrigger until the wait is over
 	}
 
-	G_UseTargets( ent, ent->activator );
+	G_UseTargets (ent, ent->activator);
 
 	if ( ent->wait > 0 ) {
 		ent->think = multi_wait;
@@ -78,59 +50,59 @@ void Use_Multi( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
 }
 
 void Touch_Multi( gentity_t *self, gentity_t *other, trace_t *trace ) {
-	if ( !other->client ) {
+	if( !other->client ) {
 		return;
 	}
 
-	if ( self->spawnflags & 1 ) {
-		if ( other->client->sess.sessionTeam != TEAM_AXIS ) {
+	if( self->spawnflags & 1 ) {
+		if(other->client->sess.sessionTeam != TEAM_AXIS) {
 			return;
 		}
-	} else if ( self->spawnflags & 2 ) {
-		if ( other->client->sess.sessionTeam != TEAM_ALLIES ) {
-			return;
-		}
-	}
-
-	if ( self->spawnflags & 4 ) {
-		if ( other->r.svFlags & SVF_BOT ) {
+	} else if( self->spawnflags & 2 ) {
+		if(other->client->sess.sessionTeam != TEAM_ALLIES) {
 			return;
 		}
 	}
-
-	if ( self->spawnflags & 8 ) {
-		if ( !( other->r.svFlags & SVF_BOT ) ) {
+	
+	if( self->spawnflags & 4 ) {
+		if(other->r.svFlags & SVF_BOT) {
+			return;
+		}
+	} 
+	
+	if( self->spawnflags & 8 ) {
+		if(!(other->r.svFlags & SVF_BOT)) {
 			return;
 		}
 	}
 
 	// START Mad Doc - TDF
-	if ( self->spawnflags & 16 ) {
-		if ( !( other->client->sess.playerType == PC_SOLDIER ) ) {
+	if (self->spawnflags & 16) {
+		if (!(other->client->sess.playerType == PC_SOLDIER)) {
 			return;
 		}
 	}
-
-	if ( self->spawnflags & 32 ) {
-		if ( !( other->client->sess.playerType == PC_FIELDOPS ) ) {
+	
+	if (self->spawnflags & 32) {
+		if (!(other->client->sess.playerType == PC_FIELDOPS)) {
 			return;
 		}
 	}
-
-	if ( self->spawnflags & 64 ) {
-		if ( !( other->client->sess.playerType == PC_MEDIC ) ) {
+	
+	if (self->spawnflags & 64) {
+		if (!(other->client->sess.playerType == PC_MEDIC)) {
 			return;
 		}
 	}
-
-	if ( self->spawnflags & 128 ) {
-		if ( !( other->client->sess.playerType == PC_ENGINEER ) ) {
+	
+	if (self->spawnflags & 128) {
+		if (!(other->client->sess.playerType == PC_ENGINEER)) {
 			return;
 		}
 	}
-
-	if ( self->spawnflags & 256 ) {
-		if ( !( other->client->sess.playerType == PC_COVERTOPS ) ) {
+	
+	if (self->spawnflags & 256) {
+		if (!(other->client->sess.playerType == PC_COVERTOPS)) {
 			return;
 		}
 	}
@@ -152,7 +124,7 @@ void SP_trigger_multiple( gentity_t *ent ) {
 	G_SpawnFloat( "random", "0", &ent->random );
 
 	if ( ent->random >= ent->wait && ent->wait >= 0 ) {
-		ent->random = ent->wait - ( FRAMETIME * 0.001f );
+		ent->random = ent->wait - (FRAMETIME * 0.001f);
 		G_Printf( "trigger_multiple has random >= wait\n" );
 	}
 
@@ -160,13 +132,13 @@ void SP_trigger_multiple( gentity_t *ent ) {
 	ent->use = Use_Multi;
 	ent->s.eType = ET_TRIGGER_MULTIPLE;
 
-	InitTrigger( ent );
+	InitTrigger( ent);
 
 #ifdef VISIBLE_TRIGGERS
 	ent->r.svFlags &= ~SVF_NOCLIENT;
 #endif // VISIBLE_TRIGGERS
 
-	trap_LinkEntity( ent );
+	trap_LinkEntity (ent);
 }
 
 
@@ -180,14 +152,14 @@ trigger_always
 */
 
 void trigger_always_think( gentity_t *ent ) {
-	G_UseTargets( ent, ent );
+	G_UseTargets(ent, ent);
 	G_FreeEntity( ent );
 }
 
 /*QUAKED trigger_always (.5 .5 .5) (-8 -8 -8) (8 8 8)
 This trigger will always fire.  It is activated by the world.
 */
-void SP_trigger_always( gentity_t *ent ) {
+void SP_trigger_always (gentity_t *ent) {
 	// we must have some delay to make sure our use targets are present
 	ent->nextthink = level.time + 300;
 	ent->think = trigger_always_think;
@@ -202,7 +174,7 @@ trigger_push
 ==============================================================================
 */
 
-void trigger_push_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
+void trigger_push_touch (gentity_t *self, gentity_t *other, trace_t *trace ) {
 }
 
 
@@ -214,13 +186,13 @@ Calculate origin2 so the target apogee will be hit
 =================
 */
 void AimAtTarget( gentity_t *self ) {
-	gentity_t   *ent;
-	vec3_t origin;
-	float height, gravity, time, forward;
-	float dist;
+	gentity_t	*ent;
+	vec3_t		origin;
+	float		height, gravity, time, forward;
+	float		dist;
 
 	VectorAdd( self->r.absmin, self->r.absmax, origin );
-	VectorScale( origin, 0.5, origin );
+	VectorScale ( origin, 0.5, origin );
 
 	ent = G_PickTarget( self->target );
 	if ( !ent ) {
@@ -230,16 +202,16 @@ void AimAtTarget( gentity_t *self ) {
 
 	height = ent->s.origin[2] - origin[2];
 	gravity = g_gravity.value;
-	time = sqrt( fabs( height / ( 0.5f * gravity ) ) );
+	time = sqrt( fabs (height / ( 0.5f * gravity ) ) );
 	if ( !time ) {
 		G_FreeEntity( self );
 		return;
 	}
 
 	// set s.origin2 to the push velocity
-	VectorSubtract( ent->s.origin, origin, self->s.origin2 );
+	VectorSubtract ( ent->s.origin, origin, self->s.origin2 );
 	self->s.origin2[2] = 0;
-	dist = VectorNormalize( self->s.origin2 );
+	dist = VectorNormalize( self->s.origin2);
 
 	forward = dist / time;
 	VectorScale( self->s.origin2, forward, self->s.origin2 );
@@ -247,8 +219,8 @@ void AimAtTarget( gentity_t *self ) {
 	self->s.origin2[2] = time * gravity;
 }
 
-void trigger_push_use( gentity_t *self, gentity_t *other, gentity_t *activator ) {
-}
+void trigger_push_use (gentity_t *self, gentity_t *other, gentity_t *activator )  {
+}		
 
 /*QUAKED trigger_push (.5 .5 .5) ? TOGGLE REMOVEAFTERTOUCH PUSHPLAYERONLY
 Must point at a target_position, which will be the apex of the leap.
@@ -267,7 +239,7 @@ void Use_target_push( gentity_t *self, gentity_t *other, gentity_t *activator ) 
 		return;
 	}
 
-	VectorCopy( self->s.origin2, activator->client->ps.velocity );
+	VectorCopy (self->s.origin2, activator->client->ps.velocity);
 
 	// play fly sound every 1.5 seconds
 	if ( activator->fly_sound_debounce_time < level.time ) {
@@ -282,16 +254,16 @@ Pushes the activator in the direction.of angle, or towards a target apex.
 if "bouncepad", play bounce noise instead of windfly
 */
 void SP_target_push( gentity_t *self ) {
-	if ( !self->speed ) {
+	if (!self->speed) {
 		self->speed = 1000;
 	}
-	G_SetMovedir( self->s.angles, self->s.origin2 );
-	VectorScale( self->s.origin2, self->speed, self->s.origin2 );
+	G_SetMovedir (self->s.angles, self->s.origin2);
+	VectorScale (self->s.origin2, self->speed, self->s.origin2);
 
 	if ( self->spawnflags & 1 ) {
-		self->noise_index = G_SoundIndex( "sound/world/jumppad.wav" );
+		self->noise_index = G_SoundIndex("sound/world/jumppad.wav");
 	} else {
-		self->noise_index = G_SoundIndex( "sound/misc/windfly.wav" );
+		self->noise_index = G_SoundIndex("sound/misc/windfly.wav");
 	}
 	if ( self->target ) {
 		VectorCopy( self->s.origin, self->r.absmin );
@@ -310,8 +282,8 @@ trigger_teleport
 ==============================================================================
 */
 
-void trigger_teleporter_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
-	gentity_t   *dest;
+void trigger_teleporter_touch (gentity_t *self, gentity_t *other, trace_t *trace ) {
+	gentity_t	*dest;
 
 	if ( !other->client ) {
 		return;
@@ -320,9 +292,9 @@ void trigger_teleporter_touch( gentity_t *self, gentity_t *other, trace_t *trace
 		return;
 	}
 
-	dest =  G_PickTarget( self->target );
-	if ( !dest ) {
-		G_Printf( "Couldn't find teleporter destination\n" );
+	dest = 	G_PickTarget( self->target );
+	if (!dest) {
+		G_Printf ("Couldn't find teleporter destination\n");
 		return;
 	}
 
@@ -335,18 +307,18 @@ Allows client side prediction of teleportation events.
 Must point at a target_position, which will be the teleport destination.
 */
 void SP_trigger_teleport( gentity_t *self ) {
-	InitTrigger( self );
+	InitTrigger (self);
 
 	// unlike other triggers, we need to send this one to the client
 	self->r.svFlags &= ~SVF_NOCLIENT;
 
 	// make sure the client precaches this sound
-	G_SoundIndex( "sound/world/jumppad.wav" );
+	G_SoundIndex("sound/world/jumppad.wav");
 
 	self->s.eType = ET_TELEPORT_TRIGGER;
 	self->touch = trigger_teleporter_touch;
 
-	trap_LinkEntity( self );
+	trap_LinkEntity (self);
 }
 
 
@@ -373,10 +345,10 @@ NO_PROTECTION	*nothing* stops the damage
 "life"	time this brush will exist if value is zero will live for ever ei 0.5 sec 2.sec
 default is zero
 
-the entity must be used first before it will count down its life
+the entity must be used first before it will count down its life 
 */
 void hurt_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
-	int dflags;
+	int		dflags;
 
 	if ( !other->takedamage ) {
 		return;
@@ -393,42 +365,41 @@ void hurt_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
 	}
 
 	// play sound
-	if ( !( self->spawnflags & 4 ) ) {
+	if ( !(self->spawnflags & 4) ) {
 		G_Sound( other, self->noise_index );
 	}
 
-	if ( self->spawnflags & 8 ) {
+	if (self->spawnflags & 8)
 		dflags = DAMAGE_NO_PROTECTION;
-	} else {
+	else
 		dflags = 0;
-	}
-	G_Damage( other, self, self, NULL, NULL, self->damage, dflags, MOD_TRIGGER_HURT );
+	G_Damage (other, self, self, NULL, NULL, self->damage, dflags, MOD_TRIGGER_HURT);
 
-	if ( self->spawnflags & 32 ) {
+	if (self->spawnflags & 32)
 		self->touch = NULL;
-	}
 }
 
-void hurt_think( gentity_t *ent ) {
+void hurt_think (gentity_t *ent)
+{
 	ent->nextthink = level.time + FRAMETIME;
 
-	if ( ent->wait < level.time ) {
-		G_FreeEntity( ent );
-	}
+	if (ent->wait < level.time)
+		G_FreeEntity (ent);
 
 }
 
 void hurt_use( gentity_t *self, gentity_t *other, gentity_t *activator ) {
-	if ( self->touch ) {
+	if(self->touch) {
 		self->touch = NULL;
 	} else {
 		self->touch = hurt_touch;
 	}
 
-	if ( self->delay ) {
+	if (self->delay)
+	{
 		self->nextthink = level.time + 50;
 		self->think = hurt_think;
-		self->wait = level.time + ( self->delay * 1000 );
+		self->wait = level.time + (self->delay * 1000);
 	}
 }
 
@@ -439,10 +410,10 @@ SP_trigger_hurt
 */
 void SP_trigger_hurt( gentity_t *self ) {
 
-	char    *life, *sound; // JPW NERVE
-	float dalife;
+	char	*life, *sound; // JPW NERVE
+	float	dalife;
 
-	InitTrigger( self );
+	InitTrigger (self);
 
 	G_SpawnString( "sound", "sound/player/hurt_barbwire.wav", &sound );
 
@@ -454,7 +425,7 @@ void SP_trigger_hurt( gentity_t *self ) {
 
 	self->r.contents = CONTENTS_TRIGGER;
 
-//----(SA)
+//----(SA)	
 //	if ( self->spawnflags & 2 ) {
 //		self->use = hurt_use;
 //	}
@@ -462,16 +433,16 @@ void SP_trigger_hurt( gentity_t *self ) {
 	self->use = hurt_use;
 
 	// link in to the world if starting active
-	if ( !( self->spawnflags & 1 ) ) {
+	if ( ! (self->spawnflags & 1) ) {
 		//----(SA)	any reason this needs to be linked? (predicted?)
 //		trap_LinkEntity (self);
 		self->touch = hurt_touch;
 	}
 
-	G_SpawnString( "life", "0", &life );
-	dalife = atof( life );
+	G_SpawnString ("life", "0", &life);
+	dalife = atof (life);
 	self->delay = dalife;
-
+		
 }
 
 // START	xkan, 9/17/2002
@@ -496,11 +467,11 @@ maximum.
 qboolean G_IsAllowedHeal( gentity_t* ent ) {
 //	int i;
 
-	if ( !ent || !ent->client ) {
+	if( !ent || !ent->client ) {
 		return qfalse;
 	}
 
-	if ( ent->health <= 0 || ent->health >= ent->client->ps.stats[STAT_MAX_HEALTH] ) {
+	if( ent->health <= 0 || ent->health >= ent->client->ps.stats[STAT_MAX_HEALTH] ) {
 		return qfalse;
 	}
 
@@ -521,9 +492,9 @@ void heal_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
 	gentity_t* touchClients[MAX_CLIENTS];
 	int healvalue;
 
-	memset( touchClients, 0, sizeof( touchClients ) );
+	memset(touchClients, 0, sizeof(touchClients));
 
-	if ( !other->client ) {
+	if( !other->client ) {
 		return;
 	}
 
@@ -532,62 +503,60 @@ void heal_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
 	}
 	self->timestamp = level.time + 1000;
 
-	for ( i = 0; i < level.numConnectedClients; i++ ) {
+	for( i = 0; i < level.numConnectedClients; i++ ) {
 		int j = level.sortedClients[i];
 
-		if ( level.clients[j].ps.stats[STAT_MAX_HEALTH] > g_entities[j].health && trap_EntityContactCapsule( g_entities[j].r.absmin, g_entities[j].r.absmax, self ) && G_IsAllowedHeal( &g_entities[j] ) ) {
+		if( level.clients[j].ps.stats[STAT_MAX_HEALTH] > g_entities[j].health && trap_EntityContactCapsule( g_entities[j].r.absmin, g_entities[j].r.absmax, self ) && G_IsAllowedHeal( &g_entities[j] ) ) {
 			touchClients[clientcount] = &g_entities[j];
 			clientcount++;
 		}
 	}
-
-	if ( clientcount == 0 ) {
+	
+	if(clientcount == 0) {
 		return;
 	}
-
-	for ( i = 0; i < clientcount; i++ ) {
-		healvalue = min( touchClients[i]->client->ps.stats[STAT_MAX_HEALTH] - touchClients[i]->health, self->damage );
-		if ( self->health != -9999 ) {
-			healvalue = min( healvalue, self->health );
+	
+	for( i = 0; i < clientcount; i++) {
+		healvalue = min(touchClients[i]->client->ps.stats[STAT_MAX_HEALTH] - touchClients[i]->health, self->damage);
+		if( self->health != -9999 ) {
+			healvalue = min(healvalue, self->health);
 		}
-		if ( healvalue <= 0 ) {
+		if(healvalue <= 0) {
 			continue;
 		}
 
 		touchClients[i]->health += healvalue;
-		// add the medicheal event (to get sound, etc.)
-		G_AddPredictableEvent( other, EV_ITEM_PICKUP, BG_FindItemForClassName( "item_health_cabinet" ) - bg_itemlist );
+		touchClients[i]->client->ps.viewlocked = 0;
+		touchClients[i]->client->ps.viewlocked_entNum = 0;
 
-		if ( self->health != -9999 ) {
+		// add the medicheal event (to get sound, etc.)
+		G_AddPredictableEvent( other, EV_ITEM_PICKUP, BG_FindItemForClassName("item_health_cabinet")-bg_itemlist );
+
+		if (self->health != -9999) {
 			self->health -= healvalue;
 		}
 	}
 }
 
-#define HEALTH_REGENTIME 10000
-void trigger_heal_think( gentity_t* self ) {
-	self->nextthink = level.time + HEALTH_REGENTIME;
-/*	if(self->timestamp - level.time > -HEALTH_REGENTIME) {
-		return;
-	}*/
-
+void trigger_heal_think(gentity_t* self) {
+	self->nextthink = level.time + g_healthCabinetTime.integer;
 	self->health += self->damage;
-	if ( self->health > self->count ) {
+	if(self->health > self->count) {
 		self->health = self->count;
 	}
 }
 
-#define TRIGGER_HEAL_CANTHINK( self ) self->count != -9999
-void trigger_heal_setup( gentity_t* self ) {
+#define TRIGGER_HEAL_CANTHINK(self) self->count != -9999
+void trigger_heal_setup(gentity_t* self) {
 	self->target_ent = G_FindByTargetname( NULL, self->target );
-	if ( !self->target_ent ) {
+	if(!self->target_ent) {
 		G_Error( "trigger_heal failed to find target: %s\n", self->target );
 	}
 
-	if ( TRIGGER_HEAL_CANTHINK( self ) ) {
+	if(TRIGGER_HEAL_CANTHINK(self)) {
 		self->think = trigger_heal_think;
 		self->nextthink = level.time + FRAMETIME;
-	}
+	}	
 }
 
 /*
@@ -598,12 +567,12 @@ SP_misc_cabinet_health
 
 /*QUAKED misc_cabinet_health (.5 .5 .5) (-20 -20 0) (20 20 60)
 */
-void SP_misc_cabinet_health( gentity_t* self ) {
-	VectorSet( self->r.mins, -20, -20, 0 );
-	VectorSet( self->r.maxs, 20, 20, 60 );
+void SP_misc_cabinet_health( gentity_t* self ) {	
+	VectorSet (self->r.mins, -20, -20, 0);
+	VectorSet (self->r.maxs, 20, 20, 60);
 
-	G_SetOrigin( self, self->s.origin );
-	G_SetAngle( self, self->s.angles );
+	G_SetOrigin (self, self->s.origin); 
+	G_SetAngle (self, self->s.angles);
 
 	self->s.eType = ET_CABINET_H;
 
@@ -620,37 +589,37 @@ SP_trigger_heal
 */
 void SP_trigger_heal( gentity_t *self ) {
 
-	char    *spawnstr;
-	int healvalue;
+	char	*spawnstr;
+	int	healvalue;
 
-	InitTrigger( self );
+	InitTrigger (self);
 
 	self->touch = heal_touch;
 
 	// healtotal specifies the maximum amount of health this trigger area restores
-	G_SpawnString( "healtotal", "0", &spawnstr );
-	healvalue = atoi( spawnstr );
+	G_SpawnString ("healtotal", "0", &spawnstr);
+	healvalue = atoi (spawnstr);
 	// Gordon: -9999 means infinite now
 	self->health = healvalue;
-	if ( self->health <= 0 ) {
+	if(self->health <= 0) {
 		self->health = -9999;
 	}
 	self->count = self->health;
 	self->s.eType = ET_HEALER;
-
+	
 	self->target_ent = NULL;
-	if ( self->target && *self->target ) {
+	if(self->target && *self->target) {
 		self->think = trigger_heal_setup;
 		self->nextthink = level.time + FRAMETIME;
-	} else if ( TRIGGER_HEAL_CANTHINK( self ) ) {
+	} else if(TRIGGER_HEAL_CANTHINK(self)) {
 		self->think = trigger_heal_think;
-		self->nextthink = level.time + HEALTH_REGENTIME;
+		self->nextthink = level.time + g_healthCabinetTime.integer;
 	}
 
 	// healrate specifies the amount of healing per second
-	G_SpawnString( "healrate", "20", &spawnstr );
-	healvalue = atoi( spawnstr );
-	self->damage = healvalue;   // store the rate of heal in damage
+	G_SpawnString ("healrate", "20", &spawnstr);
+	healvalue = atoi (spawnstr);
+	self->damage = healvalue;	// store the rate of heal in damage
 }
 // END		xkan, 9/17/2002
 
@@ -664,7 +633,7 @@ trigger_ammo
 */
 
 /*QUAKED trigger_ammo (.5 .5 .5) ?
-Any entity that touches this will get additional ammo a specified rate up to a
+Any entity that touches this will get additional ammo a specified rate up to a 
 specified maximum.
 
 "ammorate"		rate of ammo clips per second. default 1. (whole number only)
@@ -676,15 +645,15 @@ specified maximum.
 qboolean G_IsAllowedAmmo( gentity_t* ent ) {
 //	int i;
 
-	if ( !ent || !ent->client ) {
+	if( !ent || !ent->client ) {
 		return qfalse;
 	}
 
-	if ( ent->health < 0 ) {
+	if( ent->health < 0 ) {
 		return qfalse;
 	}
 
-	if ( !AddMagicAmmo( ent, 0 ) ) {
+	if( !AddMagicAmmo( ent, 0 ) ) {
 		return qfalse;
 	}
 
@@ -705,9 +674,9 @@ void ammo_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
 	int i, clientcount = 0, count;
 	gentity_t* touchClients[MAX_CLIENTS];
 
-	memset( touchClients, 0, sizeof( touchClients ) );
+	memset(touchClients, 0, sizeof(touchClients));
 
-	if ( other->client == NULL ) {
+	if( other->client == NULL ) {
 		return;
 	}
 
@@ -717,36 +686,36 @@ void ammo_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
 	}
 	self->timestamp = level.time + 1000;
 
-	for ( i = 0; i < level.numConnectedClients; i++ ) {
+	for( i = 0; i < level.numConnectedClients; i++ ) {
 		int j = level.sortedClients[i];
 
-		if ( trap_EntityContactCapsule( g_entities[j].r.absmin, g_entities[j].r.absmax, self ) && G_IsAllowedAmmo( &g_entities[j] ) ) {
+		if( trap_EntityContactCapsule( g_entities[j].r.absmin, g_entities[j].r.absmax, self ) && G_IsAllowedAmmo( &g_entities[j] ) ) {
 			touchClients[clientcount] = &g_entities[j];
 			clientcount++;
 		}
 	}
-
-	if ( clientcount == 0 ) {
+	
+	if(clientcount == 0) {
 		return;
 	}
 
 	// Gordon: if low, just give out what's left
-	if ( self->health == -9999 ) {
+	if(self->health == -9999) {
 		count = clientcount;
 	} else {
-		count = min( clientcount, self->health / (float)self->damage );
+		count = min(clientcount, self->health / (float)self->damage );
 	}
 
-	for ( i = 0; i < count; i++ ) {
+	for( i = 0; i < count; i++) {
 		int ammoAdded = qfalse;
 
 		// self->damage contains the amount of ammo to add
-		ammoAdded = AddMagicAmmo( touchClients[i], self->damage );
+		ammoAdded = AddMagicAmmo(touchClients[i], self->damage);
 
-		if ( ammoAdded ) {
+		if (ammoAdded) {
 			// add the ammo pack event (to get sound, etc.)
-			G_AddPredictableEvent( touchClients[i], EV_ITEM_PICKUP, BG_FindItem( "Ammo Pack" ) - bg_itemlist );
-			if ( self->health != -9999 ) {
+			G_AddPredictableEvent( touchClients[i], EV_ITEM_PICKUP, BG_FindItem("Ammo Pack")-bg_itemlist );
+			if (self->health != -9999) {
 				// reduce the ammount of available ammo by the added clip number
 				self->health -= self->damage;
 //				G_Printf("%i clips left\n", self->health );
@@ -755,30 +724,25 @@ void ammo_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
 	}
 }
 
-#define AMMO_REGENTIME 60000
-void trigger_ammo_think( gentity_t* self ) {
-	self->nextthink = level.time + AMMO_REGENTIME;
-/*	if(self->timestamp - level.time > -AMMO_REGENTIME) {
-		return;
-	}*/
-
+void trigger_ammo_think(gentity_t* self) {
+	self->nextthink = level.time + g_ammoCabinetTime.integer;
 	self->health += self->damage;
-	if ( self->health > self->count ) {
+	if(self->health > self->count) {
 		self->health = self->count;
 	}
 }
 
-#define TRIGGER_AMMO_CANTHINK( self ) self->count != -9999
-void trigger_ammo_setup( gentity_t* self ) {
+#define TRIGGER_AMMO_CANTHINK(self) self->count != -9999
+void trigger_ammo_setup(gentity_t* self) {
 	self->target_ent = G_FindByTargetname( NULL, self->target );
-	if ( !self->target_ent ) {
+	if(!self->target_ent) {
 		G_Error( "trigger_ammo failed to find target: %s\n", self->target );
 	}
 
-	if ( TRIGGER_AMMO_CANTHINK( self ) ) {
+	if(TRIGGER_AMMO_CANTHINK(self)) {
 		self->think = trigger_ammo_think;
 		self->nextthink = level.time + FRAMETIME;
-	}
+	}	
 }
 
 /*
@@ -788,12 +752,12 @@ SP_misc_cabinet_supply
 */
 /*QUAKED misc_cabinet_supply (.5 .5 .5) (-20 -20 0) (20 20 60)
 */
-void SP_misc_cabinet_supply( gentity_t* self ) {
-	VectorSet( self->r.mins, -20, -20, 0 );
-	VectorSet( self->r.maxs, 20, 20, 60 );
+void SP_misc_cabinet_supply( gentity_t* self ) {	
+	VectorSet (self->r.mins, -20, -20, 0);
+	VectorSet (self->r.maxs, 20, 20, 60);
 
-	G_SetOrigin( self, self->s.origin );
-	G_SetAngle( self, self->s.angles );
+	G_SetOrigin (self, self->s.origin); 
+	G_SetAngle (self, self->s.angles);
 
 	self->s.eType = ET_CABINET_A;
 
@@ -810,39 +774,39 @@ SP_trigger_ammo
 */
 void SP_trigger_ammo( gentity_t *self ) {
 
-	char    *spawnstr;
-	int ammovalue;
+	char	*spawnstr;
+	int	ammovalue;
 
-	InitTrigger( self );
+	InitTrigger (self);
 
 	self->touch = ammo_touch;
 
 	// ammototal specifies the maximum amount of ammo this trigger contains
-	G_SpawnString( "ammototal", "0", &spawnstr );
-	ammovalue = atoi( spawnstr );
+	G_SpawnString ("ammototal", "0", &spawnstr);
+	ammovalue = atoi (spawnstr);
 	// Gordon: -9999 means infinite now
 	self->health = ammovalue;
-	if ( self->health <= 0 ) {
+	if(self->health <= 0) {
 		self->health = -9999;
 	}
 	self->count = self->health;
 	self->s.eType = ET_SUPPLIER;
-
+	
 	self->target_ent = NULL;
-	if ( self->target && *self->target ) {
+	if(self->target && *self->target) {
 		self->think = trigger_ammo_setup;
 		self->nextthink = level.time + FRAMETIME;
-	} else if ( TRIGGER_AMMO_CANTHINK( self ) ) {
+	} else if(TRIGGER_AMMO_CANTHINK(self)) {
 		self->think = trigger_ammo_think;
-		self->nextthink = level.time + AMMO_REGENTIME;
+		self->nextthink = level.time + g_ammoCabinetTime.integer;
 	}
 
 	// ammorate specifies the amount of ammo added per second
-	G_SpawnString( "ammorate", "1", &spawnstr );
-	ammovalue = atoi( spawnstr );
+	G_SpawnString ("ammorate", "1", &spawnstr);
+	ammovalue = atoi (spawnstr);
 	// store the rate of ammo addition in damage
 	self->damage = ammovalue;
-
+		
 }
 // END		xkan, 9/17/2002
 
@@ -867,7 +831,7 @@ so, the basic time between firing is a random time between
 
 */
 void func_timer_think( gentity_t *self ) {
-	G_UseTargets( self, self->activator );
+	G_UseTargets (self, self->activator);
 	// set time before next firing
 	self->nextthink = level.time + 1000 * ( self->wait + crandom() * self->random );
 }
@@ -882,11 +846,11 @@ void func_timer_use( gentity_t *self, gentity_t *other, gentity_t *activator ) {
 	}
 
 	// turn it on
-	func_timer_think( self );
+	func_timer_think (self);
 }
 
 void SP_func_timer( gentity_t *self ) {
-	G_SpawnFloat( "random", "0", &self->random );
+	G_SpawnFloat( "random", "0", &self->random);
 	G_SpawnFloat( "wait", "1", &self->wait );
 
 	self->use = func_timer_use;
@@ -916,13 +880,13 @@ Must be targeted at one or more entities.
 Once triggered, this entity is destroyed
 (you can actually do the same thing with trigger_multiple with a wait of -1)
 */
-void SP_trigger_once( gentity_t *ent ) {
-	ent->wait   = -1;           // this will remove itself after one use
-	ent->touch  = Touch_Multi;
-	ent->use    = Use_Multi;
+void SP_trigger_once( gentity_t *ent) {
+	ent->wait	= -1;			// this will remove itself after one use
+	ent->touch	= Touch_Multi;
+	ent->use	= Use_Multi;
 
-	InitTrigger( ent );
-	trap_LinkEntity( ent );
+	InitTrigger( ent);
+	trap_LinkEntity (ent);
 }
 
 //---- end
@@ -930,22 +894,25 @@ void SP_trigger_once( gentity_t *ent ) {
 // Mad Doc - TDF
 // put this back in and modifyed for single player bots
 
-void trigger_aidoor_stayopen( gentity_t * ent, gentity_t * other, trace_t * trace ) {
+void trigger_aidoor_stayopen (gentity_t * ent, gentity_t * other , trace_t * trace)
+{
 	gentity_t *door;
-
+ 
 
 	// only use this in single player. It was taken out of multiplayer, and I'm guessing there was a good reason.
-	if ( g_gametype.integer != GT_SINGLE_PLAYER && g_gametype.integer != GT_COOP ) {
+	if(g_gametype.integer != GT_SINGLE_PLAYER && g_gametype.integer != GT_COOP) {
 		return;
 	}
 
 
 	// FIXME: port this code over to moving doors (use MOVER_POSx instead of MOVER_POSxROTATE)
-	if ( other->client && other->health > 0 ) {
-		if ( !ent->target || !( strlen( ent->target ) ) ) {
+	if (other->client && other->health > 0)
+	{
+		if(!ent->target || !(strlen(ent->target)))
+		{
 			// ent->target of "" will crash game in Q_stricmp()
 
-			// FIXME: commented out so it can be fixed
+	// FIXME: commented out so it can be fixed
 
 //			G_Printf( "trigger_aidoor at loc %s does not have a target door\n", vtos (ent->s.origin) );
 			return;
@@ -953,14 +920,16 @@ void trigger_aidoor_stayopen( gentity_t * ent, gentity_t * other, trace_t * trac
 
 		door = G_FindByTargetname( NULL, ent->target );
 
-		if ( !door ) {
-			// FIXME: commented out so it can be fixed
+		if (!door)
+		{
+	// FIXME: commented out so it can be fixed
 //			G_Printf( "trigger_aidoor at loc %s does not have a target door\n", vtos (ent->s.origin) );
 			return;
 		}
 
-		if ( ( door->moverState == MOVER_POS2ROTATE ) || ( door->moverState == MOVER_POS2 ) ) { // door is in open state waiting to close keep it open
-			door->nextthink = level.time + door->wait + 3000;
+		if ( (door->moverState == MOVER_POS2ROTATE) || ( door->moverState == MOVER_POS2 ) )
+		{	// door is in open state waiting to close keep it open
+			door->nextthink = level.time + door->wait + 3000;  
 		}
 
 
@@ -975,21 +944,21 @@ void trigger_aidoor_stayopen( gentity_t * ent, gentity_t * other, trace_t * trac
 
 
 
-void SP_trigger_aidoor( gentity_t *ent ) {
-	if ( !ent->targetname ) {
-		G_Printf( "trigger_aidoor at loc %s does not have a targetname for ai_marker assignments\n", vtos( ent->s.origin ) );
-	}
+void SP_trigger_aidoor (gentity_t *ent)
+{
+	if (!ent->targetname)
+		G_Printf( "trigger_aidoor at loc %s does not have a targetname for ai_marker assignments\n", vtos (ent->s.origin) );
 
 	ent->touch = trigger_aidoor_stayopen;
-	InitTrigger( ent );
-	trap_LinkEntity( ent );
+	InitTrigger (ent);
+	trap_LinkEntity (ent);
 }
 
 
 
 /*QUAKED test_gas (0 0.5 0) (-4 -4 -4) (4 4 4)
 */
-void SP_gas( gentity_t *self ) {
+void SP_gas (gentity_t *self) {
 }
 
 
@@ -998,30 +967,34 @@ void SP_gas( gentity_t *self ) {
 #define RED_FLAG 1
 #define BLUE_FLAG 2
 
-void Touch_flagonly( gentity_t *ent, gentity_t *other, trace_t *trace ) {
+#ifdef GS_OMNIBOT
+void Bot_Util_SendTrigger(gentity_t *_ent, gentity_t *_activator, const char *_tagname, const char *_action);
+#endif
+void Touch_flagonly (gentity_t *ent, gentity_t *other, trace_t *trace) {
 	gentity_t* tmp;
 
-	if ( !other->client ) {
+	if (!other->client)
 		return;
-	}
-
+	
 
 	if ( ent->spawnflags & RED_FLAG && other->client->ps.powerups[ PW_REDFLAG ] ) {
 
-		if ( ent->spawnflags & 4 ) {
+		if( ent->spawnflags & 4 ) {
 			other->client->ps.powerups[ PW_REDFLAG ] = 0;
 			other->client->speedScale = 0;
 		}
 
-		AddScore( other, ent->accuracy ); // JPW NERVE set from map, defaults to 20
+		AddScore(other, ent->accuracy); // JPW NERVE set from map, defaults to 20
 		//G_AddExperience( other, 2.f );
 
 		tmp = ent->parent;
 		ent->parent = other;
 
 		G_Script_ScriptEvent( ent, "death", "" );
-
 		G_Script_ScriptEvent( &g_entities[other->client->flagParent], "trigger", "captured" );
+#ifdef GS_OMNIBOT
+		Bot_Util_SendTrigger(ent, NULL, va("Allies captured %s", ent->scriptName), "");
+#endif
 
 		ent->parent = tmp;
 
@@ -1031,12 +1004,12 @@ void Touch_flagonly( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 		ent->think = G_FreeEntity;
 	} else if ( ent->spawnflags & BLUE_FLAG && other->client->ps.powerups[ PW_BLUEFLAG ] ) {
 
-		if ( ent->spawnflags & 4 ) {
+		if( ent->spawnflags & 4 ) {
 			other->client->ps.powerups[ PW_BLUEFLAG ] = 0;
 			other->client->speedScale = 0;
 		}
 
-		AddScore( other, ent->accuracy ); // JPW NERVE set from map, defaults to 20
+		AddScore(other, ent->accuracy); // JPW NERVE set from map, defaults to 20
 
 		//G_AddExperience( other, 2.f );
 
@@ -1044,8 +1017,10 @@ void Touch_flagonly( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 		ent->parent = other;
 
 		G_Script_ScriptEvent( ent, "death", "" );
-
 		G_Script_ScriptEvent( &g_entities[other->client->flagParent], "trigger", "captured" );
+#ifdef GS_OMNIBOT
+		Bot_Util_SendTrigger(ent, NULL, va("Axis captured %s", ent->scriptName), "");
+#endif
 
 		ent->parent = tmp;
 
@@ -1059,27 +1034,28 @@ void Touch_flagonly( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 
 
 
-void Touch_flagonly_multiple( gentity_t *ent, gentity_t *other, trace_t *trace ) {
+void Touch_flagonly_multiple (gentity_t *ent, gentity_t *other, trace_t *trace) {
 	gentity_t* tmp;
 
-	if ( !other->client ) {
+	if (!other->client)
 		return;
-	}
 
 	if ( ent->spawnflags & RED_FLAG && other->client->ps.powerups[ PW_REDFLAG ] ) {
 
 		other->client->ps.powerups[ PW_REDFLAG ] = 0;
 		other->client->speedScale = 0;
 
-		AddScore( other, ent->accuracy ); // JPW NERVE set from map, defaults to 20
+		AddScore(other, ent->accuracy); // JPW NERVE set from map, defaults to 20
 		//G_AddExperience( other, 2.f );
 
 		tmp = ent->parent;
 		ent->parent = other;
 
 		G_Script_ScriptEvent( ent, "death", "" );
-
 		G_Script_ScriptEvent( &g_entities[other->client->flagParent], "trigger", "captured" );
+#ifdef GS_OMNIBOT
+		Bot_Util_SendTrigger(ent, NULL, va("Allies captured %s", ent->scriptName), "");
+#endif
 
 		ent->parent = tmp;
 	} else if ( ent->spawnflags & BLUE_FLAG && other->client->ps.powerups[ PW_BLUEFLAG ] ) {
@@ -1087,7 +1063,7 @@ void Touch_flagonly_multiple( gentity_t *ent, gentity_t *other, trace_t *trace )
 		other->client->ps.powerups[ PW_BLUEFLAG ] = 0;
 		other->client->speedScale = 0;
 
-		AddScore( other, ent->accuracy ); // JPW NERVE set from map, defaults to 20
+		AddScore(other, ent->accuracy); // JPW NERVE set from map, defaults to 20
 
 		//G_AddExperience( other, 2.f );
 
@@ -1095,8 +1071,10 @@ void Touch_flagonly_multiple( gentity_t *ent, gentity_t *other, trace_t *trace )
 		ent->parent = other;
 
 		G_Script_ScriptEvent( ent, "death", "" );
-
 		G_Script_ScriptEvent( &g_entities[other->client->flagParent], "trigger", "captured" );
+#ifdef GS_OMNIBOT
+		Bot_Util_SendTrigger(ent, NULL, va("Axis captured %s", ent->scriptName), "");
+#endif
 
 		ent->parent = tmp;
 	}
@@ -1113,21 +1091,21 @@ BLUE_FLAG -- only trigger if player is carrying blue flag
 */
 void SP_trigger_flagonly( gentity_t *ent ) {
 	char *scorestring; // JPW NERVE
-	ent->touch  = Touch_flagonly;
+	ent->touch	= Touch_flagonly;
 
-	InitTrigger( ent );
+	InitTrigger( ent);
 
 	// JPW NERVE -- if this trigger has a "score" field set, then completing an objective
-	//  inside of this field will add "score" to the right player team.  storing this
+	//  inside of this field will add "score" to the right player team.  storing this 
 	//  in ent->accuracy since that's unused.
-	G_SpawnString( "score", "20", &scorestring );
-	ent->accuracy = atof( scorestring );
+	G_SpawnString ("score", "20", &scorestring);
+	ent->accuracy = atof (scorestring);
 	ent->s.eType = ET_TRIGGER_FLAGONLY;
 #ifdef VISIBLE_TRIGGERS
 	ent->r.svFlags &= ~SVF_NOCLIENT;
 #endif // VISIBLE_TRIGGERS
 
-	trap_LinkEntity( ent );
+	trap_LinkEntity (ent);
 }
 
 /*QUAKED trigger_flagonly_multiple (.5 .5 .5) ? RED_FLAG BLUE_FLAG
@@ -1141,21 +1119,21 @@ BLUE_FLAG -- only trigger if player is carrying blue flag
 */
 void SP_trigger_flagonly_multiple( gentity_t *ent ) {
 	char *scorestring; // JPW NERVE
-	ent->touch  = Touch_flagonly_multiple;
+	ent->touch	= Touch_flagonly_multiple;
 
-	InitTrigger( ent );
+	InitTrigger( ent);
 
 	// JPW NERVE -- if this trigger has a "score" field set, then completing an objective
-	//  inside of this field will add "score" to the right player team.  storing this
+	//  inside of this field will add "score" to the right player team.  storing this 
 	//  in ent->accuracy since that's unused.
-	G_SpawnString( "score", "20", &scorestring );
-	ent->accuracy = atof( scorestring );
+	G_SpawnString ("score", "20", &scorestring);
+	ent->accuracy = atof (scorestring);
 	ent->s.eType = ET_TRIGGER_FLAGONLY_MULTIPLE;
 #ifdef VISIBLE_TRIGGERS
 	ent->r.svFlags &= ~SVF_NOCLIENT;
 #endif // VISIBLE_TRIGGERS
 
-	trap_LinkEntity( ent );
+	trap_LinkEntity (ent);
 }
 
 // NERVE - SMF - spawn an explosive indicator
@@ -1164,16 +1142,16 @@ void explosive_indicator_think( gentity_t *ent ) {
 
 	parent = &g_entities[ent->r.ownerNum];
 
-	if ( !parent->inuse || ( parent->s.eType == ET_CONSTRUCTIBLE && !parent->r.linked ) ) {
+ 	if ( !parent->inuse || ( parent->s.eType == ET_CONSTRUCTIBLE && !parent->r.linked ) ) {
 
 		// update our map
 		{
-			mapEntityData_t *mEnt;
+			mapEntityData_t	*mEnt;
 
-			if ( ( mEnt = G_FindMapEntityData( &mapEntityData[0], ent - g_entities ) ) != NULL ) {
+			if((mEnt = G_FindMapEntityData( &mapEntityData[0], ent-g_entities)) != NULL) {
 				G_FreeMapEntityData( &mapEntityData[0], mEnt );
 			}
-			if ( ( mEnt = G_FindMapEntityData( &mapEntityData[1], ent - g_entities ) ) != NULL ) {
+			if((mEnt = G_FindMapEntityData( &mapEntityData[1], ent-g_entities)) != NULL) {
 				G_FreeMapEntityData( &mapEntityData[1], mEnt );
 			}
 		}
@@ -1184,12 +1162,12 @@ void explosive_indicator_think( gentity_t *ent ) {
 		return;
 	}
 
-	if ( ent->s.eType == ET_TANK_INDICATOR || ent->s.eType == ET_TANK_INDICATOR_DEAD ) {
+	if(ent->s.eType == ET_TANK_INDICATOR || ent->s.eType == ET_TANK_INDICATOR_DEAD) {
 		VectorCopy( ent->parent->r.currentOrigin, ent->s.pos.trBase );
 	}
 	ent->nextthink = level.time + FRAMETIME;
 
-	if ( parent->s.eType == ET_OID_TRIGGER && parent->target_ent ) {
+	if( parent->s.eType == ET_OID_TRIGGER && parent->target_ent ) {
 		ent->s.effect1Time = parent->target_ent->constructibleStats.weaponclass;
 	} else {
 		ent->s.effect1Time = parent->constructibleStats.weaponclass;
@@ -1204,9 +1182,9 @@ void constructible_indicator_think( gentity_t *ent ) {
 	parent = &g_entities[ent->r.ownerNum];
 	constructible = parent->target_ent;
 
-	if ( parent->chain ) {
+	if( parent->chain ) {
 		// use the target that has the same team as the indicator
-		if ( constructible->s.teamNum != ent->s.teamNum ) {
+		if( constructible->s.teamNum != ent->s.teamNum ) {
 			constructible = parent->chain;
 		}
 	}
@@ -1215,20 +1193,20 @@ void constructible_indicator_think( gentity_t *ent ) {
 	if ( !parent->inuse || !parent->r.linked || ( constructible && constructible->s.angles2[1] != 0 ) ) {
 		// update our map
 		{
-			mapEntityData_t *mEnt;
+			mapEntityData_t	*mEnt;
 			mapEntityData_Team_t *teamList;
 
-			if ( parent->spawnflags & 8 ) {
-				if ( ( mEnt = G_FindMapEntityData( &mapEntityData[0], ent - g_entities ) ) != NULL ) {
+			if(parent->spawnflags & 8) {
+				if((mEnt = G_FindMapEntityData(&mapEntityData[0], ent-g_entities)) != NULL) {
 					G_FreeMapEntityData( &mapEntityData[0], mEnt );
 				}
-				if ( ( mEnt = G_FindMapEntityData( &mapEntityData[1], ent - g_entities ) ) != NULL ) {
+				if((mEnt = G_FindMapEntityData(&mapEntityData[1], ent-g_entities)) != NULL ) {
 					G_FreeMapEntityData( &mapEntityData[1], mEnt );
 				}
-			} else
+			} else 
 			{
 				teamList = ent->s.teamNum == TEAM_AXIS ? &mapEntityData[0] : &mapEntityData[1];
-				if ( ( mEnt = G_FindMapEntityData( teamList, ent - g_entities ) ) != NULL ) {
+				if((mEnt = G_FindMapEntityData(teamList, ent-g_entities)) != NULL) {
 					G_FreeMapEntityData( teamList, mEnt );
 				}
 			}
@@ -1243,7 +1221,7 @@ void constructible_indicator_think( gentity_t *ent ) {
 		return;
 	}
 
-	if ( ent->s.eType == ET_TANK_INDICATOR || ent->s.eType == ET_TANK_INDICATOR_DEAD ) {
+	if(ent->s.eType == ET_TANK_INDICATOR || ent->s.eType == ET_TANK_INDICATOR_DEAD) {
 		VectorCopy( ent->parent->r.currentOrigin, ent->s.pos.trBase );
 	}
 	ent->s.effect1Time = parent->constructibleStats.weaponclass;
@@ -1251,16 +1229,16 @@ void constructible_indicator_think( gentity_t *ent ) {
 }
 
 void G_SetConfigStringValue( int num, const char* key, const char* value ) {
-	char cs[MAX_STRING_CHARS];
-
-	trap_GetConfigstring( num, cs, sizeof( cs ) );
+	char	cs[MAX_STRING_CHARS];
+	
+	trap_GetConfigstring( num, cs, sizeof(cs) );
 	Info_SetValueForKey( cs, key, value );
 	trap_SetConfigstring( num, cs );
 }
 
 void Touch_ObjectiveInfo( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 
-	if ( !other->client ) {
+	if( !other->client ) {
 		return;
 	}
 
@@ -1273,11 +1251,11 @@ void Think_SetupObjectiveInfo( gentity_t *ent ) {
 
 	ent->target_ent = G_FindByTargetname( NULL, ent->target );
 
-	if ( !ent->target_ent ) {
-		G_Error( "'trigger_objective_info' has a missing target '%s'\n", ent->target );
+	if( !ent->target_ent ) {
+		G_Error ("'trigger_objective_info' has a missing target '%s'\n", ent->target );
 	}
 
-	if ( ent->target_ent->s.eType == ET_EXPLOSIVE ) {
+	if( ent->target_ent->s.eType == ET_EXPLOSIVE ) {
 		// Arnout: this is for compass usage
 		if ( ( ent->spawnflags & AXIS_OBJECTIVE ) || ( ent->spawnflags & ALLIED_OBJECTIVE ) ) {
 			gentity_t *e;
@@ -1285,7 +1263,7 @@ void Think_SetupObjectiveInfo( gentity_t *ent ) {
 
 			e->r.svFlags = SVF_BROADCAST;
 			e->classname = "explosive_indicator";
-			if ( ent->spawnflags & 8 ) {
+			if( ent->spawnflags & 8 ) {
 				e->s.eType = ET_TANK_INDICATOR;
 			} else {
 				e->s.eType = ET_EXPLOSIVE_INDICATOR;
@@ -1293,13 +1271,12 @@ void Think_SetupObjectiveInfo( gentity_t *ent ) {
 			e->parent = ent;
 			e->s.pos.trType = TR_STATIONARY;
 
-			if ( ent->spawnflags & AXIS_OBJECTIVE ) {
+			if ( ent->spawnflags & AXIS_OBJECTIVE )
 				e->s.teamNum = 1;
-			} else if ( ent->spawnflags & ALLIED_OBJECTIVE ) {
+			else if ( ent->spawnflags & ALLIED_OBJECTIVE )
 				e->s.teamNum = 2;
-			}
 
-			G_SetOrigin( e, ent->r.currentOrigin );
+			G_SetOrigin(e, ent->r.currentOrigin);
 
 			e->s.modelindex2 = ent->s.teamNum;
 			e->r.ownerNum = ent->s.number;
@@ -1308,7 +1285,7 @@ void Think_SetupObjectiveInfo( gentity_t *ent ) {
 
 			e->s.effect1Time = ent->target_ent->constructibleStats.weaponclass;
 
-			if ( ent->tagParent ) {
+			if( ent->tagParent ) {
 				e->tagParent = ent->tagParent;
 				Q_strncpyz( e->tagName, ent->tagName, MAX_QPATH );
 			} else {
@@ -1327,23 +1304,25 @@ void Think_SetupObjectiveInfo( gentity_t *ent ) {
 		gentity_t *constructibles[2];
 		int team[2];
 
+		memset( &team, 0, sizeof( team ) );
+
 		ent->target_ent->parent = ent;
 
 		constructibles[0] = ent->target_ent;
-		constructibles[1] = G_FindByTargetname( constructibles[0], ent->target );   // see if we are targetting a 2nd one for two team constructibles
+		constructibles[1] = G_FindByTargetname( constructibles[0], ent->target );	// see if we are targetting a 2nd one for two team constructibles
 
 		team[0] = constructibles[0]->spawnflags & AXIS_CONSTRUCTIBLE ? TEAM_AXIS : TEAM_ALLIES;
 
 		constructibles[0]->s.otherEntityNum2 = ent->s.teamNum;
 
-		if ( constructibles[1] ) {
+		if( constructibles[1] ) {
 			team[1] = constructibles[1]->spawnflags & AXIS_CONSTRUCTIBLE ? TEAM_AXIS : TEAM_ALLIES;
 
-			if ( constructibles[1]->s.eType != ET_CONSTRUCTIBLE ) {
+			if( constructibles[1]->s.eType != ET_CONSTRUCTIBLE ) {
 				G_Error( "'trigger_objective_info' targets multiple entities with targetname '%s', the second one isn't a 'func_constructible'\n", ent->target );
 			}
 
-			if ( team[0] == team[1] ) {
+			if( team[0] == team[1] ) {
 				G_Error( "'trigger_objective_info' targets two 'func_constructible' entities with targetname '%s' that are constructible by the same team\n", ent->target );
 			}
 
@@ -1359,7 +1338,7 @@ void Think_SetupObjectiveInfo( gentity_t *ent ) {
 		}
 
 		// if already constructed (in case of START_BUILT)
-		if ( constructibles[0]->s.angles2[1] != 0 ) {
+		if( constructibles[0]->s.angles2[1] != 0 ) {
 //			trap_UnlinkEntity( ent );
 //			return;
 		} else {
@@ -1369,21 +1348,21 @@ void Think_SetupObjectiveInfo( gentity_t *ent ) {
 
 			e->r.svFlags = SVF_BROADCAST;
 			e->classname = "constructible_indicator";
-			if ( ent->spawnflags & 8 ) {
+			if( ent->spawnflags & 8 ) {
 				e->s.eType = ET_TANK_INDICATOR_DEAD;
 			} else {
 				e->s.eType = ET_CONSTRUCTIBLE_INDICATOR;
 			}
 			e->s.pos.trType = TR_STATIONARY;
 
-			if ( constructibles[1] ) {
+			if( constructibles[1] ) {
 				// see if one of the two is still partially built (happens when a multistage destructible construction blows up for the first time)
-				if ( constructibles[0]->count2 && constructibles[0]->grenadeFired > 1 ) {
+				if( constructibles[0]->count2 && constructibles[0]->grenadeFired > 1 ) {
 					e->s.teamNum = team[0];
-				} else if ( constructibles[1]->count2 && constructibles[1]->grenadeFired > 1 ) {
+				} else if( constructibles[1]->count2 && constructibles[1]->grenadeFired > 1 ) {
 					e->s.teamNum = team[1];
 				} else {
-					e->s.teamNum = 3;   // both teams
+					e->s.teamNum = 3;	// both teams
 				}
 			} else {
 				e->s.teamNum = team[0];
@@ -1391,13 +1370,13 @@ void Think_SetupObjectiveInfo( gentity_t *ent ) {
 
 			e->s.modelindex2 = ent->s.teamNum;
 			e->r.ownerNum = ent->s.number;
-			ent->count2 = ( e - g_entities );
+			ent->count2 = (e - g_entities);
 			e->think = constructible_indicator_think;
 			e->nextthink = level.time + FRAMETIME;
 
 			e->parent = ent;
 
-			if ( ent->tagParent ) {
+			if( ent->tagParent ) {
 				e->tagParent = ent->tagParent;
 				Q_strncpyz( e->tagName, ent->tagName, MAX_QPATH );
 			} else {
@@ -1408,15 +1387,15 @@ void Think_SetupObjectiveInfo( gentity_t *ent ) {
 
 			SnapVector( e->s.pos.trBase );
 
-			trap_LinkEntity( e );   // moved down
+			trap_LinkEntity( e );	// moved down
 		}
 		ent->touch = Touch_ObjectiveInfo;
 
-	} else if ( ent->target_ent->s.eType == ET_COMMANDMAP_MARKER ) {
+	} else if( ent->target_ent->s.eType == ET_COMMANDMAP_MARKER ) {
 		ent->target_ent->parent = ent;
 	}
 
-	trap_LinkEntity( ent );
+	trap_LinkEntity (ent);
 }
 
 /*QUAKED trigger_objective_info (.5 .5 .5) ? AXIS_OBJECTIVE ALLIED_OBJECTIVE MESSAGE_OVERRIDE TANK IS_OBJECTIVE IS_HEALTHAMMOCABINET IS_COMMANDPOST
@@ -1425,83 +1404,81 @@ Players in this field will see a message saying that they are near an objective.
   "track"		Mandatory, this is the text that is appended to "You are near "
   "shortname"	Short name to show on command centre
 */
-#define AXIS_OBJECTIVE      1
-#define ALLIED_OBJECTIVE    2
-#define MESSAGE_OVERRIDE    4
-#define TANK                8
+#define	AXIS_OBJECTIVE		1
+#define ALLIED_OBJECTIVE	2
+#define MESSAGE_OVERRIDE	4
+#define TANK				8
 
 void SP_trigger_objective_info( gentity_t *ent ) {
 	char *scorestring;
 	char* customimage;
 	int cix, cia, objflags;
 
-	if ( !ent->track ) {
-		G_Error( "'trigger_objective_info' does not have a 'track' \n" );
-	}
+	if ( !ent->track )
+		G_Error ("'trigger_objective_info' does not have a 'track' \n");
 
 /*	if ( !ent->message )
 		G_Error ("'trigger_objective_info' does not have a 'shortname' \n");*/
 
-	if ( ent->spawnflags & MESSAGE_OVERRIDE ) {
-		if ( !ent->spawnitem ) {
-			G_Error( "'trigger_objective_info' has override flag set but no override text\n" );
-		}
+	if(ent->spawnflags & MESSAGE_OVERRIDE) {
+		if ( !ent->spawnitem )
+			G_Error ("'trigger_objective_info' has override flag set but no override text\n");
 	}
 
 	// Gordon: for specifying which commandmap objectives this entity "belongs" to
 	G_SpawnInt( "objflags", "0", &objflags );
 
-	if ( G_SpawnString( "customimage", "", &customimage ) ) {
+	if(G_SpawnString( "customimage", "", &customimage )) {		
 		cix = cia = G_ShaderIndex( customimage );
 	} else {
-		if ( G_SpawnString( "customaxisimage", "", &customimage ) ) {
+		if(G_SpawnString( "customaxisimage", "", &customimage )) {
 			cix = G_ShaderIndex( customimage );
 		} else {
 			cix = 0;
 		}
 
-		if ( G_SpawnString( "customalliesimage", "", &customimage ) ) {
+		if(G_SpawnString( "customalliesimage", "", &customimage )) {
 			cia = G_ShaderIndex( customimage );
-		} else if ( G_SpawnString( "customalliedimage", "", &customimage ) ) {
+		} else if(G_SpawnString( "customalliedimage", "", &customimage )) {
 			cia = G_ShaderIndex( customimage );
 		} else {
 			cia = 0;
 		}
 	}
 
-	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "e", va( "%i", ent - g_entities )           );
-	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "o", va( "%i", objflags )             );
-	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "cix",   va( "%i", cix )                      );
-	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "cia",   va( "%i", cia )                      );
-	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "s", va( "%i", ent->spawnflags )          );
-	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "n", ent->message ? ent->message : "" );
+	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "e",	va( "%i", ent-g_entities )			);
+	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "o",	va( "%i", objflags )				);
+	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "cix",	va( "%i", cix )						);
+	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "cia",	va( "%i", cia )						);
+	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "s",	va( "%i", ent->spawnflags )			);
+	G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "n",	ent->message ? ent->message : ""	);
 
-	if ( level.numOidTriggers >= MAX_OID_TRIGGERS ) {
-		G_Error( "Exceeded maximum number of 'trigger_objective_info' entities\n" );
+	if( level.numOidTriggers >= MAX_OID_TRIGGERS ) {
+		G_Error ("Exceeded maximum number of 'trigger_objective_info' entities\n");
 	}
 
 	// JPW NERVE -- if this trigger has a "score" field set, then blowing up an objective
-	//  inside of this field will add "score" to the right player team.  storing this
+	//  inside of this field will add "score" to the right player team.  storing this 
 	//  in ent->accuracy since that's unused.
-	G_SpawnString( "score", "0", &scorestring );
-	ent->accuracy = atof( scorestring );
+	G_SpawnString ("score", "0", &scorestring);
+	ent->accuracy = atof (scorestring);
 
 	trap_SetConfigstring( CS_OID_TRIGGERS + level.numOidTriggers, ent->track );
 
 	InitTrigger( ent );
 
-	if ( ent->s.origin[0] || ent->s.origin[1] || ent->s.origin[2] ) {
-		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "x", va( "%i", (int)ent->s.origin[0] )    );
-		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "y", va( "%i", (int)ent->s.origin[1] )    );
-		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "z", va( "%i", (int)ent->s.origin[2] )    );
+	if( ent->s.origin[0] || ent->s.origin[1] || ent->s.origin[2] ) {
+		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "x",	va( "%i", (int)ent->s.origin[0] )	);
+		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "y",	va( "%i", (int)ent->s.origin[1] )	);
+		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "z",	va( "%i", (int)ent->s.origin[2] )	);
 	} else {
 		vec3_t mid;
 		VectorAdd( ent->r.absmin, ent->r.absmax, mid );
 		VectorScale( mid, 0.5f, mid );
 
-		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "x", va( "%i", (int)mid[0] )  );
-		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "y", va( "%i", (int)mid[1] )  );
-		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "z", va( "%i", (int)mid[2] )  );
+		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "x",	va( "%i", (int)mid[0] )	);
+		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "y",	va( "%i", (int)mid[1] )	);
+		G_SetConfigStringValue( CS_OID_DATA + level.numOidTriggers, "z",	va( "%i", (int)mid[2] )	);
 	}
 
 	ent->s.teamNum = level.numOidTriggers++;
@@ -1510,27 +1487,27 @@ void SP_trigger_objective_info( gentity_t *ent ) {
 	ent->r.svFlags &= ~SVF_NOCLIENT;
 	ent->s.eType = ET_OID_TRIGGER;
 
-	if ( !ent->target ) {
+	if( !ent->target ) {
 		// no target - just link and go
-		trap_LinkEntity( ent );
+		trap_LinkEntity (ent);
 	} else {
 		// Arnout: finalize spawing on fourth frame to allow for proper linking with targets
-		ent->nextthink = level.time + ( 3 * FRAMETIME );
+		ent->nextthink = level.time + (3*FRAMETIME);
 		ent->think = Think_SetupObjectiveInfo;
 	}
 }
 // dhm - end
 
 // JPW NERVE -- field which is acted upon (cgame side) by screenshakes to drop dust particles
-void trigger_concussive_touch( gentity_t *ent, gentity_t *other, trace_t *trace ) {
-	return; // FIXME this should be NULLed out in SP_trigger_concussive_dust after everything works
-	G_Printf( "hit concussive ent %d mins=%f,%f,%f maxs=%f,%f,%f\n",ent - g_entities,
-			  ent->r.mins[0],
-			  ent->r.mins[1],
-			  ent->r.mins[2],
-			  ent->r.maxs[0],
-			  ent->r.maxs[1],
-			  ent->r.maxs[2] );
+void trigger_concussive_touch(gentity_t *ent, gentity_t *other, trace_t *trace) {
+return; // FIXME this should be NULLed out in SP_trigger_concussive_dust after everything works
+	G_Printf("hit concussive ent %d mins=%f,%f,%f maxs=%f,%f,%f\n",ent - g_entities,
+		ent->r.mins[0],
+		ent->r.mins[1],
+		ent->r.mins[2],
+		ent->r.maxs[0],
+		ent->r.maxs[1],
+		ent->r.maxs[2]);
 }
 
 /*QUAKED trigger_concussive_dust (.5 .5 .5) ?
@@ -1538,7 +1515,7 @@ Allows client side prediction of teleportation events.
 Must point at a target_position, which will be the teleport destination.
 */
 void SP_trigger_concussive_dust( gentity_t *self ) {
-	InitTrigger( self );
+	InitTrigger (self);
 
 	// unlike other triggers, we need to send this one to the client
 //	self->r.svFlags &= ~SVF_NOCLIENT;
@@ -1547,7 +1524,7 @@ void SP_trigger_concussive_dust( gentity_t *self ) {
 	self->s.eType = ET_CONCUSSIVE_TRIGGER;
 	self->touch = trigger_concussive_touch;
 
-	trap_LinkEntity( self );
+	trap_LinkEntity (self);
 }
 // jpw
 

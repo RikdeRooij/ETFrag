@@ -1,0 +1,30 @@
+====================================================================================================================================================
+   | BATTLESENS       |  LIGHTWEAP     | SOLDIER         | ENGI            | MEDIC                  | FIELDOPS               | COVERTOPS           |
+====================================================================================================================================================
+1  | binoculars       | +1clip spawn   | less chargecost | +grenades       | +ammo +grenade         | +ammopack -chargecost  | more ammo from pack |
+2  | faster stamina   | faster reload  | faster cool     | faster arming   | +2syringes -chargecost | -chargecost ATT&STRIKE | -chargecost         |
+3  | +15 max health   | +acc,  -recoil | +speed hw       | less chargecost | full health revive     | more strikes and att   | -recoil&sway scoped |
+4  | detect mines     | akimbos        | SMG as second   | -dmg explosives | adrenalin self         | identify disguised cov | insta-kill backstab |
+----------------------------------------------------------------------------------------------------------------------------------------------------
+5  | ?                | ?              | ?               | ?               | ?                      | ?                      | ?                   |
+6  | ?                | ?              | ?               | ?               | ?                      |
+====================================================================================================================================================
+
+
+---------------------------------
+idea's code:
+----------------------
+Soldier/Battlesens: can pickup any weapon // AGREED
+Soldier/Battlesens: more protection from helmet (less dmg when you helmet is shot off)
+Medic: Everyone around a medic gets health recharge // AGREED
+Covert: silent walking // AWESOME AGREED
+Covert: disguised satchel charge (as medpack or ammopack) // NAH 
+LightWeap: faster switching weapons // AGREED
+Engineer: deployable turret, if I can get that 2 work // AGREED
+Field: airstike by marking spot on map, again: if I can get that 2 work // AGREED
+
+Unlockable Weapons
+
+
+
+

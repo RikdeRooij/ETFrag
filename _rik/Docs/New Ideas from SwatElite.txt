@@ -1,0 +1,10 @@
+Add PainView (Damaged Sights)				//--Shownie: maybe
+Add PainHeart (Heartpump Sound)				//--Shownie: maybe
+Add Cvar cg_painview					//--Shownie: maybe
+Add Cvar cg_painheart					//--Shownie: maybe
+Add Ban-Sound (!ban) 					//--Shownie: make cvar g_adminSounds
+Add Kick-Sound (!kick) 					//--Shownie: make cvar g_adminSounds
+Add Fireteam Letter in the output of !listplayers
+Add Cvar g_jumpHeight
+Add Cmd !about (print general mod info)			//--Shownie: I want the current mod info printed in console like enhance mod
+Add Cmd !punish (or another name)   If a Player gets !punish-ed he only can walk through the map. He can't shoot or speak or use levers (and any other funktions like doors).

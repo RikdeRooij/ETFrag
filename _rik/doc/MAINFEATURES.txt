@@ -1,0 +1,11 @@
+
+g_realism
+g_hardcore
+refuse-able dyno's
+weapon on back when not used
+visual weapon switch
+turrets
+custom character
+admin system (more developed as it is now at least)
+custom hud
+

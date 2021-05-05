@@ -1,47 +1,23 @@
-/*
-===========================================================================
-
-Wolfenstein: Enemy Territory GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
-
-This file is part of the Wolfenstein: Enemy Territory GPL Source Code (Wolf ET Source Code).  
-
-Wolf ET Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Wolf ET Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Wolf ET Source Code.  If not, see <http://www.gnu.org/licenses/>.
-
-In addition, the Wolf: ET Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Wolf ET Source Code.  If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
-===========================================================================
-*/
-
+// Copyright (C) 1999-2000 Id Software, Inc.
+//
 //
 // gameinfo.c
 //
 
 #include "ui_local.h"
 
+// tjw: big ugly global string declared in ui_main.c
+extern char bigTextBuffer[30000];
 
 //
 // arena and bot info
 //
 
 
-int ui_numBots;
-static char     *ui_botInfos[MAX_BOTS];
+int				ui_numBots;
+static char		*ui_botInfos[MAX_BOTS];
 
-static int ui_numArenas;
+static int		ui_numArenas;
 //static char		*ui_arenaInfos[MAX_ARENAS];
 
 //static int		ui_numSinglePlayerArenas; // TTimo: unused
@@ -53,10 +29,10 @@ UI_ParseInfos
 ===============
 */
 int UI_ParseInfos( char *buf, int max, char *infos[], int totalmax ) {
-	char    *token;
-	int count;
-	char key[MAX_TOKEN_CHARS];
-	char info[MAX_INFO_STRING];
+	char	*token;
+	int		count;
+	char	key[MAX_TOKEN_CHARS];
+	char	info[MAX_INFO_STRING];
 
 	count = 0;
 
@@ -94,9 +70,9 @@ int UI_ParseInfos( char *buf, int max, char *infos[], int totalmax ) {
 			Info_SetValueForKey( info, key, token );
 		}
 		//NOTE: extra space for arena number
-		infos[count] = UI_Alloc( strlen( info ) + strlen( "\\num\\" ) + strlen( va( "%d", totalmax ) ) + 1 );
-		if ( infos[count] ) {
-			strcpy( infos[count], info );
+		infos[count] = UI_Alloc(strlen(info) + strlen("\\num\\") + strlen(va("%d", totalmax)) + 1);
+		if (infos[count]) {
+			strcpy(infos[count], info);
 			count++;
 		}
 	}
@@ -135,17 +111,17 @@ static void UI_LoadArenasFromFile( char *filename ) {
 
 	handle = trap_PC_LoadSource( filename );
 
-	if ( !handle ) {
+	if( !handle ) {
 		trap_Print( va( S_COLOR_RED "file not found: %s\n", filename ) );
 		return;
 	}
 
-	if ( !trap_PC_ReadToken( handle, &token ) ) {
+	if( !trap_PC_ReadToken( handle, &token ) ) {
 		trap_PC_FreeSource( handle );
 		return;
 	}
 
-	if ( *token.string != '{' ) {
+	if( *token.string != '{' ) {
 		trap_PC_FreeSource( handle );
 		return;
 	}
@@ -154,104 +130,104 @@ static void UI_LoadArenasFromFile( char *filename ) {
 	uiInfo.mapList[uiInfo.mapCount].levelShot = -1;
 	uiInfo.mapList[uiInfo.mapCount].typeBits = 0;
 
-	while ( trap_PC_ReadToken( handle, &token ) ) {
-		if ( *token.string == '}' ) {
+	while( trap_PC_ReadToken( handle, &token ) ) {
+		if( *token.string == '}' ) {
 
-			if ( !uiInfo.mapList[uiInfo.mapCount].typeBits ) {
-				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_WOLF );
+			if( !uiInfo.mapList[uiInfo.mapCount].typeBits ) {
+				uiInfo.mapList[uiInfo.mapCount].typeBits |= (1 << GT_WOLF);
 			}
 
 			uiInfo.mapCount++;
-			if ( uiInfo.mapCount >= MAX_MAPS ) {
+			if( uiInfo.mapCount >= MAX_MAPS ) {
 				break;
 			}
 
-			if ( !trap_PC_ReadToken( handle, &token ) ) {
+			if( !trap_PC_ReadToken( handle, &token ) ) {
 				// eof
 				trap_PC_FreeSource( handle );
 				return;
 			}
 
-			if ( *token.string != '{' ) {
+			if( *token.string != '{' ) {
 				trap_Print( va( S_COLOR_RED "unexpected token '%s' inside: %s\n", token.string, filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "map" ) ) {
-			if ( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].mapLoadName ) ) {
+		} else if( !Q_stricmp( token.string, "map" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].mapLoadName ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "longname" ) ) {
-			if ( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].mapName ) ) {
+		} else if( !Q_stricmp( token.string, "longname" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].mapName ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "briefing" ) ) {
-			if ( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].briefing ) ) {
+		} else if( !Q_stricmp( token.string, "briefing" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].briefing ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "lmsbriefing" ) ) {
-			if ( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].lmsbriefing ) ) {
+		} else if( !Q_stricmp( token.string, "lmsbriefing" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].lmsbriefing ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-			/*} else if( !Q_stricmp( token.string, "objectives" ) ) {
-				if( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].objectives ) ) {
-					trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
-					trap_PC_FreeSource( handle );
-					return;
-				}*/
-		} else if ( !Q_stricmp( token.string, "timelimit" ) ) {
-			if ( !PC_Int_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].Timelimit ) ) {
+		/*} else if( !Q_stricmp( token.string, "objectives" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].objectives ) ) {
+				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
+				trap_PC_FreeSource( handle );
+				return;
+			}*/
+		} else if( !Q_stricmp( token.string, "timelimit" ) ) {
+			if( !PC_Int_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].Timelimit ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "axisrespawntime" ) ) {
-			if ( !PC_Int_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].AxisRespawnTime ) ) {
+		} else if( !Q_stricmp( token.string, "axisrespawntime" ) ) {
+			if( !PC_Int_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].AxisRespawnTime ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "alliedrespawntime" ) ) {
-			if ( !PC_Int_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].AlliedRespawnTime ) ) {
+		} else if( !Q_stricmp( token.string, "alliedrespawntime" ) ) {
+			if( !PC_Int_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].AlliedRespawnTime ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "type" ) ) {
-			if ( !trap_PC_ReadToken( handle, &token ) ) {
+		} else if( !Q_stricmp( token.string, "type" ) ) {
+			if( !trap_PC_ReadToken( handle, &token ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			} else {
-				if ( strstr( token.string, "wolfsp" ) ) {
-					uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_SINGLE_PLAYER );
+				if( strstr( token.string, "wolfsp" ) ) {
+					uiInfo.mapList[uiInfo.mapCount].typeBits |= (1 << GT_SINGLE_PLAYER);
 				}
-				if ( strstr( token.string, "wolflms" ) ) {
-					uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_WOLF_LMS );
+				if( strstr( token.string, "wolflms" ) ) {
+					uiInfo.mapList[uiInfo.mapCount].typeBits |= (1 << GT_WOLF_LMS);
 				}
-				if ( strstr( token.string, "wolfmp" ) ) {
-					uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_WOLF );
+				if( strstr( token.string, "wolfmp" ) ) {
+					uiInfo.mapList[uiInfo.mapCount].typeBits |= (1 << GT_WOLF);
 				}
-				if ( strstr( token.string, "wolfsw" ) ) {
-					uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_WOLF_STOPWATCH );
+				if( strstr( token.string, "wolfsw" ) ) {
+					uiInfo.mapList[uiInfo.mapCount].typeBits |= (1 << GT_WOLF_STOPWATCH);
 				}
 			}
-		} else if ( !Q_stricmp( token.string, "mapposition_x" ) ) {
-			if ( !PC_Float_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].mappos[0] ) ) {
+		} else if( !Q_stricmp( token.string, "mapposition_x" ) ) {
+			if( !PC_Float_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].mappos[0] ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "mapposition_y" ) ) {
-			if ( !PC_Float_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].mappos[1] ) ) {
+		} else if( !Q_stricmp( token.string, "mapposition_y" ) ) {
+			if( !PC_Float_Parse( handle, &uiInfo.mapList[uiInfo.mapCount].mappos[1] ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
@@ -264,18 +240,40 @@ static void UI_LoadArenasFromFile( char *filename ) {
 }
 
 /*
+=============
+UI_SortArenas
+
+CHRUKER: b090 - Sorting the map list
+=============
+*/
+int QDECL UI_SortArenas( const void *a, const void *b ) {
+	mapInfo ca = *(mapInfo*)a;
+	mapInfo cb = *(mapInfo*)b;
+	char cleanNameA[MAX_STRING_CHARS];
+	char cleanNameB[MAX_STRING_CHARS];
+
+	Q_strncpyz(cleanNameA, ca.mapName, sizeof(cleanNameA));
+	Q_strncpyz(cleanNameB, cb.mapName, sizeof(cleanNameB));
+	Q_CleanStr(cleanNameA);
+	Q_CleanStr(cleanNameB);
+
+	return strcmp(cleanNameA, cleanNameB);
+} // b090
+
+/*
 ===============
 UI_LoadArenas
 ===============
 */
 void UI_LoadArenas( void ) {
-	int numdirs;
+	int			numdirs;
 //	vmCvar_t	arenasFile;
-	char filename[128];
-	char dirlist[1024];
-	char*       dirptr;
-	int i /*, n*/;
-	int dirlen;
+	char		filename[128];
+	// tjw: replaced by bigTextBuffer
+	//char		dirlist[30000];
+	char*		dirptr;
+	int			i/*, n*/;
+	int			dirlen;
 	//char		*type, *str;
 
 	ui_numArenas = 0;
@@ -291,13 +289,17 @@ void UI_LoadArenas( void ) {
 	}
 */
 	// get all arenas from .arena files
-	numdirs = trap_FS_GetFileList( "scripts", ".arena", dirlist, 1024 );
-	dirptr  = dirlist;
-	for ( i = 0; i < numdirs; i++, dirptr += dirlen + 1 ) {
-		dirlen = strlen( dirptr );
-		strcpy( filename, "scripts/" );
-		strcat( filename, dirptr );
-		UI_LoadArenasFromFile( filename );
+	numdirs = trap_FS_GetFileList("scripts", ".arena",
+		bigTextBuffer, sizeof(bigTextBuffer) );
+	dirptr  = bigTextBuffer;
+	for(i = 0;
+		i < numdirs && uiInfo.mapCount < MAX_MAPS;
+		i++, dirptr += dirlen+1) {
+
+		dirlen = strlen(dirptr);
+		strcpy(filename, "scripts/");
+		strcat(filename, dirptr);
+		UI_LoadArenasFromFile(filename);
 	}
 //	trap_DPrint( va( "%i arenas parsed\n", ui_numArenas ) ); // JPW NERVE pulled per atvi req
 /*	if (UI_OutOfMemory()) {
@@ -317,23 +319,23 @@ void UI_LoadArenas( void ) {
 		uiInfo.mapList[uiInfo.mapCount].briefing = String_Alloc(Info_ValueForKey(ui_arenaInfos[n], "briefing"));
 		uiInfo.mapList[uiInfo.mapCount].lmsbriefing = String_Alloc(Info_ValueForKey(ui_arenaInfos[n], "lmsbriefing"));
 //		uiInfo.mapList[uiInfo.mapCount].objectives = String_Alloc(Info_ValueForKey(ui_arenaInfos[n], "objectives"));*/
-	// Gordon: cant use "\" in a key/pair translating * to \n for the moment, reeally should be using PC_ parsing stuff for this too
-	// eek, no ; either.....
+		// Gordon: cant use "\" in a key/pair translating * to \n for the moment, reeally should be using PC_ parsing stuff for this too
+		// eek, no ; either.....
 
-	// Arnout: THIS IS BAD DO NOT MODIFY A STRING AFTER IT IS ALLOCATED
-	/*{
-		char* p;
-		while(p = strchr(uiInfo.mapList[uiInfo.mapCount].description, '*')) {
-			*p = '\n';
-		}
+		// Arnout: THIS IS BAD DO NOT MODIFY A STRING AFTER IT IS ALLOCATED
+		/*{
+			char* p;
+			while(p = strchr(uiInfo.mapList[uiInfo.mapCount].description, '*')) {
+				*p = '\n';
+			}
 
-		while(p = strchr(uiInfo.mapList[uiInfo.mapCount].objectives, '*')) {
-			*p = '\n';
-		}
-	}*/
+			while(p = strchr(uiInfo.mapList[uiInfo.mapCount].objectives, '*')) {
+				*p = '\n';
+			}
+		}*/
 
-	// NERVE - SMF
-	// set timelimit
+		// NERVE - SMF
+		// set timelimit
 /*		str = Info_ValueForKey( ui_arenaInfos[n], "Timelimit" );
 		if ( *str )
 			uiInfo.mapList[uiInfo.mapCount].Timelimit = atoi( str );
@@ -394,17 +396,20 @@ void UI_LoadArenas( void ) {
 			break;
 		}
 	}*/
+
+	// CHRUKER: b090 - Sorting the map list
+	qsort( uiInfo.mapList, uiInfo.mapCount, sizeof(uiInfo.mapList[0]), UI_SortArenas );
 }
 
 mapInfo* UI_FindMapInfoByMapname( const char* name ) {
 	int i;
 
-	if ( uiInfo.mapCount == 0 ) {
+	if(uiInfo.mapCount == 0) {
 		UI_LoadArenas();
 	}
 
-	for ( i = 0; i < uiInfo.mapCount; i++ ) {
-		if ( !Q_stricmp( uiInfo.mapList[i].mapLoadName, name ) ) {
+	for( i = 0; i < uiInfo.mapCount; i++ ) {
+		if(!Q_stricmp(uiInfo.mapList[i].mapLoadName, name)) {
 			return &uiInfo.mapList[i];
 		}
 	}
@@ -555,27 +560,26 @@ static void UI_LoadCampaignsFromFile( const char *filename ) {
 
 	handle = trap_PC_LoadSource( filename );
 
-	if ( !handle ) {
+	if( !handle ) {
 		trap_Print( va( S_COLOR_RED "file not found: %s\n", filename ) );
 		return;
 	}
 
-	if ( !trap_PC_ReadToken( handle, &token ) ) {
+	if( !trap_PC_ReadToken( handle, &token ) ) {
 		trap_PC_FreeSource( handle );
 		return;
 	}
-	if ( *token.string != '{' ) {
+	if( *token.string != '{' ) {
 		trap_PC_FreeSource( handle );
 		return;
 	}
 
 	while ( trap_PC_ReadToken( handle, &token ) ) {
-		if ( *token.string == '}' ) {
-			if ( uiInfo.campaignList[uiInfo.campaignCount].initial ) {
-				if ( uiInfo.campaignList[uiInfo.campaignCount].typeBits & ( 1 << GT_SINGLE_PLAYER ) ) {
+		if( *token.string == '}' ) {
+			if( uiInfo.campaignList[uiInfo.campaignCount].initial ) {
+				if( uiInfo.campaignList[uiInfo.campaignCount].typeBits & (1<<GT_SINGLE_PLAYER) )
 					uiInfo.campaignList[uiInfo.campaignCount].unlocked = qtrue;
-				}
-				// Always unlock the initial SP campaign
+					// Always unlock the initial SP campaign
 			}
 
 			uiInfo.campaignList[uiInfo.campaignCount].campaignCinematic = -1;
@@ -583,76 +587,76 @@ static void UI_LoadCampaignsFromFile( const char *filename ) {
 
 			uiInfo.campaignCount++;
 
-			if ( !trap_PC_ReadToken( handle, &token ) ) {
+			if( !trap_PC_ReadToken( handle, &token ) ) {
 				// eof
 				trap_PC_FreeSource( handle );
 				return;
 			}
 
-			if ( *token.string != '{' ) {
+			if( *token.string != '{' ) {
 				//uiInfo.campaignList[uiInfo.campaignCount].order = -1;
 
 				trap_Print( va( S_COLOR_RED "unexpected token '%s' inside: %s\n", token.string, filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "shortname" ) ) {
-			if ( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].campaignShortName ) ) {
+		} else if( !Q_stricmp( token.string, "shortname" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].campaignShortName ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "name" ) ) {
-			if ( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].campaignName ) ) {
+		} else if( !Q_stricmp( token.string, "name" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].campaignName ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "description" ) ) {
-			if ( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].campaignDescription ) ) {
+		} else if( !Q_stricmp( token.string, "description" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].campaignDescription ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "image" ) ) {
-			if ( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].campaignShotName ) ) {
+		} else if( !Q_stricmp( token.string, "image" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].campaignShotName ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			} else {
 				uiInfo.campaignList[uiInfo.campaignCount].campaignShot = -1;
 			}
-		} else if ( !Q_stricmp( token.string, "initial" ) ) {
+		} else if( !Q_stricmp( token.string, "initial" ) ) {
 			uiInfo.campaignList[uiInfo.campaignCount].initial = qtrue;
-		} else if ( !Q_stricmp( token.string, "next" ) ) {
-			if ( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].nextCampaignShortName ) ) {
+		} else if( !Q_stricmp( token.string, "next" ) ) {
+			if( !PC_String_Parse( handle, &uiInfo.campaignList[uiInfo.campaignCount].nextCampaignShortName ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
-		} else if ( !Q_stricmp( token.string, "type" ) ) {
-			if ( !trap_PC_ReadToken( handle, &token ) ) {
+		} else if( !Q_stricmp( token.string, "type" ) ) {
+			if( !trap_PC_ReadToken( handle, &token ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
 			}
 
-			if ( strstr( token.string, "wolfsp" ) ) {
-				uiInfo.campaignList[uiInfo.campaignCount].typeBits |= ( 1 << GT_SINGLE_PLAYER );
+			if( strstr( token.string, "wolfsp" ) ) {
+				uiInfo.campaignList[uiInfo.campaignCount].typeBits |= (1 << GT_SINGLE_PLAYER);
 			}
-			if ( strstr( token.string, "wolfmp" ) ) {
-				uiInfo.campaignList[uiInfo.campaignCount].typeBits |= ( 1 << GT_WOLF );
+			if( strstr( token.string, "wolfmp" ) ) {
+				uiInfo.campaignList[uiInfo.campaignCount].typeBits |= (1 << GT_WOLF);
 			}
-			if ( strstr( token.string, "wolfsw" ) ) {
-				uiInfo.campaignList[uiInfo.campaignCount].typeBits |= ( 1 << GT_WOLF_STOPWATCH );
+			if( strstr( token.string, "wolfsw" ) ) {
+				uiInfo.campaignList[uiInfo.campaignCount].typeBits |= (1 << GT_WOLF_STOPWATCH);
 			}
-			if ( strstr( token.string, "wolflms" ) ) {
-				uiInfo.campaignList[uiInfo.campaignCount].typeBits |= ( 1 << GT_WOLF_LMS );
+			if( strstr( token.string, "wolflms" ) ) {
+				uiInfo.campaignList[uiInfo.campaignCount].typeBits |= (1 << GT_WOLF_LMS);
 			}
-		} else if ( !Q_stricmp( token.string, "maps" ) ) {
+		} else if( !Q_stricmp( token.string, "maps" ) ) {
 			char *ptr, mapname[128], *mapnameptr;
 
-			if ( !trap_PC_ReadToken( handle, &token ) ) {
+			if( !trap_PC_ReadToken( handle, &token ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
@@ -662,24 +666,31 @@ static void UI_LoadCampaignsFromFile( const char *filename ) {
 			uiInfo.campaignList[uiInfo.campaignCount].mapCount = 0;
 
 			ptr = token.string;
-			while ( *ptr ) {
+			while( *ptr ) {
 				mapnameptr = mapname;
-				while ( *ptr && *ptr != ';' ) {
+				while( *ptr && *ptr != ';' ) {
 					*mapnameptr++ = *ptr++;
 				}
-				if ( *ptr ) {
+				if( *ptr )
 					ptr++;
-				}
 				*mapnameptr = '\0';
-				for ( i = 0; i < uiInfo.mapCount; i++ ) {
-					if ( !Q_stricmp( uiInfo.mapList[i].mapLoadName, mapname ) ) {
+
+				// kw: fixed a crash issue when a campaign had too many maps
+				if(uiInfo.campaignList[uiInfo.campaignCount].mapCount >= MAX_MAPS_PER_CAMPAIGN) {
+					trap_Print( va( "^3Warning: too many maps in campaign: %s\n", filename ) );
+					trap_PC_FreeSource( handle );
+					return;
+				}
+
+				for( i = 0; i < uiInfo.mapCount; i++ ) {
+					if( !Q_stricmp( uiInfo.mapList[i].mapLoadName, mapname ) ) {
 						uiInfo.campaignList[uiInfo.campaignCount].mapInfos[uiInfo.campaignList[uiInfo.campaignCount].mapCount++] = &uiInfo.mapList[i];
 						break;
 					}
 				}
 			}
-		} else if ( !Q_stricmp( token.string, "maptc" ) ) {
-			if ( !trap_PC_ReadToken( handle, &token ) ) {
+		} else if( !Q_stricmp( token.string, "maptc" ) ) {
+			if( !trap_PC_ReadToken( handle, &token ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
@@ -687,7 +698,7 @@ static void UI_LoadCampaignsFromFile( const char *filename ) {
 
 			uiInfo.campaignList[uiInfo.campaignCount].mapTC[0][0] = token.floatvalue;
 
-			if ( !trap_PC_ReadToken( handle, &token ) ) {
+			if( !trap_PC_ReadToken( handle, &token ) ) {
 				trap_Print( va( S_COLOR_RED "unexpected end of file inside: %s\n", filename ) );
 				trap_PC_FreeSource( handle );
 				return;
@@ -723,13 +734,13 @@ const char* UI_DescriptionForCampaign( void ) {
 	char* mapname;
 	char info[MAX_INFO_STRING];
 
-	trap_GetConfigString( CS_SERVERINFO, info, sizeof( info ) );
+	trap_GetConfigString(CS_SERVERINFO, info, sizeof(info));
 
 	mapname = Info_ValueForKey( info, "mapname" );
 
-	for ( ; i < uiInfo.campaignCount; i++ ) {
-		for ( ; j < uiInfo.campaignList[i].mapCount; j++ ) {
-			if ( !Q_stricmp( mapname, uiInfo.campaignList[i].mapInfos[j]->mapName ) ) {
+	for( ; i < uiInfo.campaignCount; i++ ) {
+		for( ; j < uiInfo.campaignList[i].mapCount; j++ ) {
+			if( !Q_stricmp( mapname, uiInfo.campaignList[i].mapInfos[j]->mapName ) ) {
 				return uiInfo.campaignList[i].campaignDescription;
 			}
 		}
@@ -743,13 +754,13 @@ const char* UI_NameForCampaign( void ) {
 	char* mapname;
 	char info[MAX_INFO_STRING];
 
-	trap_GetConfigString( CS_SERVERINFO, info, sizeof( info ) );
+	trap_GetConfigString(CS_SERVERINFO, info, sizeof(info));
 
 	mapname = Info_ValueForKey( info, "mapname" );
 
-	for ( ; i < uiInfo.campaignCount; i++ ) {
-		for ( ; j < uiInfo.campaignList[i].mapCount; j++ ) {
-			if ( !Q_stricmp( mapname, uiInfo.campaignList[i].mapInfos[j]->mapName ) ) {
+	for( ; i < uiInfo.campaignCount; i++ ) {
+		for( ; j < uiInfo.campaignList[i].mapCount; j++ ) {
+			if( !Q_stricmp( mapname, uiInfo.campaignList[i].mapInfos[j]->mapName ) ) {
 				return uiInfo.campaignList[i].campaignName;
 			}
 		}
@@ -766,18 +777,38 @@ UI_FindCampaignInCampaignList
 int UI_FindCampaignInCampaignList( const char *shortName ) {
 	int i;
 
-	if ( !shortName ) {
+	if( !shortName )
 		return( -1 );
-	}
 
-	for ( i = 0; i < uiInfo.campaignCount; i++ ) {
-		if ( !Q_stricmp( uiInfo.campaignList[i].campaignShortName, shortName ) ) {
+	for( i = 0; i < uiInfo.campaignCount; i++ ) {
+		if( !Q_stricmp( uiInfo.campaignList[i].campaignShortName, shortName ) )
 			return( i );
-		}
 	}
 
 	return( -1 );
 }
+
+/*
+================
+UI_SortCampaigns
+
+CHRUKER: b090 - Sorting the campaign list
+================
+*/
+int QDECL UI_SortCampaigns( const void *a, const void *b ) {
+	char cleanNameA[MAX_STRING_CHARS];
+	char cleanNameB[MAX_STRING_CHARS];
+
+	campaignInfo_t ca = *(campaignInfo_t*)a;
+	campaignInfo_t cb = *(campaignInfo_t*)b;
+
+	Q_strncpyz(cleanNameA, ca.campaignName, sizeof(cleanNameA));
+	Q_strncpyz(cleanNameB, cb.campaignName, sizeof(cleanNameB));
+	Q_CleanStr(cleanNameA);
+	Q_CleanStr(cleanNameB);
+
+	return strcmp(cleanNameA, cleanNameB);
+} // b090
 
 /*
 ===============
@@ -785,43 +816,44 @@ UI_LoadCampaigns
 ===============
 */
 void UI_LoadCampaigns( void ) {
-	int numdirs;
-	char filename[128];
-	char dirlist[1024];
-	char*       dirptr;
-	int i, j;
-	int dirlen;
-	long hash;
-	char        *ch;
+	int			numdirs;
+	char		filename[128];
+	// tjw: replaced by bigTextBuffer
+	//char		dirlist[30000];
+	char*		dirptr;
+	int			i, j;
+	int			dirlen;
+	long		hash;
+	char		*ch;
 
 	uiInfo.campaignCount = 0;
-	memset( &uiInfo.campaignList, 0, sizeof( uiInfo.campaignList ) );
+	memset( &uiInfo.campaignList, 0, sizeof(uiInfo.campaignList) );
 
 	// get all campaigns from .campaign files
-	numdirs = trap_FS_GetFileList( "scripts", ".campaign", dirlist, 1024 );
-	dirptr  = dirlist;
-	for ( i = 0; i < numdirs && uiInfo.campaignCount < MAX_CAMPAIGNS; i++, dirptr += dirlen + 1 ) {
-		dirlen = strlen( dirptr );
-		strcpy( filename, "scripts/" );
-		strcat( filename, dirptr );
-		UI_LoadCampaignsFromFile( filename );
+	numdirs = trap_FS_GetFileList( "scripts", ".campaign", 
+		bigTextBuffer, sizeof(bigTextBuffer) );
+	dirptr  = bigTextBuffer;
+	for (i = 0; i < numdirs && uiInfo.campaignCount < MAX_CAMPAIGNS; i++, dirptr += dirlen+1) {
+		dirlen = strlen(dirptr);
+		strcpy(filename, "scripts/");
+		strcat(filename, dirptr);
+		UI_LoadCampaignsFromFile(filename);
 		//UI_LoadCampaignsFromFile( filename, uiInfo.campaignList, &uiInfo.campaignCount, MAX_CAMPAIGNS );
 		//UI_LinkCampaignsToArenas();
 	}
 //	trap_DPrint( va( "%i campaigns parsed\n", ui_numCampaigns ) ); // JPW NERVE pulled per atvi req
-	if ( UI_OutOfMemory() ) {
-		trap_Print( S_COLOR_YELLOW "WARNING: not anough memory in pool to load all campaigns\n" );
+	if (UI_OutOfMemory()) {
+		trap_Print( S_COLOR_YELLOW"WARNING: not anough memory in pool to load all campaigns\n" );
 	}
 
 	// Sort the campaigns for single player
 
 	// first, find the initial campaign
-	for ( i = 0; i < uiInfo.campaignCount; i++ ) {
-		if ( !( uiInfo.campaignList[i].typeBits & ( 1 << GT_SINGLE_PLAYER ) ) ) {
+	for( i = 0; i < uiInfo.campaignCount; i++ ) {
+		if( !(uiInfo.campaignList[i].typeBits & (1 << GT_SINGLE_PLAYER) ) )
 			continue;
-		}
 
-		if ( uiInfo.campaignList[i].initial ) {
+		if( uiInfo.campaignList[i].initial ) {
 			uiInfo.campaignList[i].order = 0;
 			break;
 		}
@@ -829,12 +861,11 @@ void UI_LoadCampaigns( void ) {
 
 	// now use the initial nextCampaignShortName to find the next one, etc etc for single player campaigns
 	// rain - don't let i go above the maximum number of campaigns
-	while ( i < MAX_CAMPAIGNS ) {
+	while( i < MAX_CAMPAIGNS ) {
 		j = UI_FindCampaignInCampaignList( uiInfo.campaignList[i].nextCampaignShortName );
 
-		if ( j == -1 ) {
+		if( j == -1 )
 			break;
-		}
 
 		uiInfo.campaignList[j].order = uiInfo.campaignList[i].order + 1;
 		i = j;
@@ -843,15 +874,15 @@ void UI_LoadCampaigns( void ) {
 	// Load the campaign save
 	BG_LoadCampaignSave( va( "profiles/%s/campaign.dat", cl_profile.string ), &uiInfo.campaignStatus, cl_profile.string );
 
-	for ( i = 0; i < uiInfo.campaignCount; i++ ) {
+	for( i = 0; i < uiInfo.campaignCount; i++ ) {
 		// generate hash for campaign shortname
-		for ( hash = 0, ch = (char *)uiInfo.campaignList[i].campaignShortName; *ch != '\0'; ch++ ) {
-			hash += (long)( tolower( *ch ) ) * ( ( ch - uiInfo.campaignList[i].campaignShortName ) + 119 );
+		for( hash = 0, ch = (char *)uiInfo.campaignList[i].campaignShortName; *ch != '\0'; ch++ ) {
+			hash += (long)(tolower(*ch))*((ch-uiInfo.campaignList[i].campaignShortName)+119);
 		}
 
 		// find the entry in the campaignsave
-		for ( j = 0; j < uiInfo.campaignStatus.header.numCampaigns; j++ ) {
-			if ( hash == uiInfo.campaignStatus.campaigns[j].shortnameHash ) {
+		for( j = 0; j < uiInfo.campaignStatus.header.numCampaigns; j++ ) {
+			if( hash == uiInfo.campaignStatus.campaigns[j].shortnameHash ) {
 				uiInfo.campaignList[i].unlocked = qtrue;
 				uiInfo.campaignList[i].progress = uiInfo.campaignStatus.campaigns[j].progress;
 				uiInfo.campaignList[i].cpsCampaign = &uiInfo.campaignStatus.campaigns[j];
@@ -866,6 +897,9 @@ void UI_LoadCampaigns( void ) {
 			uiInfo.campaignList[i].cpsCampaign = NULL;
 		}*/
 	}
+
+	// CHRUKER: b090 - Sorting the campaign list
+	qsort( uiInfo.campaignList, uiInfo.campaignCount, sizeof(uiInfo.campaignList[0]), UI_SortCampaigns );
 }
 
 /*
@@ -874,9 +908,9 @@ UI_LoadBotsFromFile
 ===============
 */
 static void UI_LoadBotsFromFile( char *filename ) {
-	int len;
-	fileHandle_t f;
-	char buf[MAX_BOTS_TEXT];
+	int				len;
+	fileHandle_t	f;
+	char			buf[MAX_BOTS_TEXT];
 
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( !f ) {
@@ -893,7 +927,7 @@ static void UI_LoadBotsFromFile( char *filename ) {
 	buf[len] = 0;
 	trap_FS_FCloseFile( f );
 
-	COM_Compress( buf );
+	COM_Compress(buf);
 
 	ui_numBots += UI_ParseInfos( buf, MAX_BOTS - ui_numBots, &ui_botInfos[ui_numBots], MAX_BOTS );
 }
@@ -904,31 +938,32 @@ UI_LoadBots
 ===============
 */
 void UI_LoadBots( void ) {
-	vmCvar_t botsFile;
-	int numdirs;
-	char filename[128];
-	char dirlist[1024];
-	char*       dirptr;
-	int i;
-	int dirlen;
+	vmCvar_t	botsFile;
+	int			numdirs;
+	char		filename[128];
+	char		dirlist[1024];
+	char*		dirptr;
+	int			i;
+	int			dirlen;
 
 	ui_numBots = 0;
 
-	trap_Cvar_Register( &botsFile, "g_botsFile", "", CVAR_INIT | CVAR_ROM );
-	if ( *botsFile.string ) {
-		UI_LoadBotsFromFile( botsFile.string );
-	} else {
-		UI_LoadBotsFromFile( "scripts/bots.txt" );
+	trap_Cvar_Register( &botsFile, "g_botsFile", "", CVAR_INIT|CVAR_ROM );
+	if( *botsFile.string ) {
+		UI_LoadBotsFromFile(botsFile.string);
+	}
+	else {
+		UI_LoadBotsFromFile("scripts/bots.txt");
 	}
 
 	// get all bots from .bot files
-	numdirs = trap_FS_GetFileList( "scripts", ".bot", dirlist, 1024 );
+	numdirs = trap_FS_GetFileList("scripts", ".bot", dirlist, sizeof(dirlist) );
 	dirptr  = dirlist;
-	for ( i = 0; i < numdirs; i++, dirptr += dirlen + 1 ) {
-		dirlen = strlen( dirptr );
-		strcpy( filename, "scripts/" );
-		strcat( filename, dirptr );
-		UI_LoadBotsFromFile( filename );
+	for (i = 0; i < numdirs; i++, dirptr += dirlen+1) {
+		dirlen = strlen(dirptr);
+		strcpy(filename, "scripts/");
+		strcat(filename, dirptr);
+		UI_LoadBotsFromFile(filename);
 	}
 	trap_Print( va( "%i bots parsed\n", ui_numBots ) );
 }
@@ -940,7 +975,7 @@ UI_GetBotInfoByNumber
 ===============
 */
 char *UI_GetBotInfoByNumber( int num ) {
-	if ( num < 0 || num >= ui_numBots ) {
+	if( num < 0 || num >= ui_numBots ) {
 		trap_Print( va( S_COLOR_RED "Invalid bot number: %i\n", num ) );
 		return NULL;
 	}
@@ -954,8 +989,8 @@ UI_GetBotInfoByName
 ===============
 */
 char *UI_GetBotInfoByName( const char *name ) {
-	int n;
-	char    *value;
+	int		n;
+	char	*value;
 
 	for ( n = 0; n < ui_numBots ; n++ ) {
 		value = Info_ValueForKey( ui_botInfos[n], "name" );
@@ -973,8 +1008,8 @@ int UI_GetNumBots() {
 
 
 char *UI_GetBotNameByNumber( int num ) {
-	char *info = UI_GetBotInfoByNumber( num );
-	if ( info ) {
+	char *info = UI_GetBotInfoByNumber(num);
+	if (info) {
 		return Info_ValueForKey( info, "name" );
 	}
 	return "Sarge";

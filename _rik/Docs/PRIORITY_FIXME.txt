@@ -1,0 +1,4 @@
+Character Customizing (body/head/helmet?)   //--Shownie: Skinfile is enough for BETA. I make them look different. Snow/Trench/Desert/Urban...
+Turrets (bbox)                              //--Shownie: You need models?   codePRK: no the collisions are failing
+Adminsystem                                 //--Shownie: IMO change "!" to "/". Replace referee in menu to adminpanel
+Icons Square-compass / Limbomenu            //--

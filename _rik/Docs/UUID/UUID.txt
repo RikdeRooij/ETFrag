@@ -1,0 +1,11 @@
+UUID WIN32
+by codePRK
+
+
+  MAC =          '7A-79-05-B3-34-FE'
+  HD_serial =    '7A-79-05-B3-34-FE'
+  HD_model =     ''
+  Method used =  'ReadPhysicalDriveInNTWithAdminRights'
+
+  uuid client =  '36939T32RPD3P53XG'
+  uuid real =    'A2484FFCF8DD8D1319154F220584C4F523EAE170'

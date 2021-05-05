@@ -1,0 +1,109 @@
+====================================================
+		= = = ETFRAG CVAR LIST = = =
+		  Gunstar*  25-03-12
+
+====================================================
+
+- CVAR (valid values) ("default value")
+	description / bitflag values
+
+
+---------------------- SERVER ----------------------
+
+	- team_max[weap] ( >= -1) ("-1")
+		number of clients that may have that weapon in one team.
+		use "-1" for unlimited and "0" to disable the weapon.
+		valid weap value's are: Panzers, MG42s, Flamers, Mortars, Rifles
+
+	- #FIXME: g_weapons cvar (bitflag) ("0")
+		32 : ammo restores helmet
+		128: level4 heavy weapons keeps pistol
+		256: pickup any weapon
+		512: player can't shoot if he is holding the obj
+
+	- g_hitSounds (0/1) ("1")
+		allows or disallows the use of hitsounds on your server
+
+
+	- g_dropObj( >= -1 ) ("0")
+		number of times a player can drop the objective in one life
+
+
+	g_realism (bitflag) ("0")
+		1 : jumping needs stamina
+		2 : slower health regeneration
+		4 : never lose uni (when shooting etc)
+		8 : walk slower at low health (etpub g_healthSpeed)
+		16: dmg based on were target was hit (etpub g_dmg 1)
+		32: dmg over distance reduced faster and earlier etpub g_dmg 2)
+
+	g_hardcore (0/1) ("0")
+		harder gameplay
+
+	g_turrets (0/1/2) ("1")
+		0: no turrets
+		1: mountable turrets
+		2: auto turrets
+
+
+	g_adminsysDir (foldername) ("adminsys")
+		directory were to save adminsys files
+	
+	
+
+
+
+---------------------- CLIENT ----------------------
+
+	- cg_hud (file/id) ("")
+		- 0 | default
+		- 1 | alt
+		- 2 | alt2
+
+	- cg_hudColor (vec3_t) (".16 .2 .17")
+
+
+	- cg_hudAlpha (0-1) (".8")
+		value between 0 and 1
+
+	- cg_hitSounds (0/1) ("1")
+		enable or disable hitSounds (if enabled on the server)
+
+	- cg_numPopups (0+) ("5")
+	- cg_popupDelay (0+) ("0")
+	- cg_shadowedPopups (0/1) ("0")
+
+	- cg_drawPickupMsg (0/1) ("1")
+		draw "picked up ..." messages
+
+	- cg_visWeapSelectTime (0+) ("2000")
+		graphic weaponswitch thingy show time in ms
+
+
+
+	- "dropweapon"
+		drop current primary weapon (if selected at that moment)
+		works best if its bind to a key, (example: bind "0" "dropweapon")
+
+	- "adminpanel"
+		show adminpanel
+
+
+
+---------------------- DEBUG -----------------------
+PRIVATE VERSION ONLY
+
+- pkill
+	show obituarty message 
+	(Attacker <thompson-img> target) (in stead of Target was killed by attacker's thompson)
+- pkill2
+	same as above but then with colt (should return smaller image)
+
+- addbot
+	spawns a bot, for testing purposes (doesnt move and acts as disconnect/999ping)
+
+- ctest
+	UUID stuff debug
+
+
+====================================================

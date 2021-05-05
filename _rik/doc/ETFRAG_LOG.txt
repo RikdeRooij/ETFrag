@@ -1,0 +1,114 @@
+
+			 + ETFRAG CHANGELOG +
+			     - codePRK
+
+			Last Update: 04-04-2012
+
+================================================================
+
+--------------------------------
+beta 0.1.0
+--------------------------------
+
+	- restarted from etpub source
+	- removed many etpub features, more to come
+	- redone hud related stuff
+	- added cvars:
+		cg_numPopups, cg_popupDelay, cg_shadowedPopups, 
+		cg_drawPickupMsg, cg_hudColor, cg_hudAlpha
+	- semi auto fire for pistols and snipers
+	- new hitboxes
+	- FIXME: g_realism (bitflag)
+		1: jumping needs stamina
+		2: slower health regeneration
+		4: never lose uni (when shooting etc)
+		8: walk slower at low health (etpub g_healthSpeed)
+		16: dmg based on were target was hit (etpub g_dmg 1)
+		32: dmg over distance reduced faster and earlier etpub g_dmg 2)
+		64: bullet falloff (etpub g_dmg 8)
+	- g_hardcore (0/1)
+		more hs damage
+		more acc
+		limited hud (no visual map, health, ammo, ...)
+	- cg_drawCompass 2 gives you a square compass
+	- number of gibs in gamestats
+	- DYNO'S dont disapear after defuse (and are refuse-able)
+	- FIXME: changed limbo menu (not done)
+	- added g_noFallDamage [0/1]
+	- added g_kickTime [seconds]
+	- Deployable Turrets (FIXME)
+	- Weapon @ body-tags
+	- g_settings (setting.cfg) removed, banners in g_bannersFile
+	- changed killingsprees
+	- changed multikills
+
+
+NOTES & FIXES:
+	- coverts can mount a mg witout loosing uni
+	- coverts can steal uni even if there already disguised
+	- xp for constuctive use of smoke
+	- when g_maxWarp is set lower than 3 (and not 0) 3 wil be used
+	- g_constructibleXPSharing enabled
+	- mindeid
+	
+	- added missing tag_barrel (tag_trigger) in v_silencedcolt_hand.md3, and sligtly changed v_m1_garand_hand.md3
+	- changed blood sprites
+	- changed grenade throw sound
+
+	- +stats always draws your stats when on a team (when following sm1) (cg_stats 1)
+
+
+================================================================
+--------------------------------
+FIXME:
+--------------------------------
+any fixme's or todo's above
+admin system
+
+g_gametype 6 (map voting)
+ETPUB
+
+Free-For-All
+Team-Deathmatch
+
+g_killingSprees 
+turrets (bbox & autoaim)
+
+icons real map (limbomenu) & icons square compass
+how is dropweapon? (& drop objective)
+
+custom characters (body/head/helmet?)
+
+
+
+--------------------------------
+TODO:
+--------------------------------
+graphic item pickups (picked up [img]) (cg_pickupMessages 2)
+team_maxriflegrenades
+
+
+
+--------------------------------
+TODO B4 RELEASE:
+--------------------------------
+serverinfo
+ui-menu's stuff
+remove debug stuff
+change list (this file)
+cvar explaination (other file)
+LOTS OF TESTING
+
+
+================================================================
+
+
+--------------------------------
+-- MAYBE BUT PROB NOT --
+--------------------------------
+add weapon upgrades (more acc, ammo or rate etc) but not based on skills
+visual airplane flying over @ airstike
+AFK animation
+
+save hits, shots, damage recieved/given, kills deaths etc (like xpsave)
+

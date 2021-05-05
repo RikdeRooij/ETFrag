@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8,00"
 	Name="ui"
 	ProjectGUID="{4C02EEB1-33AA-41C5-9A96-609161DF1635}"
-	TargetFrameworkVersion="131072"
+	RootNamespace="ui"
 	>
 	<Platforms>
 		<Platform
@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UI_EXPORTS;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UI_EXPORTS;USE_MDXFILE"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
@@ -59,6 +59,7 @@
 				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -83,8 +84,6 @@
 				GenerateMapFile="true"
 				MapFileName=".\Release/ui_mp_x86.map"
 				BaseAddress="0x40000000"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				ImportLibrary=".\Release/ui_mp_x86.lib"
 			/>
 			<Tool
@@ -106,8 +105,13 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
+				Description="Copy to ET"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ETDIR)\etpub\&quot;"
+				ExcludedFromBuild="true"
 			/>
 		</Configuration>
 		<Configuration
@@ -143,8 +147,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UI_EXPORTS;_CRT_SECURE_NO_WARNINGS"
-				BasicRuntimeChecks="3"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UI_EXPORTS"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug/ui.pch"
@@ -155,6 +159,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -171,7 +176,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="../Debug/ui_mp_x86.dll"
+				OutputFile="..\Debug\ui_mp_x86.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\ui.def"
@@ -180,8 +185,6 @@
 				GenerateMapFile="true"
 				MapFileName=".\Debug/ui_mp_x86.map"
 				BaseAddress="0x40000000"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				ImportLibrary=".\Debug/ui_mp_x86.lib"
 			/>
 			<Tool
@@ -203,8 +206,12 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
+				Description="Copy to ET"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ETDIR)\etpub\&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -253,10 +260,6 @@
 			</File>
 			<File
 				RelativePath="..\game\q_shared.c"
-				>
-			</File>
-			<File
-				RelativePath=".\ui.def"
 				>
 			</File>
 			<File
@@ -350,6 +353,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\etmain\ui\credits_et260.menu"
+				>
+			</File>
+			<File
+				RelativePath="..\..\etmain\ui\credits_etpub.menu"
+				>
+			</File>
+			<File
 				RelativePath="..\..\etmain\ui\credits_idsoftware.menu"
 				>
 			</File>
@@ -359,6 +370,22 @@
 			</File>
 			<File
 				RelativePath="..\..\etmain\ui\credits_splashdamage.menu"
+				>
+			</File>
+			<File
+				RelativePath="..\..\etmain\ui\etpub.menu"
+				>
+			</File>
+			<File
+				RelativePath="..\..\etmain\ui\etpub_customize_config.menu"
+				>
+			</File>
+			<File
+				RelativePath="..\..\etmain\ui\etpub_customize_hud.menu"
+				>
+			</File>
+			<File
+				RelativePath="..\..\etmain\ui\etpub_fonts.menu"
 				>
 			</File>
 			<File
@@ -383,6 +410,14 @@
 			</File>
 			<File
 				RelativePath="..\..\etmain\ui\ingame_disconnect.menu"
+				>
+			</File>
+			<File
+				RelativePath="..\..\etmain\ui\ingame_hudeditor_load.menu"
+				>
+			</File>
+			<File
+				RelativePath="..\..\etmain\ui\ingame_hudeditor_save.menu"
 				>
 			</File>
 			<File
@@ -586,11 +621,14 @@
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+		<File
+			RelativePath=".\Jamfile"
 			>
-		</Filter>
+		</File>
+		<File
+			RelativePath=".\ui.def"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

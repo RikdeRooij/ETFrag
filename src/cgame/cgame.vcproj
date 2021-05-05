@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8,00"
 	Name="cgame"
 	ProjectGUID="{68A804FC-00C3-44E2-A479-3DB3D20F943D}"
-	TargetFrameworkVersion="131072"
+	RootNamespace="cgame"
 	>
 	<Platforms>
 		<Platform
@@ -46,7 +46,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="1"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;CGAMEDLL;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;CGAMEDLL;USE_MDXFILE;"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
@@ -56,8 +56,9 @@
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
-				WarningLevel="4"
+				WarningLevel="3"
 				SuppressStartupBanner="true"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -83,8 +84,6 @@
 				MapFileName=".\Release/cgame_mp_x86.map"
 				SubSystem="2"
 				BaseAddress="0x30000000"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				ImportLibrary=".\Release/cgame_mp_x86.lib"
 			/>
 			<Tool
@@ -106,8 +105,13 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
+				Description="Copy to ET"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ETDIR)\etpub\&quot;"
+				ExcludedFromBuild="true"
 			/>
 		</Configuration>
 		<Configuration
@@ -142,7 +146,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;CGAMEDLL;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;CGAMEDLL;USE_MDXFILE;"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug/cgame.pch"
@@ -153,6 +157,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -169,7 +174,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="..\Debug/cgame_mp_x86.dll"
+				OutputFile="..\Debug\cgame_mp_x86.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\cgame.def"
@@ -179,8 +184,6 @@
 				MapFileName=".\Debug/cgame_mp_x86.map"
 				SubSystem="2"
 				BaseAddress="0x30000000"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				ImportLibrary=".\Debug/cgame_mp_x86.lib"
 			/>
 			<Tool
@@ -202,8 +205,12 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
+				Description="Copy to ET"
+				CommandLine="copy &quot;$(TargetPath)&quot; &quot;$(ETDIR)\etpub\&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -295,6 +302,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\cg_crash.c"
+				>
+			</File>
+			<File
 				RelativePath=".\cg_debriefing.c"
 				>
 			</File>
@@ -331,6 +342,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\cg_hud.c"
+				>
+			</File>
+			<File
 				RelativePath=".\cg_info.c"
 				>
 			</File>
@@ -364,6 +379,10 @@
 			</File>
 			<File
 				RelativePath=".\cg_newDraw.c"
+				>
+			</File>
+			<File
+				RelativePath=".\cg_panelhandling.c"
 				>
 			</File>
 			<File
@@ -472,6 +491,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\etpubc.h"
+				>
+			</File>
+			<File
 				RelativePath="..\ui\keycodes.h"
 				>
 			</File>
@@ -498,6 +521,10 @@
 		</Filter>
 		<File
 			RelativePath=".\cgame.def"
+			>
+		</File>
+		<File
+			RelativePath=".\Jamfile"
 			>
 		</File>
 	</Files>

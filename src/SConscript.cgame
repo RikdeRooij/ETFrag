@@ -14,6 +14,7 @@ cg_atmospheric.c
 cg_character.c
 cg_commandmap.c
 cg_consolecmds.c
+cg_crash.c
 cg_debriefing.c
 cg_draw.c
 cg_drawtools.c
@@ -40,6 +41,7 @@ cg_popupmessages.c
 cg_predict.c
 cg_scoreboard.c
 cg_servercmds.c
+cg_shoutcaster.c
 cg_snapshot.c
 cg_sound.c
 cg_spawn.c
@@ -62,6 +64,8 @@ cg_window.c
 ../game/q_math.c
 ../game/q_shared.c
 ../ui/ui_shared.c
+cg_hud.c
+get_id.c
 """
 
 cgame_list = scons_utils.BuildList( 'cgame', cgame_string )
@@ -69,6 +73,8 @@ cgame_list = scons_utils.BuildList( 'cgame', cgame_string )
 local_env = g_env.Clone()
 
 local_env.Append( CPPDEFINES = [ 'CGAMEDLL' ] )
+
+local_env.Append( CPPDEFINES = [ 'USE_MDXFILE' ] )
 
 source_list = cgame_list
 

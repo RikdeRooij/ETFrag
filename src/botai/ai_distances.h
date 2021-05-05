@@ -1,31 +1,3 @@
-/*
-===========================================================================
-
-Wolfenstein: Enemy Territory GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
-
-This file is part of the Wolfenstein: Enemy Territory GPL Source Code (Wolf ET Source Code).  
-
-Wolf ET Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Wolf ET Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Wolf ET Source Code.  If not, see <http://www.gnu.org/licenses/>.
-
-In addition, the Wolf: ET Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Wolf ET Source Code.  If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
-===========================================================================
-*/
-
 
 /*****************************************************************************
  * name:		ai_distances.h
@@ -34,6 +6,9 @@ If you have questions concerning this license or the applicable additional terms
  *
  *
  *****************************************************************************/
+
+#ifndef __AI_DISTANCES_H__
+#define __AI_DISTANCES_H__
 
 // Distance bots follow the leader
 #define kBOT_FOLLOW_DIST 100
@@ -70,7 +45,7 @@ If you have questions concerning this license or the applicable additional terms
 // It a client is going faster than this, we think they're moving
 #define kBOT_ENTITY_MOVING_UNSTEALTHY_SPEED 2
 
-// If our best enemy is this close to us, and we're on an mg42, drop
+// If our best enemy is this close to us, and we're on an mg42, drop 
 // the gun...
 #define kBOT_DROP_MG42_DISTANCE 240 // 20 feet roughly
 
@@ -136,7 +111,7 @@ If you have questions concerning this license or the applicable additional terms
 //
 ///////////////////////////////////////
 
-#define kBOT_FOLLOW_SPEED_BONUS ( 1.25f )
+#define kBOT_FOLLOW_SPEED_BONUS (1.25f)
 
 ///////////////////////////////////////
 //
@@ -248,15 +223,17 @@ If you have questions concerning this license or the applicable additional terms
 
 // How much to penalize damage ratio based on distance from leader
 // NOTE: 1 == take full damage at max dist, 0 == use scripted ratio
-#define NO_LEADER_DAMAGE_PENALTY ( 0.6f )
+#define NO_LEADER_DAMAGE_PENALTY (0.6f)
 
-// How much to penalize the aiming accuracy based on distance from
+// How much to penalize the aiming accuracy based on distance from 
 // leader.  1 == can't hit at all, 0 == No penalty
-#define NO_LEADER_MAX_AIM_PENALTY ( 0.5f )
+#define NO_LEADER_MAX_AIM_PENALTY (0.5f)
 
 // how much inaccuracy to remove. e.g. 0.5 = 50% less inaccuracy
-#define AIM_ACCURACY_BONUS_PRONE    0.5
-#define AIM_ACCURACY_BONUS_CROUCH   0.3
-#define AIM_SKILL_BONUS_PRONE       0.5
-#define AIM_ACCURACY_ENEMY_PENALTY_PRONE    0.5
-#define AIM_ACCURACY_ENEMY_PENALTY_CROUCH   0.2
+#define AIM_ACCURACY_BONUS_PRONE	0.5
+#define AIM_ACCURACY_BONUS_CROUCH	0.3
+#define AIM_SKILL_BONUS_PRONE		0.5
+#define AIM_ACCURACY_ENEMY_PENALTY_PRONE	0.5
+#define AIM_ACCURACY_ENEMY_PENALTY_CROUCH	0.2
+
+#endif

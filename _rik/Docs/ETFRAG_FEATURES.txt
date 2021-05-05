@@ -1,0 +1,45 @@
+========================================================
+ --- ETFRAG FEATURES ---
+  - codePRK, 09-03-2012
+
+========================================================
+
+changed hitboxes
+cg_drawCompass 2 gives you a square compass
+number of gibs in gamestats
+DYNO'S dont disapear after defuse (and are refuse-able)
+Weapon @ body-tags
+unique user identifiers
+#TODO######Deployable Turrets (FIXME)
+#TODO######modified shrubbot admin system
+#TODO######custom character (limbo menu)
+#TODO######deathmatch
+
+
+ --- CLIENT CVARS: ---
+cg_hud
+cg_hudColor
+cg_hudAlpha
+cg_numPopups
+cg_popupDelay
+cg_shadowedPopups
+cg_drawPickupMsg					<- picked up ... msgs
+cg_drawObjectiveFP 				<- draw obj you're holding if g_weapon & 1
+cg_drawHardcore 					<- show txtmsg that hardcoremode is on
+cg_visWeapSelectTime 				<- graphic weaponswitch thingy show time
+
+ --- SERVER CVARS: ---
+g_realism (bitflag)
+	1: jumping needs stamina
+	2: slower health regeneration
+	4: never lose uni (when shooting etc)
+	8: walk slower at low health (etpub g_healthSpeed)
+	16: dmg based on were target was hit (etpub g_dmg 1)
+	32: dmg over distance reduced faster and earlier etpub g_dmg 2)
+g_hardcore 							<- harder gameplay
+g_adminsysDir
+g_noFallDamage
+g_weapons
+	1:  no weapon when holding obj
+	2:  pickup any weapon
+

@@ -1,0 +1,112 @@
+---------------------
+things that will stay
+---------------------
+g_shuffle_rating
+g_maxTeamLandmines 		NOTE: make it team_maxLandmines?
+team_max[Panzers/Mortars/Flamers/MG42s/GrenLaunchers]
+g_mapConfigs
+g_packDistance
+g_censor
+g_censorNames
+g_censorPenalty
+g_censorMuteTime
+g_censorXP
+g_intermissionTime
+g_intermissionReadyPercent
+g_skills
+g_skipCorrection
+g_maxWarp
+g_teamDamageRestriction
+g_voting 			<- CHANGED
+g_moverScale
+g_slashKill 			<- CHANGED
+g_ammoCabinetTime
+g_healthCabinetTime
+g_medics 			<- CHANGED
+g_truePing
+g_mapScriptDirectory
+g_campaignFile 
+vote_allow_surrender [1|0]
+vote_allow_nextcampaign [1|0]
+vote_allow_restartcampaign [1|0]
+vote_allow_poll [1|0]
+vote_allow_maprestart [1|0]
+vote_allow_shufflenorestart [1|0]
+vote_allow_putspec [1|0] 
+g_fear
+g_minAirstrikeTime
+g_minArtyTime
+g_panzersVulnerable
+g_realHead
+team_max[Medics/Engineers/FieldOps/CovertOps]
+g_staminaRecharge
+g_shortcuts
+g_dropMsg
+g_floodprotect 
+g_floodthreshold
+g_floodWait
+g_noVoteTime
+g_multikillTime
+g_fixedphysics
+g_fixedphysicsfps
+g_maxNameChanges
+g_watermark
+g_watermarkFadeAfter
+g_watermarkFadeTime
+g_antiwarp
+
+
+----------------------
+Thing to look into
+---------------------
+g_privateMessages -> adminchat
+g_privateMessageSound
+g_XPDecay
+g_logOptions
+
+dynocounter
+
+g_maxSelfkills
+g_spectator 
+
+g_dropObj
+
+g_spinCorpse
+g_teamChangeKills
+g_dropHealth
+g_dropAmmo
+
+g_serverInfo
+g_killRating
+g_obituary
+g_throwableKnives
+ -g_maxKnives
+ -g_knifeDamage
+ -g_throwKnifeWait
+ 
+g_asblock
+g_dyno
+g_canisterKick
+g_canisterKickOwner
+g_dmg  ALREADY CHANGED
+g_reflectFriendlyFire
+
+http://etpub.org/ETPubServerDocs.html#mapvoting
+    g_mapVoteFlags
+    g_maxMapsVotedFor
+    g_minMapAge
+    g_resetXPMapCount 
+    g_excludedMap
+
+g_etpub_stats_id
+g_settings
+g_spoofOptions
+g_warningOptions
+g_maxWarnings
+g_warningDecay
+g_disableComplaints
+g_medicSelfhealTime
+
+g_damageBonusNearMedics
+
+TODO: REMOVE g_tactics (#ifdef GS_TACTICS)

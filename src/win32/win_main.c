@@ -582,6 +582,16 @@ void * QDECL Sys_LoadDll( const char *name, char *fqpath, int( QDECL **entryPoin
 	cdpath = Cvar_VariableString( "fs_cdpath" );
 	gamedir = Cvar_VariableString( "fs_game" );
 
+
+    if(cdpath == NULL || cdpath[0] == '\0')
+    {
+        char cwd[MAX_QPATH];
+        if (getcwd(cwd, sizeof(cwd)) != NULL)
+            cdpath = cwd;
+    }
+
+    printf("Current working dir: %s\n", cdpath);
+
 	// try gamepath first
 	fn = FS_BuildOSPath( basepath, gamedir, filename );
 
@@ -608,15 +618,40 @@ void * QDECL Sys_LoadDll( const char *name, char *fqpath, int( QDECL **entryPoin
 		if ( !libHandle ) {
 			// Final fall-back to current directory
 			libHandle = LoadLibrary( filename );
-			if ( !libHandle ) {
-				return NULL;
-			}
-			Q_strncpyz( fqpath, filename, MAX_QPATH ) ;         // added 2/15/02 by T.Ray
+            if (!libHandle)
+            {
+                //fn = FS_BuildOSPath(basepath, "", filename);
+                //char temp[MAX_OSPATH];
+                //Com_sprintf(temp, sizeof(temp), "%s\\%s", basepath, filename);
+                //fn = temp;
+                //libHandle = LoadLibrary(fn);
+                //if (!libHandle)
+                //{
+                    DWORD errcode = GetLastError();
+                    void* lpMsgBuf;
+                    DWORD flags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
+                    DWORD bufLen = FormatMessage(flags, NULL, errcode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
+                    char temp2[MAX_OSPATH] = "";
+                    if (bufLen)
+                    {
+                        const char* lpMsgStr = (LPCSTR)lpMsgBuf;
+                        Q_strncpyz(temp2, lpMsgStr, MAX_OSPATH);
 
-		} else {Q_strncpyz( fqpath, fn, MAX_QPATH ) ;       // added 2/15/02 by T.Ray
-		}
-	} else {Q_strncpyz( fqpath, fn, MAX_QPATH ) ;       // added 2/15/02 by T.Ray
-	}
+                        LocalFree(lpMsgBuf);
+                    }
+                    Com_Error(ERR_DROP, "Load lib error %s code: (%d): %s", fn, errcode, temp2);
+                    return NULL;
+                //}
+                //else { Q_strncpyz(fqpath, fn, MAX_QPATH); }
+			}
+            else { Q_strncpyz(fqpath, filename, MAX_QPATH); }        // added 2/15/02 by T.Ray
+
+        }
+        else { Q_strncpyz(fqpath, fn, MAX_QPATH); }      // added 2/15/02 by T.Ray
+	    
+    }
+    else { Q_strncpyz(fqpath, fn, MAX_QPATH); }      // added 2/15/02 by T.Ray
+	
 	dllEntry = ( void ( QDECL * )( int ( QDECL * )( int, ... ) ) )GetProcAddress( libHandle, "dllEntry" );
 	*entryPoint = ( int ( QDECL * )( int,... ) )GetProcAddress( libHandle, "vmMain" );
 	if ( !*entryPoint || !dllEntry ) {

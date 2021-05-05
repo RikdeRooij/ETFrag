@@ -11,7 +11,7 @@ import scons_utils
 conf_filename='site.conf'
 # choose configuration variables which should be saved between runs
 # ( we handle all those as strings )
-serialized=[ 'CC', 'CXX', 'JOBS', 'BUILD', 'BUILD_ROOT', 'DEDICATED', 'TARGET_CORE', 'TARGET_BSPC', 'TARGET_CGAME', 'TARGET_GAME', 'TARGET_UI', 'MASTER' ]
+serialized=[ 'CC', 'CXX', 'JOBS', 'BUILD', 'BUILD_ROOT', 'TARGET_CGAME', 'TARGET_GAME', 'TARGET_UI', 'GAMERANGER', 'WITH_LUA_SUPPORT' ]
 
 # help -------------------------------------------
 
@@ -47,12 +47,6 @@ DEDICATED (default 2)
 	1 - dedicated server
 	2 - both
 
-TARGET_CORE (default 1)
-	Build engine
-
-TARGET_BSPC (default 0)
-	Build bspc utility
-
 TARGET_GAME (default 1)
 	Build game module
 
@@ -62,20 +56,23 @@ TARGET_CGAME (default 1)
 TARGET_UI (default 1)
 	Build ui module
 
+WITH_LUA_SUPPORT (default 1)
+	Build with Lua API support
+
 BUILD_ROOT (default 'build')
 	change the build root directory
 	
 NOCONF (default 0, not saved)
 	ignore site configuration and use defaults + command line only
 
-MASTER (default '')
-	set to override the default master server address
-
 COPYBINS (default 0, not saved)
 	copy the binaries in a ready-to-release format
 
 BUILDMPBIN (default 0, not saved)
 	build mp_bin.pk3 using bin/ directories and game binaries for all platforms
+
+BUILDBUNDLE (default 0, not saved)
+	create mac bundle files
 """
 )
 
@@ -105,11 +102,10 @@ else:
 		cpu = 'cpu'
 		dll_cpu = cpu
 OS = commands.getoutput( 'uname -s' )
-if ( OS == 'Darwin' ):
-	print 'EXPERIMENTAL - INCOMPLETE'
-	print 'Use the XCode projects to compile ET universal binaries for OSX'
-	cpu = 'osx'
-	dll_cpu = 'osx'
+
+if( OS == 'Darwin' ):
+	cpu = 'ppc'
+	dll_cpu = cpu
 
 print 'cpu: ' + cpu
 
@@ -117,47 +113,23 @@ print 'cpu: ' + cpu
 
 # default settings -------------------------------
 
-CC = 'gcc -m32'
-CXX = 'g++ -m32'
+CC = 'gcc'
+CXX = 'g++'
 JOBS = '1'
 BUILD = 'debug'
 DEDICATED = '2'
-TARGET_CORE = '1'
 TARGET_GAME = '1'
 TARGET_CGAME = '1'
 TARGET_UI = '1'
-TARGET_BSPC = '0'
+GAMERANGER = '0'
+WITH_LUA_SUPPORT = '1'
 BUILD_ROOT = 'build'
 NOCONF = '0'
-MASTER = ''
 COPYBINS = '0'
 BUILDMPBIN = '0'
+BUILDBUNDLE = '0'
 
 # end default settings ---------------------------
-
-# arch detection ---------------------------------
-
-def gcc_major():
-	major = os.popen( CC + ' -dumpversion' ).read().strip()
-	major = re.sub('^([^.]+)\\..*$', '\\1', major)
-	print 'gcc major: %s' % major
-	return major
-
-gcc3 = (gcc_major() != '2')
-
-def gcc_is_mingw():
-	mingw = os.popen( CC + ' -dumpmachine' ).read()
-	return re.search('mingw', mingw) != None
-
-if gcc_is_mingw():
-	g_os = 'win32'
-elif OS == 'Darwin':
-	g_os = 'Darwin'
-else:
-	g_os = 'Linux'
-print 'OS: %s' % g_os
-
-# end arch detection -----------------------------
 
 # site settings ----------------------------------
 
@@ -186,6 +158,35 @@ for k in ARGUMENTS.keys():
 
 # end command line settings ----------------------
 
+# arch detection ---------------------------------
+
+def gcc_major():
+	major = os.popen( CC + ' -dumpversion' ).read().strip()
+	print 'dumpversion: %s' % major
+	major = re.sub('^([^.]+)\\..*$', '\\1', major)
+	print 'gcc major: %s' % major
+	return major
+
+gcc_major_ver = gcc_major()
+gcc3 = (gcc_major_ver != '2')
+
+def gcc_is_mingw():
+	mingw = os.popen( CC + ' -dumpmachine' ).read()
+	return re.search('mingw', mingw) != None
+
+if gcc_is_mingw():
+	g_os = 'win32'
+elif cpu == 'ppc':
+	g_os = 'Darwin'
+else:
+	g_os = 'Linux'
+
+print 'os: %s' % g_os
+
+win32_build = ( g_os == 'win32' )
+
+# end arch detection -----------------------------
+
 # save site configuration ----------------------
 
 if ( not ARGUMENTS.has_key( 'NOCONF' ) or ARGUMENTS['NOCONF'] != '1' ):
@@ -202,7 +203,10 @@ if ( not ARGUMENTS.has_key( 'NOCONF' ) or ARGUMENTS['NOCONF'] != '1' ):
 
 # general configuration, target selection --------
 
-g_build = BUILD_ROOT + '/' + BUILD
+if( win32_build ):
+	g_build = BUILD_ROOT + '-mingw/' + BUILD
+else:
+	g_build = BUILD_ROOT + '/' + BUILD
 
 SConsignFile( 'scons.signatures' )
 
@@ -214,7 +218,6 @@ else:
 	LINK = CXX
 
 # common flags
-# BASE + CORE + OPT for engine
 # BASE + GAME + OPT for game
 
 BASECPPFLAGS = [ ]
@@ -228,10 +231,15 @@ CORELINKFLAGS = [ ]
 # for release build, further optimisations that may not work on all files
 OPTCPPFLAGS = [ ]
 
+# pheno: make sure to compile a 32 bit object on a compiler
+#        configured to compile 64 bit objects by default
+if( g_os == 'Linux' ):
+	BASECPPFLAGS += [ '-m32' ]
+	BASELINKFLAGS += [ '-m32' ]
+
 if ( OS == 'Darwin' ):
-	BASECPPFLAGS += [ '-D__MACOS__', '-Wno-long-double', '-Wno-unknown-pragmas', '-Wno-trigraphs', '-fpascal-strings', '-fasm-blocks', '-Wreturn-type', '-Wunused-variable', '-ffast-math', '-fno-unsafe-math-optimizations', '-fvisibility=hidden', '-mmacosx-version-min=10.4', '-isysroot', '/Developer/SDKs/MacOSX10.4u.sdk' ]
-	BASECPPFLAGS += [ '-arch', 'i386' ]
-	BASELINKFLAGS += [ '-arch', 'i386' ]
+	# taken from xcode's default project settings
+	BASECPPFLAGS += [ '-D__MACOS__', '-Wno-long-double', '-arch', 'ppc', '-arch', 'i386', '-fasm-blocks', '-fpascal-strings', '-faltivec', '-Wno-unknown-pragmas' ]
 
 BASECPPFLAGS.append( '-pipe' )
 # warn all
@@ -258,12 +266,12 @@ elif ( BUILD == 'release' ):
 		# -mfpmath=sse -msse ?
 		OPTCPPFLAGS = [ '-O3', '-march=i686', '-Winline', '-ffast-math', '-fomit-frame-pointer', '-finline-functions', '-fschedule-insns2' ]
 	elif ( OS == 'Darwin' ):
-		OPTCPPFLAGS = []
+		OPTCPPFLAGS = [ '-O3', '-falign-functions=16', '-falign-loops=16', '-finline' ]		
 else:
 	print 'Unknown build configuration ' + BUILD
 	sys.exit(0)
 
-# create the build environements
+# create the build environments
 g_base_env = Environment( ENV = os.environ, CC = CC, CXX = CXX, LINK = LINK, CPPFLAGS = BASECPPFLAGS, LINKFLAGS = BASELINKFLAGS, CPPPATH = CORECPPPATH, LIBPATH = CORELIBPATH )
 scons_utils.SetupUtils( g_base_env )
 
@@ -275,7 +283,7 @@ g_env['LINKFLAGS'] += CORELINKFLAGS
 
 if ( OS == 'Darwin' ):
 	# configure for dynamic bundle
-	g_env['SHLINKFLAGS'] = '$LINKFLAGS -bundle -flat_namespace -undefined suppress'
+	g_env['SHLINKFLAGS'] = '$LINKFLAGS -bundle -flat_namespace -undefined suppress -arch ppc -arch i386'
 	g_env['SHLIBSUFFIX'] = '.so'
 
 # maintain this dangerous optimization off at all times
@@ -287,12 +295,7 @@ if ( int(JOBS) > 1 ):
 
 # mark the globals
 
-local_dedicated = 0
-# curl
-local_curl = 0	# config selection
-curl_lib = []
-
-GLOBALS = 'g_env OS g_os BUILD local_dedicated curl_lib local_curl MASTER gcc3 cpu'
+GLOBALS = 'g_env OS g_os win32_build BUILD gcc3 gcc_major_ver cpu GAMERANGER WITH_LUA_SUPPORT'
 
 # end general configuration ----------------------
 
@@ -300,14 +303,14 @@ GLOBALS = 'g_env OS g_os BUILD local_dedicated curl_lib local_curl MASTER gcc3 c
 
 if g_os == 'win32' and os.name != 'nt':
 	# mingw doesn't define the cpu type, but our only target is x86
-	g_env.Append(CPPDEFINES = '_M_IX86=400')
-	g_env.Append(LINKFLAGS = '-static-libgcc')
+	g_env.Append( CPPDEFINES = '_M_IX86=400' )
+	g_env.Append( LINKFLAGS = '-static-libgcc' )
 	# scons doesn't support cross-compiling, so set these up manually
-	g_env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME'] = 1
-	g_env['WIN32DEFSUFFIX']	= '.def'
-	g_env['PROGSUFFIX']	= '.exe'
-	g_env['SHLIBSUFFIX']	= '.dll'
-	g_env['SHCCFLAGS']	= '$CCFLAGS'
+	g_env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME']	= 1
+	g_env['WIN32DEFSUFFIX'] = '.def'
+	g_env['PROGSUFFIX'] = '.exe'
+	g_env['SHLIBSUFFIX'] = '.dll'
+	g_env['SHCCFLAGS'] = '$CCFLAGS'
 
 # end win32 cross compilation ------------------
 
@@ -315,60 +318,32 @@ if g_os == 'win32' and os.name != 'nt':
 
 toplevel_targets = []
 
-# build curl if needed
-if ( TARGET_CORE == '1' and DEDICATED != '1' and OS != 'Darwin' ):
-	# 1: debug, 2: release
-	if ( BUILD == 'release' ):
-		local_curl = 2
-	else:
-		local_curl = 1
-	Export( 'GLOBALS ' + GLOBALS )
-	curl_lib = SConscript( 'SConscript.curl' )
-
-if ( TARGET_CORE == '1' ):
-	if ( DEDICATED == '0' or DEDICATED == '2' ):
-		local_dedicated = 0
-		Export( 'GLOBALS ' + GLOBALS )
-		BuildDir( g_build + '/core', '.', duplicate = 0 )
-		et = SConscript( g_build + '/core/SConscript.core' )
-		if ( g_os == 'win32' ):
-			toplevel_targets.append( InstallAs( '#et.exe', et ) )
-		else:
-			toplevel_targets.append( InstallAs( '#et.' + cpu, et ) )
-
-	if ( DEDICATED == '1' or DEDICATED == '2' ):
-		local_dedicated = 1
-		Export( 'GLOBALS ' + GLOBALS )
-		BuildDir( g_build + '/dedicated', '.', duplicate = 0 )
-		etded = SConscript( g_build + '/dedicated/SConscript.core' )
-		if ( g_os == 'win32' ):
-			toplevel_targets.append( InstallAs( '#etded.exe', etded ) )
-		else:
-			toplevel_targets.append( InstallAs( '#etded.' + cpu, etded ) )
-
-if ( TARGET_BSPC == '1' ):
-	Export( 'GLOBALS ' + GLOBALS )
-	BuildDir( g_build + '/bspc', '.', duplicate = 0 )
-	bspc = SConscript( g_build + '/bspc/SConscript.bspc' )
-	toplevel_targets.append( InstallAs( '#bspc.' + cpu, bspc ) )
-
 if ( TARGET_GAME == '1' ):
 	Export( 'GLOBALS ' + GLOBALS )
-	BuildDir( g_build + '/game', '.', duplicate = 0 )
+	VariantDir( g_build + '/game', '.', duplicate = 0 )
 	game = SConscript( g_build + '/game/SConscript.game' )
-	toplevel_targets.append( InstallAs( '#qagame.mp.%s.so' % dll_cpu, game ) )
+	if( win32_build == 1 ):
+		toplevel_targets.append( InstallAs( '#qagame_mp_x86.dll', game ) )
+	else:
+		toplevel_targets.append( InstallAs( '#qagame.mp.%s.so' % dll_cpu, game ) )
 
 if ( TARGET_CGAME == '1' ):
 	Export( 'GLOBALS ' + GLOBALS )
-	BuildDir( g_build + '/cgame', '.', duplicate = 0 )
+	VariantDir( g_build + '/cgame', '.', duplicate = 0 )
 	cgame = SConscript( g_build + '/cgame/SConscript.cgame' )
-	toplevel_targets.append( InstallAs( '#cgame.mp.%s.so' % dll_cpu, cgame ) )
+	if( win32_build == 1 ):
+		toplevel_targets.append( InstallAs( '#cgame_mp_x86.dll', cgame ) )
+	else:
+		toplevel_targets.append( InstallAs( '#cgame.mp.%s.so' % dll_cpu, cgame ) )
 
 if ( TARGET_UI == '1' ):
 	Export( 'GLOBALS ' + GLOBALS )
-	BuildDir( g_build + '/ui', '.', duplicate = 0 )
+	VariantDir( g_build + '/ui', '.', duplicate = 0 )
 	ui = SConscript( g_build + '/ui/SConscript.ui' )
-	toplevel_targets.append( InstallAs( '#ui.mp.%s.so' % dll_cpu, ui ) )
+	if( win32_build == 1 ):
+		toplevel_targets.append( InstallAs( '#ui_mp_x86.dll', ui ) )
+	else:
+		toplevel_targets.append( InstallAs( '#ui.mp.%s.so' % dll_cpu, ui ) )
 
 class CopyBins(scons_utils.idSetupBase):
 	def copy_bins( self, target, source, env ):
@@ -404,5 +379,14 @@ class MpBin(scons_utils.idSetupBase):
 if ( BUILDMPBIN != '0' ):
 	mp_bin = MpBin()
 	mpbin_target = Command( 'mp_bin', toplevel_targets + copybins_target, Action( mp_bin.mp_bin ) )
+
+class BuildBundle(scons_utils.idSetupBase):
+	def make_bundle( self, target, source, env ):
+		for i in source:
+			self.SimpleCommand( './makebundle.sh %s' % i )
+
+if ( BUILDBUNDLE != '0' ):
+	build_bundle = BuildBundle()
+	bundle_target = Command( 'build_bundle', toplevel_targets, Action( build_bundle.make_bundle ) )
 
 # end targets ------------------------------------
