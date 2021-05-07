@@ -1,12 +1,13 @@
 Wolfenstein Enemy Territory
 	Enemy Territory Frag Modification
-		ETFrag 0.1.0 beta
+		**ETFrag 0.1.0 beta**
 
 	Kim 'Shownie' Reinhold 		Lead Artist
-	Rik 'codePRK' de Roooij 	Lead Programmer
+	Rik 'codePRK' de Rooij 		Lead Programmer
 	Julius 'Remburanto' Guldbog 	Audio Director
 	Thomas 'BackSnip3' Prioul 	Models
 	Bente 'SwatElite' Peters 	Programmer
+---
 
 ETFrag Features:
 ===============

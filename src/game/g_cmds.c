@@ -6276,7 +6276,19 @@ void ClientCommand( int clientNum ) {
 		Cmd_SpawnTurret_f( ent );
 
 	else if (Q_stricmp (cmd, "testturret") == 0)
-		Cmd_TestTurret_f( ent );
+		Cmd_TestTurret_f(ent);
+
+	else if (Q_stricmp(cmd, "addturret") == 0)
+	{
+		ent->AASblocking = qfalse;
+		Cmd_TestTurret_f(ent);
+	}
+
+	else if (Q_stricmp(cmd, "delturret") == 0)
+	{
+		ent->AASblocking = qtrue;
+		Cmd_TestTurret_f(ent);
+	}
 #endif
 #endif
 

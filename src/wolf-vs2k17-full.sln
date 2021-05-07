@@ -2,6 +2,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1145
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wolf", "wolf.vcxproj", "{B604B554-38D6-4BC8-9F7F-D6BC8719A653}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cgame", "cgame\cgame-vs2k8.vcxproj", "{FF6231F7-8857-4300-885B-4EC6BE589725}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "game\game-vs2k8.vcxproj", "{8F3EF8E0-6110-411F-913A-6BBDDD1AD40E}"
@@ -15,8 +17,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "extractfuncs", "extractfuncs\extractfuncs.vcxproj", "{D8A3C382-BCD1-46AE-B5AD-C8538DDD0D3D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "renderer", "renderer\renderer.vcxproj", "{7906CC4F-E230-4049-A3EF-EA7F64E73DDE}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wolf", "wolf.vcxproj", "{B604B554-38D6-4BC8-9F7F-D6BC8719A653}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
