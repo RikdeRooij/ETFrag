@@ -17,9 +17,9 @@
 #define	GAME_VERSION	"Enemy Territory"
 
 #if defined(_DEBUG)
-	#define	GAME_VERSION_DATED			GAME_VERSION
+    #define	GAME_VERSION_DATED			GAME_VERSION
 #else
-	#define	GAME_VERSION_DATED			(GAME_VERSION ", " Q3_VERSION)
+    #define	GAME_VERSION_DATED			(GAME_VERSION ", " Q3_VERSION)
 #endif
 
 //bani
@@ -64,7 +64,7 @@
 
 
 //#define SAVEGAME_SUPPORT	// uncomment to enable savegames
-							// enabling this requires you to run extractfuncs.bat as well before compiling qagame
+                            // enabling this requires you to run extractfuncs.bat as well before compiling qagame
 
 #define SPRINTTIME 20000.0f
 
@@ -163,11 +163,11 @@ extern vec3_t	playerlegsProneMaxs;
 
 // Arnout: different entity states
 typedef enum {
-	STATE_DEFAULT,			// ent is linked, can be used and is solid
-	STATE_INVISIBLE,		// ent is unlinked, can't be used, doesn't think and is not solid
-	STATE_UNDERCONSTRUCTION	// ent is being constructed
+    STATE_DEFAULT,			// ent is linked, can be used and is solid
+    STATE_INVISIBLE,		// ent is unlinked, can't be used, doesn't think and is not solid
+    STATE_UNDERCONSTRUCTION	// ent is being constructed
 #ifdef GS_TURRETS
-	, STATE_CANTBUILDHERE
+    , STATE_CANTBUILDHERE
 #endif
 } entState_t;
 
@@ -191,40 +191,40 @@ typedef enum {
 // New icon based bot action command system
 typedef enum
 {
-	BOT_ACTION_ATTACK = 0,
-	BOT_ACTION_COVER,			// 1
-	BOT_ACTION_MOUNTGUN,		// 2
-	BOT_ACTION_OPENDOOR,		// 3
-	BOT_ACTION_USEDYNAMITE,		// 4
-	BOT_ACTION_DISARM,			// 5
-	BOT_ACTION_CONSTRUCT,		// 6
-	BOT_ACTION_REPAIR,			// 7
-	BOT_ACTION_REVIVE,			// 8
-	BOT_ACTION_GETDISGUISE,		// 9
-	BOT_ACTION_HEAL,			// 10
-	BOT_ACTION_AMMO,			// 11
-	BOT_ACTION_GRENADELAUNCH,	// 12
-	BOT_ACTION_PICKUPITEM,		// 13
-	BOT_ACTION_PANZERFAUST,		// 14
-	BOT_ACTION_FLAMETHROW,		// 15
-	BOT_ACTION_MG42,			// 16
-	BOT_ACTION_MOUNTEDATTACK,	// 17		-- attack when mounted on mg42
-	BOT_ACTION_KNIFEATTACK,		// 18
-	BOT_ACTION_LOCKPICK,		// 19
+    BOT_ACTION_ATTACK = 0,
+    BOT_ACTION_COVER,			// 1
+    BOT_ACTION_MOUNTGUN,		// 2
+    BOT_ACTION_OPENDOOR,		// 3
+    BOT_ACTION_USEDYNAMITE,		// 4
+    BOT_ACTION_DISARM,			// 5
+    BOT_ACTION_CONSTRUCT,		// 6
+    BOT_ACTION_REPAIR,			// 7
+    BOT_ACTION_REVIVE,			// 8
+    BOT_ACTION_GETDISGUISE,		// 9
+    BOT_ACTION_HEAL,			// 10
+    BOT_ACTION_AMMO,			// 11
+    BOT_ACTION_GRENADELAUNCH,	// 12
+    BOT_ACTION_PICKUPITEM,		// 13
+    BOT_ACTION_PANZERFAUST,		// 14
+    BOT_ACTION_FLAMETHROW,		// 15
+    BOT_ACTION_MG42,			// 16
+    BOT_ACTION_MOUNTEDATTACK,	// 17		-- attack when mounted on mg42
+    BOT_ACTION_KNIFEATTACK,		// 18
+    BOT_ACTION_LOCKPICK,		// 19
 
-	BOT_ACTION_MAXENTITY,
+    BOT_ACTION_MAXENTITY,
 
-	// None of these need an entity...
-	BOT_ACTION_RECON = BOT_ACTION_MAXENTITY,	// 20
-	BOT_ACTION_SMOKEBOMB,		// 21
-	BOT_ACTION_FINDMINES,		// 22
-	BOT_ACTION_PLANTMINE,		// 23
-	BOT_ACTION_ARTILLERY,		// 24
-	BOT_ACTION_AIRSTRIKE,		// 25
-	BOT_ACTION_MOVETOLOC,		// 26
+    // None of these need an entity...
+    BOT_ACTION_RECON = BOT_ACTION_MAXENTITY,	// 20
+    BOT_ACTION_SMOKEBOMB,		// 21
+    BOT_ACTION_FINDMINES,		// 22
+    BOT_ACTION_PLANTMINE,		// 23
+    BOT_ACTION_ARTILLERY,		// 24
+    BOT_ACTION_AIRSTRIKE,		// 25
+    BOT_ACTION_MOVETOLOC,		// 26
 
-	// NOTE: if this gets bigger than 32 items, need to make botMenuIcons bigger
-	BOT_ACTION_MAX
+    // NOTE: if this gets bigger than 32 items, need to make botMenuIcons bigger
+    BOT_ACTION_MAX
 } botAction_t;
 // END - TAT 10/21/2002
 
@@ -248,32 +248,32 @@ typedef enum
 #define MAX_GAMETYPES 16
 
 typedef struct {
-	const char *mapName;
-	const char *mapLoadName;
-	const char *imageName;
+    const char *mapName;
+    const char *mapLoadName;
+    const char *imageName;
 
-	int typeBits;
-	int cinematic;
+    int typeBits;
+    int cinematic;
 
-	// Gordon: FIXME: remove
-	const char *opponentName;
-	int teamMembers;
-	int timeToBeat[MAX_GAMETYPES];
+    // Gordon: FIXME: remove
+    const char *opponentName;
+    int teamMembers;
+    int timeToBeat[MAX_GAMETYPES];
 
-	qhandle_t levelShot;
-	qboolean active;
+    qhandle_t levelShot;
+    qboolean active;
 
-	// NERVE - SMF
-	int Timelimit;
-	int AxisRespawnTime;
-	int AlliedRespawnTime;
-	// -NERVE - SMF
+    // NERVE - SMF
+    int Timelimit;
+    int AxisRespawnTime;
+    int AlliedRespawnTime;
+    // -NERVE - SMF
 
-	vec2_t mappos;
+    vec2_t mappos;
 
-	const char *briefing;
-	const char *lmsbriefing;
-	const char *objectives;
+    const char *briefing;
+    const char *lmsbriefing;
+    const char *objectives;
 } mapInfo;
 
 // Campaign saves
@@ -289,54 +289,54 @@ typedef struct {
 #define CPS_VERSION	1
 
 typedef struct {
-	int				mapnameHash;
+    int				mapnameHash;
 } cpsMap_t;
 
 typedef struct {
-	int				shortnameHash;
-	int				progress;
+    int				shortnameHash;
+    int				progress;
 
-	cpsMap_t		maps[MAX_MAPS_PER_CAMPAIGN];
+    cpsMap_t		maps[MAX_MAPS_PER_CAMPAIGN];
 } cpsCampaign_t;
 
 typedef struct {
-	int				ident;
-	int				version;
+    int				ident;
+    int				version;
 
-	int				numCampaigns;
-	int				profileHash;
+    int				numCampaigns;
+    int				profileHash;
 } cpsHeader_t;
 
 typedef struct {
-	cpsHeader_t		header;
-	cpsCampaign_t	campaigns[MAX_CAMPAIGNS];
+    cpsHeader_t		header;
+    cpsCampaign_t	campaigns[MAX_CAMPAIGNS];
 } cpsFile_t;
 
 qboolean BG_LoadCampaignSave( const char *filename, cpsFile_t *file, const char *profile );
 qboolean BG_StoreCampaignSave( const char *filename, cpsFile_t *file, const char *profile );
 
 typedef struct {
-	const char		*campaignShortName;
-	const char		*campaignName;
-	const char		*campaignDescription;
-	const char		*nextCampaignShortName;
-	const char		*maps;
-	int				mapCount;
-	mapInfo			*mapInfos[MAX_MAPS_PER_CAMPAIGN];
-	vec2_t			mapTC[2];
-	cpsCampaign_t	*cpsCampaign; // if this campaign was found in the campaignsave, more detailed info can be found here
+    const char		*campaignShortName;
+    const char		*campaignName;
+    const char		*campaignDescription;
+    const char		*nextCampaignShortName;
+    const char		*maps;
+    int				mapCount;
+    mapInfo			*mapInfos[MAX_MAPS_PER_CAMPAIGN];
+    vec2_t			mapTC[2];
+    cpsCampaign_t	*cpsCampaign; // if this campaign was found in the campaignsave, more detailed info can be found here
 
-	const char		*campaignShotName;
-	int				campaignCinematic;
-	qhandle_t		campaignShot;
+    const char		*campaignShotName;
+    int				campaignCinematic;
+    qhandle_t		campaignShot;
 
-	qboolean		unlocked;
-	int				progress;
-	
-	qboolean		initial;
-	int				order;
+    qboolean		unlocked;
+    int				progress;
+    
+    qboolean		initial;
+    int				order;
 
-	int				typeBits;
+    int				typeBits;
 } campaignInfo_t;
 
 // Random reinforcement seed settings
@@ -435,28 +435,28 @@ extern const unsigned int aReinfSeeds[MAX_REINFSEEDS];
 //#ifndef GAMETYPES
 //#define GAMETYPES
 typedef enum {
-	GT_SINGLE_PLAYER,
-	GT_COOP,
-	GT_WOLF,
-	GT_WOLF_STOPWATCH,
-	GT_WOLF_CAMPAIGN,	// Exactly the same as GT_WOLF, but uses campaign roulation (multiple maps form one virtual map)
-	GT_WOLF_LMS,
-	GT_WOLF_MAPVOTE,
+    GT_SINGLE_PLAYER,
+    GT_COOP,
+    GT_WOLF,
+    GT_WOLF_STOPWATCH,
+    GT_WOLF_CAMPAIGN,	// Exactly the same as GT_WOLF, but uses campaign roulation (multiple maps form one virtual map)
+    GT_WOLF_LMS,
+    GT_WOLF_MAPVOTE,
 #ifdef GS_NEWGAMETYPE
-	GT_WOLF_DM,
+    GT_WOLF_DM,
 #endif
-	GT_MAX_GAME_TYPE
+    GT_MAX_GAME_TYPE
 } gametype_t;
 //#define GAMETYPES
 
 // Rafael gameskill
 /*typedef enum {
-	GSKILL_EASY = 1,
-	GSKILL_MEDIUM,
-	GSKILL_MEDIUMHARD, // normal default level
-	GSKILL_HARD,
-	GSKILL_VERYHARD,
-	GSKILL_MAX		// must always be last
+    GSKILL_EASY = 1,
+    GSKILL_MEDIUM,
+    GSKILL_MEDIUMHARD, // normal default level
+    GSKILL_HARD,
+    GSKILL_VERYHARD,
+    GSKILL_MAX		// must always be last
 } gameskill_t;*/
 
 //#endif // ifndef GAMETYPES
@@ -475,39 +475,39 @@ movement on the server game.
 */
 
 typedef enum {
-	PM_NORMAL,		// can accelerate and turn
+    PM_NORMAL,		// can accelerate and turn
 #ifdef GS_BREAKLEGS
-	PM_LEGSBROKEN,
+    PM_LEGSBROKEN,
 #endif
-	PM_NOCLIP,		// noclip movement
-	PM_SPECTATOR,		// still run into walls
-	PM_DEAD,		// no acceleration or turning, but free falling
-	PM_FREEZE,		// stuck in place with no control
-	PM_INTERMISSION,	// no movement or status bar
-	//PM_PLAYDEAD		// no movement or status bar
+    PM_NOCLIP,		// noclip movement
+    PM_SPECTATOR,		// still run into walls
+    PM_DEAD,		// no acceleration or turning, but free falling
+    PM_FREEZE,		// stuck in place with no control
+    PM_INTERMISSION,	// no movement or status bar
+    //PM_PLAYDEAD		// no movement or status bar
 } pmtype_t;
 
 typedef enum {
-	WEAPON_READY, 
-	WEAPON_RAISING,
-	WEAPON_RAISING_TORELOAD,
-	WEAPON_DROPPING,
-	WEAPON_DROPPING_TORELOAD,
-	WEAPON_READYING,	// getting from 'ready' to 'firing'
-	WEAPON_RELAXING,	// weapon is ready, but since not firing, it's on it's way to a "relaxed" stance
-	WEAPON_FIRING,
-	WEAPON_FIRINGALT,
-	WEAPON_RELOADING,	//----(SA)	added
+    WEAPON_READY, 
+    WEAPON_RAISING,
+    WEAPON_RAISING_TORELOAD,
+    WEAPON_DROPPING,
+    WEAPON_DROPPING_TORELOAD,
+    WEAPON_READYING,	// getting from 'ready' to 'firing'
+    WEAPON_RELAXING,	// weapon is ready, but since not firing, it's on it's way to a "relaxed" stance
+    WEAPON_FIRING,
+    WEAPON_FIRINGALT,
+    WEAPON_RELOADING,	//----(SA)	added
 
-	WEAPON_HOLSTER_IN,
-	WEAPON_HOLSTER_OUT,
+    WEAPON_HOLSTER_IN,
+    WEAPON_HOLSTER_OUT,
 } weaponstate_t;
 
 typedef enum {
-	WSTATE_IDLE,
-	WSTATE_SWITCH,
-	WSTATE_FIRE,
-	WSTATE_RELOAD
+    WSTATE_IDLE,
+    WSTATE_SWITCH,
+    WSTATE_FIRE,
+    WSTATE_RELOAD
 } weaponstateCompact_t;
 
 // pmove->pm_flags	(sent as max 16 bits in msg.c)
@@ -534,114 +534,114 @@ typedef enum {
 #define MAX_VOTE_MAPS 32
 
 typedef struct {
-	qboolean	bAutoReload;		// do we predict autoreload of weapons
+    qboolean	bAutoReload;		// do we predict autoreload of weapons
 
-	int			jumpTime;			// used in MP to prevent jump accel
+    int			jumpTime;			// used in MP to prevent jump accel
 
-	int			weapAnimTimer;		// don't change low priority animations until this runs out		//----(SA)	added
-	int			silencedSideArm;	// Gordon: Keep track of whether the luger/colt is silenced "in holster", prolly want to do this for the kar98 etc too
-	int			sprintTime;
+    int			weapAnimTimer;		// don't change low priority animations until this runs out		//----(SA)	added
+    int			silencedSideArm;	// Gordon: Keep track of whether the luger/colt is silenced "in holster", prolly want to do this for the kar98 etc too
+    int			sprintTime;
 
-	int			airleft;
+    int			airleft;
 
-	// Arnout: MG42 aiming
-	float		varc, harc;
-	vec3_t		centerangles;
+    // Arnout: MG42 aiming
+    float		varc, harc;
+    vec3_t		centerangles;
 
-	int			dtmove;	// doubletap move
+    int			dtmove;	// doubletap move
 
-	int			dodgeTime;
-	int			proneTime;			// time a go-prone or stop-prone move starts, to sync the animation to
+    int			dodgeTime;
+    int			proneTime;			// time a go-prone or stop-prone move starts, to sync the animation to
 
-	int			proneGroundTime;	// time a prone player last had ground under him
-	float		proneLegsOffset;	// offset legs bounding box
+    int			proneGroundTime;	// time a prone player last had ground under him
+    float		proneLegsOffset;	// offset legs bounding box
 
-	vec3_t		mountedWeaponAngles;	// mortar, mg42 (prone), etc
+    vec3_t		mountedWeaponAngles;	// mortar, mg42 (prone), etc
 
-	int			weapRecoilTime;		// Arnout: time at which a weapon that has a recoil kickback has been fired last
-	int			weapRecoilDuration;
-	float		weapRecoilYaw;
-	float		weapRecoilPitch;
-	int			lastRecoilDeltaTime;
-	
-	qboolean	releasedFire;
+    int			weapRecoilTime;		// Arnout: time at which a weapon that has a recoil kickback has been fired last
+    int			weapRecoilDuration;
+    float		weapRecoilYaw;
+    float		weapRecoilPitch;
+    int			lastRecoilDeltaTime;
+    
+    qboolean	releasedFire;
 
-	// tjw: moved these here from playerState because we can't add
-	//      anything to playerState_t without breaking the client
-	
-	// tjw: the number of times the player has dropped the
-	//      objective this life.
-	int objDrops;
+    // tjw: moved these here from playerState because we can't add
+    //      anything to playerState_t without breaking the client
+    
+    // tjw: the number of times the player has dropped the
+    //      objective this life.
+    int objDrops;
 
-	int shoveTime;
+    int shoveTime;
 
-	qboolean disoriented;
-	qboolean wasDisoriented;
-	int knifeThrownTime;
+    qboolean disoriented;
+    qboolean wasDisoriented;
+    int knifeThrownTime;
 
 } pmoveExt_t;	// data used both in client and server - store it here
-				// instead of playerstate to prevent different engine versions of playerstate between XP and MP
+                // instead of playerstate to prevent different engine versions of playerstate between XP and MP
 
 #define	MAXTOUCH	32
 typedef struct {
-	// state (in / out)
-	playerState_t			*ps;
-	pmoveExt_t				*pmext;
-	struct bg_character_s	*character;
+    // state (in / out)
+    playerState_t			*ps;
+    pmoveExt_t				*pmext;
+    struct bg_character_s	*character;
 
-	// command (in)
-	usercmd_t	cmd, oldcmd;
-	int			tracemask;			// collide against these types of surfaces
-	int			debugLevel;			// if set, diagnostic output will be printed
-	qboolean	noFootsteps;		// if the game is setup for no footsteps by the server
-	qboolean	noWeapClips;			// if the game is setup for no weapon clips by the server
-	qboolean	gauntletHit;		// true if a gauntlet attack would actually hit something
+    // command (in)
+    usercmd_t	cmd, oldcmd;
+    int			tracemask;			// collide against these types of surfaces
+    int			debugLevel;			// if set, diagnostic output will be printed
+    qboolean	noFootsteps;		// if the game is setup for no footsteps by the server
+    qboolean	noWeapClips;			// if the game is setup for no weapon clips by the server
+    qboolean	gauntletHit;		// true if a gauntlet attack would actually hit something
 
-	// NERVE - SMF (in)
-	int			gametype;
-	int			ltChargeTime;
-	int			soldierChargeTime;
-	int			engineerChargeTime;
-	int			medicChargeTime;
-	// -NERVE - SMF
-	int			covertopsChargeTime;
+    // NERVE - SMF (in)
+    int			gametype;
+    int			ltChargeTime;
+    int			soldierChargeTime;
+    int			engineerChargeTime;
+    int			medicChargeTime;
+    // -NERVE - SMF
+    int			covertopsChargeTime;
 
-	// results (out)
-	int			numtouch;
-	int			touchents[MAXTOUCH];
+    // results (out)
+    int			numtouch;
+    int			touchents[MAXTOUCH];
 
-	vec3_t		mins, maxs;			// bounding box size
+    vec3_t		mins, maxs;			// bounding box size
 
-	int			watertype;
-	int			waterlevel;
+    int			watertype;
+    int			waterlevel;
 
-	float		xyspeed;
+    float		xyspeed;
 
-	int			*skill;				// player skills
+    int			*skill;				// player skills
 
 #ifdef SAVEGAME_SUPPORT
-	qboolean	reloading;
+    qboolean	reloading;
 #endif // SAVEGAME_SUPPORT
 
 #ifdef GAMEDLL	// the whole stamina thing is only in qagame
-	qboolean	leadership;			// within 512 units of a player with level 5 Signals skill (that player has to be in PVS as well to make sue we can predict it)
+    qboolean	leadership;			// within 512 units of a player with level 5 Signals skill (that player has to be in PVS as well to make sue we can predict it)
 #endif // GAMEDLL
 
-	// for fixed msec Pmove
-	int			pmove_fixed;
-	int			pmove_msec;
+    // for fixed msec Pmove
+    int			pmove_fixed;
+    int			pmove_msec;
 
-	// callbacks to test the world
-	// these will be different functions during game and cgame
-	void		(*trace)( trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentMask );
-	int			(*pointcontents)( const vec3_t point, int passEntityNum );
-	// tjw: used to determine if the player move is for prediction
-	//      if it is, the movement should trigger no events 
-	qboolean predict;
+    // callbacks to test the world
+    // these will be different functions during game and cgame
+    void		(*trace)( trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentMask );
+    int			(*pointcontents)( const vec3_t point, int passEntityNum );
+    // tjw: used to determine if the player move is for prediction
+    //      if it is, the movement should trigger no events 
+    qboolean predict;
 
-	// forty - fixed physics
-	int			fixedphysics;
-	int			fixedphysicsfps;
+    // forty - fixed physics
+    int			fixedphysics;
+    int			fixedphysicsfps;
 } pmove_t;
 
 // if a full pmove isn't done on the client, you can just update the angles
@@ -666,52 +666,52 @@ void PmovePredict(pmove_t *pmove, float frametime);
 
 // player_state->stats[] indexes
 typedef enum {
-	STAT_HEALTH,
-	STAT_KEYS,						// 16 bit fields
-	STAT_DEAD_YAW,					// look this direction when dead (FIXME: get rid of?)
-	STAT_CLIENTS_READY,				// bit mask of clients wishing to exit the intermission (FIXME: configstring?)
-	STAT_MAX_HEALTH,				// health / armor limit, changable by handicap
-	STAT_PLAYER_CLASS,				// DHM - Nerve :: player class in multiplayer
-	STAT_CAPTUREHOLD_RED,			// JPW NERVE - red team score
-	STAT_CAPTUREHOLD_BLUE,			// JPW NERVE - blue team score
-	STAT_XP,						// Gordon: "realtime" version of xp that doesnt need to go thru the scoreboard
-									// josh: these are used to tell the client to snap to the auto-aimed at
-									//       target.
-									//       Well, actually, that's done server-side. These can be used to
-									//       make it smoother, maybe. Might not need them though.
+    STAT_HEALTH,
+    STAT_KEYS,						// 16 bit fields
+    STAT_DEAD_YAW,					// look this direction when dead (FIXME: get rid of?)
+    STAT_CLIENTS_READY,				// bit mask of clients wishing to exit the intermission (FIXME: configstring?)
+    STAT_MAX_HEALTH,				// health / armor limit, changable by handicap
+    STAT_PLAYER_CLASS,				// DHM - Nerve :: player class in multiplayer
+    STAT_CAPTUREHOLD_RED,			// JPW NERVE - red team score
+    STAT_CAPTUREHOLD_BLUE,			// JPW NERVE - blue team score
+    STAT_XP,						// Gordon: "realtime" version of xp that doesnt need to go thru the scoreboard
+                                    // josh: these are used to tell the client to snap to the auto-aimed at
+                                    //       target.
+                                    //       Well, actually, that's done server-side. These can be used to
+                                    //       make it smoother, maybe. Might not need them though.
 
 
-	STAT_XP_OVERFLOW				// redeye - count XP overflow(every 2^15)
+    STAT_XP_OVERFLOW				// redeye - count XP overflow(every 2^15)
 } statIndex_t;
 
 // player_state->persistant[] indexes
 // these fields are the only part of player_state that isn't
 // cleared on respawn
 typedef enum {
-	PERS_SCORE,						// !!! MUST NOT CHANGE, SERVER AND GAME BOTH REFERENCE !!!
-	PERS_HITS,						// total points damage inflicted so damage beeps can sound on change
-	PERS_RANK,				
-	PERS_TEAM,				
-	PERS_SPAWN_COUNT,				// incremented every respawn
-	PERS_ATTACKER,					// clientnum of last damage inflicter
-	PERS_KILLED,					// count of the number of times you died
-	// these were added for single player awards tracking
-	PERS_RESPAWNS_LEFT,				// DHM - Nerve :: number of remaining respawns
-	PERS_RESPAWNS_PENALTY,			// how many respawns you have to sit through before respawning again
+    PERS_SCORE,						// !!! MUST NOT CHANGE, SERVER AND GAME BOTH REFERENCE !!!
+    PERS_HITS,						// total points damage inflicted so damage beeps can sound on change
+    PERS_RANK,				
+    PERS_TEAM,				
+    PERS_SPAWN_COUNT,				// incremented every respawn
+    PERS_ATTACKER,					// clientnum of last damage inflicter
+    PERS_KILLED,					// count of the number of times you died
+    // these were added for single player awards tracking
+    PERS_RESPAWNS_LEFT,				// DHM - Nerve :: number of remaining respawns
+    PERS_RESPAWNS_PENALTY,			// how many respawns you have to sit through before respawning again
 
-	PERS_REVIVE_COUNT,
+    PERS_REVIVE_COUNT,
 //	PERS_BLEH_2,
 //	PERS_BLEH_3,
 
-	// Rafael - mg42		// (SA) I don't understand these here.  can someone explain?
-	PERS_HWEAPON_USE,
-	// Rafael wolfkick
+    // Rafael - mg42		// (SA) I don't understand these here.  can someone explain?
+    PERS_HWEAPON_USE,
+    // Rafael wolfkick
 //	PERS_WOLFKICK
 
 
-	PERS_HEADSHOTS,					// hitsounds
-	PERS_KILLSPREE,					// killing spree as a number
-	PERS_KILLS,						// total kills as a number
+    PERS_HEADSHOTS,					// hitsounds
+    PERS_KILLSPREE,					// killing spree as a number
+    PERS_KILLS,						// total kills as a number
 
 } persEnum_t;
 
@@ -770,93 +770,93 @@ typedef enum {
 
 // !! NOTE: only place flags that don't need to go to the client beyond 0x00800000
 typedef enum {
-	PW_NONE,
+    PW_NONE,
 
-	// (SA) for Wolf
-	PW_INVULNERABLE,
-	PW_FIRE,			//----(SA)	
-	PW_ELECTRIC,		//----(SA)	
-	PW_BREATHER,		//----(SA)	
-	PW_NOFATIGUE,		//----(SA)	
+    // (SA) for Wolf
+    PW_INVULNERABLE,
+    PW_FIRE,			//----(SA)	
+    PW_ELECTRIC,		//----(SA)	
+    PW_BREATHER,		//----(SA)	
+    PW_NOFATIGUE,		//----(SA)	
 
-	PW_REDFLAG,
-	PW_BLUEFLAG,
+    PW_REDFLAG,
+    PW_BLUEFLAG,
 
-	PW_OPS_DISGUISED,
-	PW_OPS_CLASS_1,
-	PW_OPS_CLASS_2,
-	PW_OPS_CLASS_3,
+    PW_OPS_DISGUISED,
+    PW_OPS_CLASS_1,
+    PW_OPS_CLASS_2,
+    PW_OPS_CLASS_3,
 
-	PW_ADRENALINE,
+    PW_ADRENALINE,
 
-	PW_BLACKOUT = 14,		// OSP - spec blackouts. FIXME: we don't need 32bits here...relocate
-	PW_MVCLIENTLIST = 15,	// OSP - MV client info.. need a full 32 bits
+    PW_BLACKOUT = 14,		// OSP - spec blackouts. FIXME: we don't need 32bits here...relocate
+    PW_MVCLIENTLIST = 15,	// OSP - MV client info.. need a full 32 bits
 
 
-	PW_NUM_POWERUPS
+    PW_NUM_POWERUPS
 } powerup_t;
 
 typedef enum {
-	//----(SA)	These will probably all change to INV_n to get the word 'key' out of the game.
-	//			id and DM don't want references to 'keys' in the game.
-	//			I'll change to 'INV' as the item becomes 'permanent' and not a test item.
+    //----(SA)	These will probably all change to INV_n to get the word 'key' out of the game.
+    //			id and DM don't want references to 'keys' in the game.
+    //			I'll change to 'INV' as the item becomes 'permanent' and not a test item.
 
-	
-	KEY_NONE,
-	KEY_1,		// skull
-	KEY_2,		// chalice
-	KEY_3,		// eye
-	KEY_4,		// field radio
-	KEY_5,		// satchel charge
-	INV_BINOCS,	// binoculars
-	KEY_7,
-	KEY_8,
-	KEY_9,
-	KEY_10,
-	KEY_11,
-	KEY_12,
-	KEY_13,
-	KEY_14,
-	KEY_15,
-	KEY_16,
-	KEY_LOCKED_PICKABLE, // Mad Doc - TDF: ent can be unlocked with the WP_LOCKPICK. 
-	KEY_NUM_KEYS
+    
+    KEY_NONE,
+    KEY_1,		// skull
+    KEY_2,		// chalice
+    KEY_3,		// eye
+    KEY_4,		// field radio
+    KEY_5,		// satchel charge
+    INV_BINOCS,	// binoculars
+    KEY_7,
+    KEY_8,
+    KEY_9,
+    KEY_10,
+    KEY_11,
+    KEY_12,
+    KEY_13,
+    KEY_14,
+    KEY_15,
+    KEY_16,
+    KEY_LOCKED_PICKABLE, // Mad Doc - TDF: ent can be unlocked with the WP_LOCKPICK. 
+    KEY_NUM_KEYS
 } wkey_t;			// conflicts with types.h
 
 typedef enum {
-	HI_NONE,
+    HI_NONE,
 
 //	HI_TELEPORTER,
-	HI_MEDKIT,
+    HI_MEDKIT,
 
-	// new for Wolf
-	HI_WINE,
-	HI_SKULL,
-	HI_WATER,
-	HI_ELECTRIC,
-	HI_FIRE,
-	HI_STAMINA,
-	HI_BOOK1,	//----(SA)	added
-	HI_BOOK2,	//----(SA)	added
-	HI_BOOK3,	//----(SA)	added
-	HI_11,
-	HI_12,
-	HI_13,
-	HI_14,
+    // new for Wolf
+    HI_WINE,
+    HI_SKULL,
+    HI_WATER,
+    HI_ELECTRIC,
+    HI_FIRE,
+    HI_STAMINA,
+    HI_BOOK1,	//----(SA)	added
+    HI_BOOK2,	//----(SA)	added
+    HI_BOOK3,	//----(SA)	added
+    HI_11,
+    HI_12,
+    HI_13,
+    HI_14,
 //	HI_15,	// ?
 
-	HI_NUM_HOLDABLE
+    HI_NUM_HOLDABLE
 } holdable_t;
 
 #ifdef KITS
 // START Mad Doc - TDF
 // for kits dropped by allied bots in SP
 typeef enum {
-	KIT_SOLDIER,
-	KIT_MEDIC,
-	KIT_ENGINEER,
-	KIT_LT,
-	KIT_COVERTOPS
+    KIT_SOLDIER,
+    KIT_MEDIC,
+    KIT_ENGINEER,
+    KIT_LT,
+    KIT_COVERTOPS
 } kit_t;
 // END Mad Doc - TDF
 #endif
@@ -865,71 +865,71 @@ typeef enum {
 // SA NOTE: should be 31 now (I added 1 bit in msg.c)
 // RF NOTE: if this changes, please update etmain\botfiles\inv.h
 typedef enum {
-	WP_NONE,				// 0
-	WP_KNIFE,				// 1
-	WP_LUGER,				// 2
-	WP_MP40,				// 3
-	WP_GRENADE_LAUNCHER,	// 4
-	WP_PANZERFAUST,			// 5
-	WP_FLAMETHROWER,		// 6
+    WP_NONE,				// 0
+    WP_KNIFE,				// 1
+    WP_LUGER,				// 2
+    WP_MP40,				// 3
+    WP_GRENADE_LAUNCHER,	// 4
+    WP_PANZERFAUST,			// 5
+    WP_FLAMETHROWER,		// 6
 
-	WP_COLT,				// 7	// equivalent american weapon to german luger
-	WP_THOMPSON,			// 8	// equivalent american weapon to german mp40
-	WP_GRENADE_PINEAPPLE,	// 9
-	WP_STEN,				// 10	// silenced sten sub-machinegun
-	WP_MEDIC_SYRINGE,		// 11	// JPW NERVE -- broken out from CLASS_SPECIAL per Id request
-	WP_AMMO,				// 12	// JPW NERVE likewise
-	WP_ARTY,				// 13
+    WP_COLT,				// 7	// equivalent american weapon to german luger
+    WP_THOMPSON,			// 8	// equivalent american weapon to german mp40
+    WP_GRENADE_PINEAPPLE,	// 9
+    WP_STEN,				// 10	// silenced sten sub-machinegun
+    WP_MEDIC_SYRINGE,		// 11	// JPW NERVE -- broken out from CLASS_SPECIAL per Id request
+    WP_AMMO,				// 12	// JPW NERVE likewise
+    WP_ARTY,				// 13
 
-	WP_SILENCER,			// 14	// used to be sp5
-	WP_DYNAMITE,			// 15
-	WP_SMOKETRAIL,			// 16
-	WP_MAPMORTAR,			// 17	
-	VERYBIGEXPLOSION,		// 18	// explosion effect for airplanes
-	WP_MEDKIT,				// 19
-	WP_BINOCULARS,			// 20
+    WP_SILENCER,			// 14	// used to be sp5
+    WP_DYNAMITE,			// 15
+    WP_SMOKETRAIL,			// 16
+    WP_MAPMORTAR,			// 17	
+    VERYBIGEXPLOSION,		// 18	// explosion effect for airplanes
+    WP_MEDKIT,				// 19
+    WP_BINOCULARS,			// 20
 
-	WP_PLIERS,				// 21
-	WP_SMOKE_MARKER,		// 22	// Arnout: changed name to cause less confusion
-	WP_KAR98,				// 23	// WolfXP weapons
-	WP_CARBINE,				// 24
-	WP_GARAND,				// 25
-	WP_LANDMINE,			// 26
-	WP_SATCHEL,				// 27
-	WP_SATCHEL_DET,			// 28
-	WP_TRIPMINE,			// 29
-	WP_SMOKE_BOMB,			// 30
+    WP_PLIERS,				// 21
+    WP_SMOKE_MARKER,		// 22	// Arnout: changed name to cause less confusion
+    WP_KAR98,				// 23	// WolfXP weapons
+    WP_CARBINE,				// 24
+    WP_GARAND,				// 25
+    WP_LANDMINE,			// 26
+    WP_SATCHEL,				// 27
+    WP_SATCHEL_DET,			// 28
+    WP_TRIPMINE,			// 29
+    WP_SMOKE_BOMB,			// 30
 
-	WP_MOBILE_MG42,			// 31
-	WP_K43,					// 32
-	WP_FG42,				// 33
-	WP_DUMMY_MG42,          // 34 // Gordon: for storing heat on mounted mg42s...
-	WP_MORTAR,				// 35
-	WP_LOCKPICK,			// 36	// Mad Doc - TDF lockpick
-	WP_AKIMBO_COLT,			// 37
-	WP_AKIMBO_LUGER,		// 38
+    WP_MOBILE_MG42,			// 31
+    WP_K43,					// 32
+    WP_FG42,				// 33
+    WP_DUMMY_MG42,          // 34 // Gordon: for storing heat on mounted mg42s...
+    WP_MORTAR,				// 35
+    WP_LOCKPICK,			// 36	// Mad Doc - TDF lockpick
+    WP_AKIMBO_COLT,			// 37
+    WP_AKIMBO_LUGER,		// 38
 
 // Gordon: ONLY secondaries below this mark, as they are checked >= WP_GPG40 && < WP_NUM_WEAPONS
 
-	WP_GPG40,				// 39
+    WP_GPG40,				// 39
 
-	WP_M7,					// 40
-	WP_SILENCED_COLT,		// 41
-	WP_GARAND_SCOPE,		// 42
-	WP_K43_SCOPE,			// 43
-	WP_FG42SCOPE,			// 44
-	WP_MORTAR_SET,			// 45
-	WP_MEDIC_ADRENALINE,	// 46
-	WP_AKIMBO_SILENCEDCOLT,	// 47
-	WP_AKIMBO_SILENCEDLUGER,// 48
-	WP_MOBILE_MG42_SET,		// 49
+    WP_M7,					// 40
+    WP_SILENCED_COLT,		// 41
+    WP_GARAND_SCOPE,		// 42
+    WP_K43_SCOPE,			// 43
+    WP_FG42SCOPE,			// 44
+    WP_MORTAR_SET,			// 45
+    WP_MEDIC_ADRENALINE,	// 46
+    WP_AKIMBO_SILENCEDCOLT,	// 47
+    WP_AKIMBO_SILENCEDLUGER,// 48
+    WP_MOBILE_MG42_SET,		// 49
 
 #ifdef GS_TURRETS
-	WP_TURRET,
+    WP_TURRET,
 #endif
 
-	WP_NUM_WEAPONS			// WolfMP: 32 WolfXP: 50
-							// NOTE: this cannot be larger than 64 for AI/player weapons!
+    WP_NUM_WEAPONS			// WolfMP: 32 WolfXP: 50
+                            // NOTE: this cannot be larger than 64 for AI/player weapons!
 } weapon_t;
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -987,26 +987,26 @@ extern int weapBanksMultiPlayer[MAX_WEAP_BANKS_MP][MAX_WEAPS_IN_BANK_MP];
 extern int reloadableWeapons[];
 
 typedef struct {
-	int kills, teamkills, killedby;
+    int kills, teamkills, killedby;
 } weaponStats_t;
 
 typedef enum {
-	HR_HEAD,
-	HR_ARMS,
-	HR_BODY,
-	HR_LEGS,
-	HR_NUM_HITREGIONS,
+    HR_HEAD,
+    HR_ARMS,
+    HR_BODY,
+    HR_LEGS,
+    HR_NUM_HITREGIONS,
 } hitRegion_t;
 
 typedef enum {
-	SK_BATTLE_SENSE,
-	SK_EXPLOSIVES_AND_CONSTRUCTION,					// engi
-	SK_FIRST_AID,									// medic
-	SK_SIGNALS,										// fieldops
-	SK_LIGHT_WEAPONS,
-	SK_HEAVY_WEAPONS,								// soldier
-	SK_MILITARY_INTELLIGENCE_AND_SCOPED_WEAPONS,	// covertops
-	SK_NUM_SKILLS
+    SK_BATTLE_SENSE,
+    SK_EXPLOSIVES_AND_CONSTRUCTION,					// engi
+    SK_FIRST_AID,									// medic
+    SK_SIGNALS,										// fieldops
+    SK_LIGHT_WEAPONS,
+    SK_HEAVY_WEAPONS,								// soldier
+    SK_MILITARY_INTELLIGENCE_AND_SCOPED_WEAPONS,	// covertops
+    SK_NUM_SKILLS
 } skillType_t;
 
 extern const char* skillNames[SK_NUM_SKILLS];
@@ -1027,26 +1027,26 @@ extern const int skillLevels[NUM_SKILL_LEVELS];
 extern char* bg_skillRewards[SK_NUM_SKILLS][NUM_SKILL_LEVELS-1];
 
 typedef struct {
-	weaponStats_t	weaponStats[WP_NUM_WEAPONS];
-	int				suicides;
-	int				hitRegions[HR_NUM_HITREGIONS];
-	int				objectiveStats[MAX_OBJECTIVES];
+    weaponStats_t	weaponStats[WP_NUM_WEAPONS];
+    int				suicides;
+    int				hitRegions[HR_NUM_HITREGIONS];
+    int				objectiveStats[MAX_OBJECTIVES];
 } playerStats_t;
 
 typedef struct ammotable_s {
-	int		maxammo;		// 
-	int		uses;			// 
-	int		maxclip;		// 
-	int		defaultStartingAmmo;	// Mad Doc - TDF
-	int		defaultStartingClip;	// Mad Doc - TDF
-	int		reloadTime;		// 
-	int		fireDelayTime;	// 
-	int		nextShotTime;	// 
+    int		maxammo;		// 
+    int		uses;			// 
+    int		maxclip;		// 
+    int		defaultStartingAmmo;	// Mad Doc - TDF
+    int		defaultStartingClip;	// Mad Doc - TDF
+    int		reloadTime;		// 
+    int		fireDelayTime;	// 
+    int		nextShotTime;	// 
 //----(SA)	added
-	int		maxHeat;		// max active firing time before weapon 'overheats' (at which point the weapon will fail)
-	int		coolRate;		// how fast the weapon cools down. (per second)
+    int		maxHeat;		// max active firing time before weapon 'overheats' (at which point the weapon will fail)
+    int		coolRate;		// how fast the weapon cools down. (per second)
 //----(SA)	end
-	int		mod;			// means of death
+    int		mod;			// means of death
 } ammotable_t;
 
 
@@ -1066,15 +1066,15 @@ extern int weapAlts[];	// defined in bg_misc.c
 // NOTE: what about WP_VENOM and other XP weapons?
 // rain - #81 - added added akimbo weapons and deployed MG42
 #define IS_AUTORELOAD_WEAPON(weapon) \
-			(	\
-				weapon==WP_LUGER	|| weapon==WP_COLT			|| weapon==WP_MP40			|| \
-				weapon==WP_THOMPSON	|| weapon==WP_STEN		|| \
-				weapon==WP_KAR98	|| weapon==WP_CARBINE		|| weapon==WP_GARAND_SCOPE	|| \
-				weapon==WP_FG42		|| weapon==WP_K43			|| weapon==WP_MOBILE_MG42	|| \
-				weapon==WP_SILENCED_COLT	|| weapon==WP_SILENCER		|| \
-				weapon==WP_GARAND	|| weapon==WP_K43_SCOPE		|| weapon==WP_FG42SCOPE		|| \
-				BG_IsAkimboWeapon(weapon) || weapon==WP_MOBILE_MG42_SET \
-			)
+            (	\
+                weapon==WP_LUGER	|| weapon==WP_COLT			|| weapon==WP_MP40			|| \
+                weapon==WP_THOMPSON	|| weapon==WP_STEN		|| \
+                weapon==WP_KAR98	|| weapon==WP_CARBINE		|| weapon==WP_GARAND_SCOPE	|| \
+                weapon==WP_FG42		|| weapon==WP_K43			|| weapon==WP_MOBILE_MG42	|| \
+                weapon==WP_SILENCED_COLT	|| weapon==WP_SILENCER		|| \
+                weapon==WP_GARAND	|| weapon==WP_K43_SCOPE		|| weapon==WP_FG42SCOPE		|| \
+                BG_IsAkimboWeapon(weapon) || weapon==WP_MOBILE_MG42_SET \
+            )
 
 // entityState_t->event values
 // entity events are for effects that take place reletive
@@ -1090,297 +1090,297 @@ extern int weapAlts[];	// defined in bg_misc.c
 #define	EV_EVENT_BITS		(EV_EVENT_BIT1|EV_EVENT_BIT2)
 
 typedef enum {
-	EV_NONE,
-	EV_FOOTSTEP,
-	EV_FOOTSTEP_METAL,
-	EV_FOOTSTEP_WOOD,
-	EV_FOOTSTEP_GRASS,
-	EV_FOOTSTEP_GRAVEL,
-	EV_FOOTSTEP_ROOF,
-	EV_FOOTSTEP_SNOW,
-	EV_FOOTSTEP_CARPET,
-	EV_FOOTSPLASH,
-	EV_FOOTWADE,
-	EV_SWIM,
-	EV_STEP_4,
-	EV_STEP_8,
-	EV_STEP_12,
-	EV_STEP_16,
-	EV_FALL_SHORT,
-	EV_FALL_MEDIUM,
-	EV_FALL_FAR,
-	EV_FALL_NDIE,
-	EV_FALL_DMG_10,
-	EV_FALL_DMG_15,
-	EV_FALL_DMG_25,
-	EV_FALL_DMG_50,
-	EV_JUMP,
-	EV_WATER_TOUCH,	// foot touches
-	EV_WATER_LEAVE,	// foot leaves
-	EV_WATER_UNDER,	// head touches
-	EV_WATER_CLEAR,	// head leaves
-	EV_ITEM_PICKUP,			// normal item pickups are predictable
-	EV_ITEM_PICKUP_QUIET,	// (SA) same, but don't play the default pickup sound as it was specified in the ent
-	EV_GLOBAL_ITEM_PICKUP,	// powerup / team sounds are broadcast to everyone
-	EV_NOAMMO,
-	EV_WEAPONSWITCHED,
-	EV_EMPTYCLIP,
-	EV_FILL_CLIP,
-	EV_MG42_FIXED, // JPW NERVE
-	EV_WEAP_OVERHEAT,
-	EV_CHANGE_WEAPON,
-	EV_CHANGE_WEAPON_2,
-	EV_FIRE_WEAPON,
-	EV_FIRE_WEAPONB,
-	EV_FIRE_WEAPON_LASTSHOT,
-	EV_NOFIRE_UNDERWATER,
-	EV_FIRE_WEAPON_MG42,
-	EV_FIRE_WEAPON_MOUNTEDMG42,
-	EV_ITEM_RESPAWN,
-	EV_ITEM_POP,
-	EV_PLAYER_TELEPORT_IN,
-	EV_PLAYER_TELEPORT_OUT,
-	EV_GRENADE_BOUNCE,		// eventParm will be the soundindex
-	EV_GENERAL_SOUND,
-	EV_GENERAL_SOUND_VOLUME,
-	EV_GLOBAL_SOUND,		// no attenuation
-	EV_GLOBAL_CLIENT_SOUND,	// DHM - Nerve :: no attenuation, only plays for specified client
-	EV_GLOBAL_TEAM_SOUND,	// no attenuation, team only
-	EV_FX_SOUND,
-	EV_BULLET_HIT_FLESH,
-	EV_BULLET_HIT_WALL,
-	EV_MISSILE_HIT,
-	EV_MISSILE_MISS,
-	EV_RAILTRAIL,
-	EV_VENOM,
-	EV_BULLET,				// otherEntity is the shooter
-	EV_LOSE_HAT,			//----(SA)	
-	EV_PAIN,
-	EV_CROUCH_PAIN,
-	EV_DEATH1,
-	EV_DEATH2,
-	EV_DEATH3,
-	EV_OBITUARY,
-	EV_STOPSTREAMINGSOUND, // JPW NERVE swiped from sherman
-	EV_POWERUP_QUAD,
-	EV_POWERUP_BATTLESUIT,
-	EV_POWERUP_REGEN,
-	EV_GIB_PLAYER,			// gib a previously living player
-	EV_DEBUG_LINE,
-	EV_STOPLOOPINGSOUND,
-	EV_TAUNT,
-	EV_SMOKE,
-	EV_SPARKS,
-	EV_SPARKS_ELECTRIC,
-	EV_EXPLODE,		// func_explosive
-	EV_RUBBLE,
-	EV_EFFECT,		// target_effect
-	EV_MORTAREFX,	// mortar firing
-	EV_SPINUP,	// JPW NERVE panzerfaust preamble
-	EV_SNOW_ON,
-	EV_SNOW_OFF,
-	EV_MISSILE_MISS_SMALL,
-	EV_MISSILE_MISS_LARGE,
-	EV_MORTAR_IMPACT,
-	EV_MORTAR_MISS,
-	EV_SPIT_HIT,
-	EV_SPIT_MISS,
-	EV_SHARD,
-	EV_JUNK,
-	EV_EMITTER,	//----(SA)	added // generic particle emitter that uses client-side particle scripts
-	EV_OILPARTICLES,
-	EV_OILSLICK,
-	EV_OILSLICKREMOVE,
-	EV_MG42EFX,
-	EV_FLAKGUN1,
-	EV_FLAKGUN2,
-	EV_FLAKGUN3,
-	EV_FLAKGUN4,
-	EV_EXERT1,
-	EV_EXERT2,
-	EV_EXERT3,
-	EV_SNOWFLURRY,
-	EV_CONCUSSIVE,
-	EV_DUST,
-	EV_RUMBLE_EFX,
-	EV_GUNSPARKS,
-	EV_FLAMETHROWER_EFFECT,
-	EV_POPUP,
-	EV_POPUPBOOK,
-	EV_GIVEPAGE,
-	EV_MG42BULLET_HIT_FLESH,	// Arnout: these two send the seed as well
-	EV_MG42BULLET_HIT_WALL,
-	EV_SHAKE,
-	EV_DISGUISE_SOUND,
-	EV_BUILDDECAYED_SOUND,
-	EV_FIRE_WEAPON_AAGUN,
-	EV_DEBRIS,
-	EV_ALERT_SPEAKER,
-	EV_POPUPMESSAGE,
-	EV_ARTYMESSAGE,
-	EV_AIRSTRIKEMESSAGE,
-	EV_MEDIC_CALL,
-	EV_BOT_DEBUG_LINE,
-	EV_BOT_DEBUG_RADIUS,
-	EV_MAX_EVENTS	// just added as an 'endcap'
+    EV_NONE,
+    EV_FOOTSTEP,
+    EV_FOOTSTEP_METAL,
+    EV_FOOTSTEP_WOOD,
+    EV_FOOTSTEP_GRASS,
+    EV_FOOTSTEP_GRAVEL,
+    EV_FOOTSTEP_ROOF,
+    EV_FOOTSTEP_SNOW,
+    EV_FOOTSTEP_CARPET,
+    EV_FOOTSPLASH,
+    EV_FOOTWADE,
+    EV_SWIM,
+    EV_STEP_4,
+    EV_STEP_8,
+    EV_STEP_12,
+    EV_STEP_16,
+    EV_FALL_SHORT,
+    EV_FALL_MEDIUM,
+    EV_FALL_FAR,
+    EV_FALL_NDIE,
+    EV_FALL_DMG_10,
+    EV_FALL_DMG_15,
+    EV_FALL_DMG_25,
+    EV_FALL_DMG_50,
+    EV_JUMP,
+    EV_WATER_TOUCH,	// foot touches
+    EV_WATER_LEAVE,	// foot leaves
+    EV_WATER_UNDER,	// head touches
+    EV_WATER_CLEAR,	// head leaves
+    EV_ITEM_PICKUP,			// normal item pickups are predictable
+    EV_ITEM_PICKUP_QUIET,	// (SA) same, but don't play the default pickup sound as it was specified in the ent
+    EV_GLOBAL_ITEM_PICKUP,	// powerup / team sounds are broadcast to everyone
+    EV_NOAMMO,
+    EV_WEAPONSWITCHED,
+    EV_EMPTYCLIP,
+    EV_FILL_CLIP,
+    EV_MG42_FIXED, // JPW NERVE
+    EV_WEAP_OVERHEAT,
+    EV_CHANGE_WEAPON,
+    EV_CHANGE_WEAPON_2,
+    EV_FIRE_WEAPON,
+    EV_FIRE_WEAPONB,
+    EV_FIRE_WEAPON_LASTSHOT,
+    EV_NOFIRE_UNDERWATER,
+    EV_FIRE_WEAPON_MG42,
+    EV_FIRE_WEAPON_MOUNTEDMG42,
+    EV_ITEM_RESPAWN,
+    EV_ITEM_POP,
+    EV_PLAYER_TELEPORT_IN,
+    EV_PLAYER_TELEPORT_OUT,
+    EV_GRENADE_BOUNCE,		// eventParm will be the soundindex
+    EV_GENERAL_SOUND,
+    EV_GENERAL_SOUND_VOLUME,
+    EV_GLOBAL_SOUND,		// no attenuation
+    EV_GLOBAL_CLIENT_SOUND,	// DHM - Nerve :: no attenuation, only plays for specified client
+    EV_GLOBAL_TEAM_SOUND,	// no attenuation, team only
+    EV_FX_SOUND,
+    EV_BULLET_HIT_FLESH,
+    EV_BULLET_HIT_WALL,
+    EV_MISSILE_HIT,
+    EV_MISSILE_MISS,
+    EV_RAILTRAIL,
+    EV_VENOM,
+    EV_BULLET,				// otherEntity is the shooter
+    EV_LOSE_HAT,			//----(SA)	
+    EV_PAIN,
+    EV_CROUCH_PAIN,
+    EV_DEATH1,
+    EV_DEATH2,
+    EV_DEATH3,
+    EV_OBITUARY,
+    EV_STOPSTREAMINGSOUND, // JPW NERVE swiped from sherman
+    EV_POWERUP_QUAD,
+    EV_POWERUP_BATTLESUIT,
+    EV_POWERUP_REGEN,
+    EV_GIB_PLAYER,			// gib a previously living player
+    EV_DEBUG_LINE,
+    EV_STOPLOOPINGSOUND,
+    EV_TAUNT,
+    EV_SMOKE,
+    EV_SPARKS,
+    EV_SPARKS_ELECTRIC,
+    EV_EXPLODE,		// func_explosive
+    EV_RUBBLE,
+    EV_EFFECT,		// target_effect
+    EV_MORTAREFX,	// mortar firing
+    EV_SPINUP,	// JPW NERVE panzerfaust preamble
+    EV_SNOW_ON,
+    EV_SNOW_OFF,
+    EV_MISSILE_MISS_SMALL,
+    EV_MISSILE_MISS_LARGE,
+    EV_MORTAR_IMPACT,
+    EV_MORTAR_MISS,
+    EV_SPIT_HIT,
+    EV_SPIT_MISS,
+    EV_SHARD,
+    EV_JUNK,
+    EV_EMITTER,	//----(SA)	added // generic particle emitter that uses client-side particle scripts
+    EV_OILPARTICLES,
+    EV_OILSLICK,
+    EV_OILSLICKREMOVE,
+    EV_MG42EFX,
+    EV_FLAKGUN1,
+    EV_FLAKGUN2,
+    EV_FLAKGUN3,
+    EV_FLAKGUN4,
+    EV_EXERT1,
+    EV_EXERT2,
+    EV_EXERT3,
+    EV_SNOWFLURRY,
+    EV_CONCUSSIVE,
+    EV_DUST,
+    EV_RUMBLE_EFX,
+    EV_GUNSPARKS,
+    EV_FLAMETHROWER_EFFECT,
+    EV_POPUP,
+    EV_POPUPBOOK,
+    EV_GIVEPAGE,
+    EV_MG42BULLET_HIT_FLESH,	// Arnout: these two send the seed as well
+    EV_MG42BULLET_HIT_WALL,
+    EV_SHAKE,
+    EV_DISGUISE_SOUND,
+    EV_BUILDDECAYED_SOUND,
+    EV_FIRE_WEAPON_AAGUN,
+    EV_DEBRIS,
+    EV_ALERT_SPEAKER,
+    EV_POPUPMESSAGE,
+    EV_ARTYMESSAGE,
+    EV_AIRSTRIKEMESSAGE,
+    EV_MEDIC_CALL,
+    EV_BOT_DEBUG_LINE,
+    EV_BOT_DEBUG_RADIUS,
+    EV_MAX_EVENTS	// just added as an 'endcap'
 } entity_event_t;
 
 
 // new (10/18/00)
 typedef enum {
-	BOTH_DEATH1,
-	BOTH_DEAD1,
-	BOTH_DEAD1_WATER,
-	BOTH_DEATH2,
-	BOTH_DEAD2,
-	BOTH_DEAD2_WATER,
-	BOTH_DEATH3,
-	BOTH_DEAD3,
-	BOTH_DEAD3_WATER,
+    BOTH_DEATH1,
+    BOTH_DEAD1,
+    BOTH_DEAD1_WATER,
+    BOTH_DEATH2,
+    BOTH_DEAD2,
+    BOTH_DEAD2_WATER,
+    BOTH_DEATH3,
+    BOTH_DEAD3,
+    BOTH_DEAD3_WATER,
 
-	BOTH_CLIMB,
+    BOTH_CLIMB,
 /*10*/	BOTH_CLIMB_DOWN,
-	BOTH_CLIMB_DISMOUNT,
+    BOTH_CLIMB_DISMOUNT,
 
-	BOTH_SALUTE,
-	
-	BOTH_PAIN1,		// head
-	BOTH_PAIN2,		// chest
-	BOTH_PAIN3,		// groin
-	BOTH_PAIN4,		// right shoulder
-	BOTH_PAIN5,		// left shoulder
-	BOTH_PAIN6,		// right knee
-	BOTH_PAIN7,		// left knee
+    BOTH_SALUTE,
+    
+    BOTH_PAIN1,		// head
+    BOTH_PAIN2,		// chest
+    BOTH_PAIN3,		// groin
+    BOTH_PAIN4,		// right shoulder
+    BOTH_PAIN5,		// left shoulder
+    BOTH_PAIN6,		// right knee
+    BOTH_PAIN7,		// left knee
 /*20*/	BOTH_PAIN8,		// dazed
 
-	BOTH_GRAB_GRENADE,
+    BOTH_GRAB_GRENADE,
 
-	BOTH_ATTACK1,
-	BOTH_ATTACK2,
-	BOTH_ATTACK3,
-	BOTH_ATTACK4,
-	BOTH_ATTACK5,
+    BOTH_ATTACK1,
+    BOTH_ATTACK2,
+    BOTH_ATTACK3,
+    BOTH_ATTACK4,
+    BOTH_ATTACK5,
 
-	BOTH_EXTRA1,
-	BOTH_EXTRA2,
-	BOTH_EXTRA3,
+    BOTH_EXTRA1,
+    BOTH_EXTRA2,
+    BOTH_EXTRA3,
 /*30*/	BOTH_EXTRA4,
-	BOTH_EXTRA5,
-	BOTH_EXTRA6,
-	BOTH_EXTRA7,
-	BOTH_EXTRA8,
-	BOTH_EXTRA9,
-	BOTH_EXTRA10,
-	BOTH_EXTRA11,
-	BOTH_EXTRA12,
-	BOTH_EXTRA13,
+    BOTH_EXTRA5,
+    BOTH_EXTRA6,
+    BOTH_EXTRA7,
+    BOTH_EXTRA8,
+    BOTH_EXTRA9,
+    BOTH_EXTRA10,
+    BOTH_EXTRA11,
+    BOTH_EXTRA12,
+    BOTH_EXTRA13,
 /*40*/	BOTH_EXTRA14,
-	BOTH_EXTRA15,
-	BOTH_EXTRA16,
-	BOTH_EXTRA17,
-	BOTH_EXTRA18,
-	BOTH_EXTRA19,
-	BOTH_EXTRA20,
+    BOTH_EXTRA15,
+    BOTH_EXTRA16,
+    BOTH_EXTRA17,
+    BOTH_EXTRA18,
+    BOTH_EXTRA19,
+    BOTH_EXTRA20,
 
-	TORSO_GESTURE,
-	TORSO_GESTURE2,
-	TORSO_GESTURE3,
+    TORSO_GESTURE,
+    TORSO_GESTURE2,
+    TORSO_GESTURE3,
 /*50*/	TORSO_GESTURE4,
 
-	TORSO_DROP,
+    TORSO_DROP,
 
-	TORSO_RAISE,	// (low)
-	TORSO_ATTACK,
-	TORSO_STAND,
-	TORSO_STAND_ALT1,
-	TORSO_STAND_ALT2,
-	TORSO_READY,
-	TORSO_RELAX,
+    TORSO_RAISE,	// (low)
+    TORSO_ATTACK,
+    TORSO_STAND,
+    TORSO_STAND_ALT1,
+    TORSO_STAND_ALT2,
+    TORSO_READY,
+    TORSO_RELAX,
 
-	TORSO_RAISE2,	// (high)
+    TORSO_RAISE2,	// (high)
 /*60*/	TORSO_ATTACK2,
-	TORSO_STAND2,
-	TORSO_STAND2_ALT1,
-	TORSO_STAND2_ALT2,
-	TORSO_READY2,
-	TORSO_RELAX2,
+    TORSO_STAND2,
+    TORSO_STAND2_ALT1,
+    TORSO_STAND2_ALT2,
+    TORSO_READY2,
+    TORSO_RELAX2,
 
-	TORSO_RAISE3,	// (pistol)
-	TORSO_ATTACK3,
-	TORSO_STAND3,
-	TORSO_STAND3_ALT1,
+    TORSO_RAISE3,	// (pistol)
+    TORSO_ATTACK3,
+    TORSO_STAND3,
+    TORSO_STAND3_ALT1,
 /*70*/	TORSO_STAND3_ALT2,
-	TORSO_READY3,
-	TORSO_RELAX3,
+    TORSO_READY3,
+    TORSO_RELAX3,
 
-	TORSO_RAISE4,	// (shoulder)
-	TORSO_ATTACK4,
-	TORSO_STAND4,
-	TORSO_STAND4_ALT1,
-	TORSO_STAND4_ALT2,
-	TORSO_READY4,
-	TORSO_RELAX4,
+    TORSO_RAISE4,	// (shoulder)
+    TORSO_ATTACK4,
+    TORSO_STAND4,
+    TORSO_STAND4_ALT1,
+    TORSO_STAND4_ALT2,
+    TORSO_READY4,
+    TORSO_RELAX4,
 
 /*80*/	TORSO_RAISE5,	// (throw)
-	TORSO_ATTACK5,
-	TORSO_ATTACK5B,
-	TORSO_STAND5,
-	TORSO_STAND5_ALT1,
-	TORSO_STAND5_ALT2,
-	TORSO_READY5,
-	TORSO_RELAX5,
+    TORSO_ATTACK5,
+    TORSO_ATTACK5B,
+    TORSO_STAND5,
+    TORSO_STAND5_ALT1,
+    TORSO_STAND5_ALT2,
+    TORSO_READY5,
+    TORSO_RELAX5,
 
-	TORSO_RELOAD1,	// (low)
-	TORSO_RELOAD2,	// (high)
+    TORSO_RELOAD1,	// (low)
+    TORSO_RELOAD2,	// (high)
 /*90*/	TORSO_RELOAD3,	// (pistol)
-	TORSO_RELOAD4,	// (shoulder)
+    TORSO_RELOAD4,	// (shoulder)
 
-	TORSO_MG42,		// firing tripod mounted weapon animation
+    TORSO_MG42,		// firing tripod mounted weapon animation
 
-	TORSO_MOVE,		// torso anim to play while moving and not firing (swinging arms type thing)
-	TORSO_MOVE_ALT,
+    TORSO_MOVE,		// torso anim to play while moving and not firing (swinging arms type thing)
+    TORSO_MOVE_ALT,
 
-	TORSO_EXTRA,
-	TORSO_EXTRA2,
-	TORSO_EXTRA3,
-	TORSO_EXTRA4,
-	TORSO_EXTRA5,
+    TORSO_EXTRA,
+    TORSO_EXTRA2,
+    TORSO_EXTRA3,
+    TORSO_EXTRA4,
+    TORSO_EXTRA5,
 /*100*/	TORSO_EXTRA6,
-	TORSO_EXTRA7,
-	TORSO_EXTRA8,
-	TORSO_EXTRA9,
-	TORSO_EXTRA10,
+    TORSO_EXTRA7,
+    TORSO_EXTRA8,
+    TORSO_EXTRA9,
+    TORSO_EXTRA10,
 
-	LEGS_WALKCR,
-	LEGS_WALKCR_BACK,
-	LEGS_WALK,
-	LEGS_RUN,
-	LEGS_BACK,
+    LEGS_WALKCR,
+    LEGS_WALKCR_BACK,
+    LEGS_WALK,
+    LEGS_RUN,
+    LEGS_BACK,
 /*110*/	LEGS_SWIM,
-	LEGS_SWIM_IDLE,
+    LEGS_SWIM_IDLE,
 
-	LEGS_JUMP,
-	LEGS_JUMPB,
-	LEGS_LAND,
+    LEGS_JUMP,
+    LEGS_JUMPB,
+    LEGS_LAND,
 
-	LEGS_IDLE,
-	LEGS_IDLE_ALT,// LEGS_IDLE2
-	LEGS_IDLECR,
+    LEGS_IDLE,
+    LEGS_IDLE_ALT,// LEGS_IDLE2
+    LEGS_IDLECR,
 
-	LEGS_TURN,
+    LEGS_TURN,
 
-	LEGS_BOOT,		// kicking animation
+    LEGS_BOOT,		// kicking animation
 
 /*120*/	LEGS_EXTRA1,
-	LEGS_EXTRA2,
-	LEGS_EXTRA3,
-	LEGS_EXTRA4,
-	LEGS_EXTRA5,
-	LEGS_EXTRA6,
-	LEGS_EXTRA7,
-	LEGS_EXTRA8,
-	LEGS_EXTRA9,
-	LEGS_EXTRA10,
+    LEGS_EXTRA2,
+    LEGS_EXTRA3,
+    LEGS_EXTRA4,
+    LEGS_EXTRA5,
+    LEGS_EXTRA6,
+    LEGS_EXTRA7,
+    LEGS_EXTRA8,
+    LEGS_EXTRA9,
+    LEGS_EXTRA10,
 
 /*130*/	MAX_ANIMATIONS
 } animNumber_t;
@@ -1391,40 +1391,40 @@ extern char *animStringsOld[];		// defined in bg_misc.c
 
 
 typedef enum {
-	WEAP_IDLE1,
-	WEAP_IDLE2,
-	WEAP_ATTACK1,
-	WEAP_ATTACK2,
-	WEAP_ATTACK_LASTSHOT,	// used when firing the last round before having an empty clip.
-	WEAP_DROP,
-	WEAP_RAISE,
-	WEAP_RELOAD1,
-	WEAP_RELOAD2,
-	WEAP_RELOAD3,
-	WEAP_ALTSWITCHFROM,	// switch from alt fire mode weap (scoped/silencer/etc)
-	WEAP_ALTSWITCHTO,	// switch to alt fire mode weap
-	WEAP_DROP2,
-	MAX_WP_ANIMATIONS
+    WEAP_IDLE1,
+    WEAP_IDLE2,
+    WEAP_ATTACK1,
+    WEAP_ATTACK2,
+    WEAP_ATTACK_LASTSHOT,	// used when firing the last round before having an empty clip.
+    WEAP_DROP,
+    WEAP_RAISE,
+    WEAP_RELOAD1,
+    WEAP_RELOAD2,
+    WEAP_RELOAD3,
+    WEAP_ALTSWITCHFROM,	// switch from alt fire mode weap (scoped/silencer/etc)
+    WEAP_ALTSWITCHTO,	// switch to alt fire mode weap
+    WEAP_DROP2,
+    MAX_WP_ANIMATIONS
 } weapAnimNumber_t;
 
 typedef enum hudHeadAnimNumber_s {
-	HD_IDLE1,
-	HD_IDLE2,
-	HD_IDLE3,
-	HD_IDLE4,
-	HD_IDLE5,
-	HD_IDLE6,
-	HD_IDLE7,
-	HD_IDLE8,
-	HD_DAMAGED_IDLE1,
-	HD_DAMAGED_IDLE2,
-	HD_DAMAGED_IDLE3,
-	HD_LEFT,
-	HD_RIGHT,
-	HD_ATTACK,
-	HD_ATTACK_END,
-	HD_PAIN,
-	MAX_HD_ANIMATIONS
+    HD_IDLE1,
+    HD_IDLE2,
+    HD_IDLE3,
+    HD_IDLE4,
+    HD_IDLE5,
+    HD_IDLE6,
+    HD_IDLE7,
+    HD_IDLE8,
+    HD_DAMAGED_IDLE1,
+    HD_DAMAGED_IDLE2,
+    HD_DAMAGED_IDLE3,
+    HD_LEFT,
+    HD_RIGHT,
+    HD_ATTACK,
+    HD_ATTACK_END,
+    HD_PAIN,
+    MAX_HD_ANIMATIONS
 } hudHeadAnimNumber_t;
 
 #define	ANIMFL_LADDERANIM	0x1
@@ -1433,52 +1433,52 @@ typedef enum hudHeadAnimNumber_s {
 
 typedef struct animation_s {
 #ifdef USE_MDXFILE
-	qhandle_t	mdxFile;
+    qhandle_t	mdxFile;
 #else
-	char		mdxFileName[MAX_QPATH];
+    char		mdxFileName[MAX_QPATH];
 #endif // USE_MDXFILE
-	char		name[MAX_QPATH];
-	int			firstFrame;
-	int			numFrames;
-	int			loopFrames;			// 0 to numFrames
-	int			frameLerp;			// msec between frames
-	int			initialLerp;		// msec to get to first frame
-	int			moveSpeed;
-	int			animBlend;			// take this long to blend to next anim
+    char		name[MAX_QPATH];
+    int			firstFrame;
+    int			numFrames;
+    int			loopFrames;			// 0 to numFrames
+    int			frameLerp;			// msec between frames
+    int			initialLerp;		// msec to get to first frame
+    int			moveSpeed;
+    int			animBlend;			// take this long to blend to next anim
 
-	//
-	// derived
-	//
-	int			duration;
-	int			nameHash;
-	int			flags;
-	int			movetype;
+    //
+    // derived
+    //
+    int			duration;
+    int			nameHash;
+    int			flags;
+    int			movetype;
 } animation_t;
 
 // Ridah, head animations
 typedef enum {
-	HEAD_NEUTRAL_CLOSED,
-	HEAD_NEUTRAL_A,
-	HEAD_NEUTRAL_O,
-	HEAD_NEUTRAL_I,
-	HEAD_NEUTRAL_E,
-	HEAD_HAPPY_CLOSED,
-	HEAD_HAPPY_O,
-	HEAD_HAPPY_I,
-	HEAD_HAPPY_E,
-	HEAD_HAPPY_A,
-	HEAD_ANGRY_CLOSED,
-	HEAD_ANGRY_O,
-	HEAD_ANGRY_I,
-	HEAD_ANGRY_E,
-	HEAD_ANGRY_A,
+    HEAD_NEUTRAL_CLOSED,
+    HEAD_NEUTRAL_A,
+    HEAD_NEUTRAL_O,
+    HEAD_NEUTRAL_I,
+    HEAD_NEUTRAL_E,
+    HEAD_HAPPY_CLOSED,
+    HEAD_HAPPY_O,
+    HEAD_HAPPY_I,
+    HEAD_HAPPY_E,
+    HEAD_HAPPY_A,
+    HEAD_ANGRY_CLOSED,
+    HEAD_ANGRY_O,
+    HEAD_ANGRY_I,
+    HEAD_ANGRY_E,
+    HEAD_ANGRY_A,
 
-	MAX_HEAD_ANIMS
+    MAX_HEAD_ANIMS
 } animHeadNumber_t;
 
 typedef struct headAnimation_s {
-	int		firstFrame;
-	int		numFrames;
+    int		firstFrame;
+    int		numFrames;
 } headAnimation_t;
 // done.
 
@@ -1488,12 +1488,12 @@ typedef struct headAnimation_s {
 
 // Gordon: renamed these to team_axis/allies, it really was awful....
 typedef enum {
-	TEAM_FREE,
-	TEAM_AXIS,
-	TEAM_ALLIES,
-	TEAM_SPECTATOR,
+    TEAM_FREE,
+    TEAM_AXIS,
+    TEAM_ALLIES,
+    TEAM_SPECTATOR,
 
-	TEAM_NUM_TEAMS
+    TEAM_NUM_TEAMS
 } team_t;
 
 // Time between location updates
@@ -1502,37 +1502,37 @@ typedef enum {
 // OSP - weapon stat info: mapping between MOD_ and WP_ types (FIXME for new ET weapons)
 typedef enum extWeaponStats_s
 {
-	WS_KNIFE,				// 0
-	WS_LUGER,				// 1
-	WS_COLT,				// 2
-	WS_MP40,				// 3
-	WS_THOMPSON,			// 4
-	WS_STEN,				// 5
-	WS_FG42,				// 6	-- Also includes WS_BAR (allies version of fg42)
-	WS_PANZERFAUST,			// 7
-	WS_FLAMETHROWER,		// 8
-	WS_GRENADE,				// 9	-- Includes axis and allies grenade types
-	WS_MORTAR,				// 10
-	WS_DYNAMITE,			// 11
-	WS_AIRSTRIKE,			// 12	-- Lt. smoke grenade attack
-	WS_ARTILLERY,			// 13	-- Lt. binocular attack
-	WS_SYRINGE,				// 14	-- Medic syringe uses/successes
+    WS_KNIFE,				// 0
+    WS_LUGER,				// 1
+    WS_COLT,				// 2
+    WS_MP40,				// 3
+    WS_THOMPSON,			// 4
+    WS_STEN,				// 5
+    WS_FG42,				// 6	-- Also includes WS_BAR (allies version of fg42)
+    WS_PANZERFAUST,			// 7
+    WS_FLAMETHROWER,		// 8
+    WS_GRENADE,				// 9	-- Includes axis and allies grenade types
+    WS_MORTAR,				// 10
+    WS_DYNAMITE,			// 11
+    WS_AIRSTRIKE,			// 12	-- Lt. smoke grenade attack
+    WS_ARTILLERY,			// 13	-- Lt. binocular attack
+    WS_SYRINGE,				// 14	-- Medic syringe uses/successes
 
-	WS_SMOKE,				// 15
-	WS_SATCHEL,				// 16
-	WS_GRENADELAUNCHER,		// 17
-	WS_LANDMINE,			// 18
-	WS_MG42,				// 19
-	WS_GARAND,				// 20 // Gordon: (carbine and garand)
-	WS_K43,					// 21 // Gordon: (kar98 and k43)
+    WS_SMOKE,				// 15
+    WS_SATCHEL,				// 16
+    WS_GRENADELAUNCHER,		// 17
+    WS_LANDMINE,			// 18
+    WS_MG42,				// 19
+    WS_GARAND,				// 20 // Gordon: (carbine and garand)
+    WS_K43,					// 21 // Gordon: (kar98 and k43)
 
-	WS_MAX
+    WS_MAX
 } extWeaponStats_t;
 
 typedef struct {
-	qboolean fHasHeadShots;
-	const char *pszCode;
-	const char *pszName;
+    qboolean fHasHeadShots;
+    const char *pszCode;
+    const char *pszName;
 } weap_ws_t;
 
 extern const weap_ws_t aWeaponInfo[WS_MAX];
@@ -1540,101 +1540,101 @@ extern const weap_ws_t aWeaponInfo[WS_MAX];
 
 // means of death
 typedef enum {
-	MOD_UNKNOWN,
-	MOD_MACHINEGUN,
-	MOD_BROWNING,
-	MOD_MG42,
-	MOD_GRENADE,
-	MOD_ROCKET,
+    MOD_UNKNOWN,
+    MOD_MACHINEGUN,
+    MOD_BROWNING,
+    MOD_MG42,
+    MOD_GRENADE,
+    MOD_ROCKET,
 
-	// (SA) modified wolf weap mods
-	MOD_KNIFE,
-	MOD_LUGER,
-	MOD_COLT,
-	MOD_MP40,
-	MOD_THOMPSON,
-	MOD_STEN,
-	MOD_GARAND,
-	MOD_SNOOPERSCOPE,
-	MOD_SILENCER,	//----(SA)	
-	MOD_FG42,
-	MOD_FG42SCOPE,
-	MOD_PANZERFAUST,
-	MOD_GRENADE_LAUNCHER,
-	MOD_FLAMETHROWER,
-	MOD_GRENADE_PINEAPPLE,
-	MOD_CROSS,
-	// end
+    // (SA) modified wolf weap mods
+    MOD_KNIFE,
+    MOD_LUGER,
+    MOD_COLT,
+    MOD_MP40,
+    MOD_THOMPSON,
+    MOD_STEN,
+    MOD_GARAND,
+    MOD_SNOOPERSCOPE,
+    MOD_SILENCER,	//----(SA)	
+    MOD_FG42,
+    MOD_FG42SCOPE,
+    MOD_PANZERFAUST,
+    MOD_GRENADE_LAUNCHER,
+    MOD_FLAMETHROWER,
+    MOD_GRENADE_PINEAPPLE,
+    MOD_CROSS,
+    // end
 
-	MOD_MAPMORTAR,
-	MOD_MAPMORTAR_SPLASH,
+    MOD_MAPMORTAR,
+    MOD_MAPMORTAR_SPLASH,
 
-	MOD_KICKED,
-	MOD_GRABBER,
+    MOD_KICKED,
+    MOD_GRABBER,
 
-	MOD_DYNAMITE,
-	MOD_AIRSTRIKE, // JPW NERVE
-	MOD_SYRINGE,	// JPW NERVE
-	MOD_AMMO,	// JPW NERVE
-	MOD_ARTY,	// JPW NERVE
+    MOD_DYNAMITE,
+    MOD_AIRSTRIKE, // JPW NERVE
+    MOD_SYRINGE,	// JPW NERVE
+    MOD_AMMO,	// JPW NERVE
+    MOD_ARTY,	// JPW NERVE
 
-	MOD_WATER,
-	MOD_SLIME,
-	MOD_LAVA,
-	MOD_CRUSH,
-	MOD_TELEFRAG,
-	MOD_FALLING,
-	MOD_SUICIDE,
-	MOD_TARGET_LASER,
-	MOD_TRIGGER_HURT,
-	MOD_EXPLOSIVE,
+    MOD_WATER,
+    MOD_SLIME,
+    MOD_LAVA,
+    MOD_CRUSH,
+    MOD_TELEFRAG,
+    MOD_FALLING,
+    MOD_SUICIDE,
+    MOD_TARGET_LASER,
+    MOD_TRIGGER_HURT,
+    MOD_EXPLOSIVE,
 
-	MOD_CARBINE,
-	MOD_KAR98,
-	MOD_GPG40,
-	MOD_M7,
-	MOD_LANDMINE,
-	MOD_SATCHEL,
-	MOD_TRIPMINE,
-	MOD_SMOKEBOMB,
-	MOD_MOBILE_MG42,
-	MOD_SILENCED_COLT,
-	MOD_GARAND_SCOPE,
+    MOD_CARBINE,
+    MOD_KAR98,
+    MOD_GPG40,
+    MOD_M7,
+    MOD_LANDMINE,
+    MOD_SATCHEL,
+    MOD_TRIPMINE,
+    MOD_SMOKEBOMB,
+    MOD_MOBILE_MG42,
+    MOD_SILENCED_COLT,
+    MOD_GARAND_SCOPE,
 
-	MOD_CRUSH_CONSTRUCTION,
-	MOD_CRUSH_CONSTRUCTIONDEATH,
-	MOD_CRUSH_CONSTRUCTIONDEATH_NOATTACKER,
+    MOD_CRUSH_CONSTRUCTION,
+    MOD_CRUSH_CONSTRUCTIONDEATH,
+    MOD_CRUSH_CONSTRUCTIONDEATH_NOATTACKER,
 
-	MOD_K43,
-	MOD_K43_SCOPE,
+    MOD_K43,
+    MOD_K43_SCOPE,
 
-	MOD_MORTAR,
+    MOD_MORTAR,
 
-	MOD_AKIMBO_COLT,
-	MOD_AKIMBO_LUGER,
-	MOD_AKIMBO_SILENCEDCOLT,
-	MOD_AKIMBO_SILENCEDLUGER,
+    MOD_AKIMBO_COLT,
+    MOD_AKIMBO_LUGER,
+    MOD_AKIMBO_SILENCEDCOLT,
+    MOD_AKIMBO_SILENCEDLUGER,
 
-	MOD_SMOKEGRENADE,
+    MOD_SMOKEGRENADE,
 
-	// RF
-	MOD_SWAP_PLACES,
+    // RF
+    MOD_SWAP_PLACES,
 
-	// OSP -- keep these 2 entries last
-	MOD_SWITCHTEAM,
+    // OSP -- keep these 2 entries last
+    MOD_SWITCHTEAM,
 
-	MOD_GOOMBA,
-	MOD_FEAR,
-	MOD_THROWN_KNIFE,
+    MOD_GOOMBA,
+    MOD_FEAR,
+    MOD_THROWN_KNIFE,
 
-	// Perro --- reflected FF death
-	MOD_REFLECTED_FF,
+    // Perro --- reflected FF death
+    MOD_REFLECTED_FF,
 
 #ifdef GS_TURRETS
-	MOD_TURRET,
+    MOD_TURRET,
 #endif
 
-	MOD_NUM_MODS
+    MOD_NUM_MODS
 
 } meansOfDeath_t;
 
@@ -1643,17 +1643,17 @@ typedef enum {
 
 // gitem_t->type
 typedef enum {
-	IT_BAD,
-	IT_WEAPON,				// EFX: rotate + upscale + minlight
+    IT_BAD,
+    IT_WEAPON,				// EFX: rotate + upscale + minlight
 
-	IT_AMMO,				// EFX: rotate
-	IT_ARMOR,				// EFX: rotate + minlight
-	IT_HEALTH,				// EFX: static external sphere + rotating internal
-	IT_HOLDABLE,			// single use, holdable item
-							// EFX: rotate + bob
-	IT_KEY,
-	IT_TREASURE,			// gold bars, etc.  things that can be picked up and counted for a tally at end-level
-	IT_TEAM,
+    IT_AMMO,				// EFX: rotate
+    IT_ARMOR,				// EFX: rotate + minlight
+    IT_HEALTH,				// EFX: static external sphere + rotating internal
+    IT_HOLDABLE,			// single use, holdable item
+                            // EFX: rotate + bob
+    IT_KEY,
+    IT_TREASURE,			// gold bars, etc.  things that can be picked up and counted for a tally at end-level
+    IT_TEAM,
 } itemType_t;
 
 #define MAX_ITEM_MODELS 3
@@ -1661,24 +1661,24 @@ typedef enum {
 
 // JOSEPH 4-17-00
 typedef struct gitem_s {
-	char		*classname;	// spawning name
-	char		*pickup_sound;
-	char		*world_model[MAX_ITEM_MODELS];
+    char		*classname;	// spawning name
+    char		*pickup_sound;
+    char		*world_model[MAX_ITEM_MODELS];
 
-	char		*icon;
-	char		*ammoicon;
-	char		*pickup_name;	// for printing on pickup
+    char		*icon;
+    char		*ammoicon;
+    char		*pickup_name;	// for printing on pickup
 
-	int			quantity;		// for ammo how much, or duration of powerup (value not necessary for ammo/health.  that value set in gameskillnumber[] below)
-	itemType_t  giType;			// IT_* flags
+    int			quantity;		// for ammo how much, or duration of powerup (value not necessary for ammo/health.  that value set in gameskillnumber[] below)
+    itemType_t  giType;			// IT_* flags
 
-	int			giTag;
+    int			giTag;
 
-	int			giAmmoIndex;	// type of weapon ammo this uses.  (ex. WP_MP40 and WP_LUGER share 9mm ammo, so they both have WP_LUGER for giAmmoIndex)
-	int			giClipIndex;	// which clip this weapon uses.  this allows the sniper rifle to use the same clip as the garand, etc.
+    int			giAmmoIndex;	// type of weapon ammo this uses.  (ex. WP_MP40 and WP_LUGER share 9mm ammo, so they both have WP_LUGER for giAmmoIndex)
+    int			giClipIndex;	// which clip this weapon uses.  this allows the sniper rifle to use the same clip as the garand, etc.
 
-	char		*precaches;		// string of all models and images this item will use
-	char		*sounds;		// string of all sounds this item will use
+    char		*precaches;		// string of all models and images this item will use
+    char		*sounds;		// string of all sounds this item will use
 
 //	int			gameskillnumber[5];
 } gitem_t;
@@ -1727,58 +1727,58 @@ qboolean	BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *ps,
 
 // cursorhints (stored in ent->s.dmgFlags since that's only used for players at the moment)
 typedef enum {
-	HINT_NONE,		// reserved
-	HINT_FORCENONE,	// reserved
-	HINT_PLAYER,
-	HINT_ACTIVATE,
-	HINT_DOOR,
-	HINT_DOOR_ROTATING,
-	HINT_DOOR_LOCKED,
-	HINT_DOOR_ROTATING_LOCKED,
-	HINT_MG42,
-	HINT_BREAKABLE,
-	HINT_BREAKABLE_DYNAMITE,
-	HINT_CHAIR,
-	HINT_ALARM,
-	HINT_HEALTH,
-	HINT_TREASURE,
-	HINT_KNIFE,
-	HINT_LADDER,
-	HINT_BUTTON,
-	HINT_WATER,
-	HINT_CAUTION,
-	HINT_DANGER,
-	HINT_SECRET,
-	HINT_QUESTION,
-	HINT_EXCLAMATION,
-	HINT_CLIPBOARD,
-	HINT_WEAPON,
-	HINT_AMMO,
-	HINT_ARMOR,
-	HINT_POWERUP,
-	HINT_HOLDABLE,
-	HINT_INVENTORY,
-	HINT_SCENARIC,
-	HINT_EXIT,
-	HINT_NOEXIT,
-	HINT_PLYR_FRIEND,
-	HINT_PLYR_NEUTRAL,
-	HINT_PLYR_ENEMY,
-	HINT_PLYR_UNKNOWN,
-	HINT_BUILD,				// DHM - Nerve
-	HINT_DISARM,			// DHM - Nerve
-	HINT_REVIVE,			// DHM - Nerve
-	HINT_DYNAMITE,			// DHM - Nerve
-	HINT_CONSTRUCTIBLE,
-	HINT_UNIFORM,
-	HINT_LANDMINE,
-	HINT_TANK,
-	HINT_SATCHELCHARGE,
-	HINT_LOCKPICK,
+    HINT_NONE,		// reserved
+    HINT_FORCENONE,	// reserved
+    HINT_PLAYER,
+    HINT_ACTIVATE,
+    HINT_DOOR,
+    HINT_DOOR_ROTATING,
+    HINT_DOOR_LOCKED,
+    HINT_DOOR_ROTATING_LOCKED,
+    HINT_MG42,
+    HINT_BREAKABLE,
+    HINT_BREAKABLE_DYNAMITE,
+    HINT_CHAIR,
+    HINT_ALARM,
+    HINT_HEALTH,
+    HINT_TREASURE,
+    HINT_KNIFE,
+    HINT_LADDER,
+    HINT_BUTTON,
+    HINT_WATER,
+    HINT_CAUTION,
+    HINT_DANGER,
+    HINT_SECRET,
+    HINT_QUESTION,
+    HINT_EXCLAMATION,
+    HINT_CLIPBOARD,
+    HINT_WEAPON,
+    HINT_AMMO,
+    HINT_ARMOR,
+    HINT_POWERUP,
+    HINT_HOLDABLE,
+    HINT_INVENTORY,
+    HINT_SCENARIC,
+    HINT_EXIT,
+    HINT_NOEXIT,
+    HINT_PLYR_FRIEND,
+    HINT_PLYR_NEUTRAL,
+    HINT_PLYR_ENEMY,
+    HINT_PLYR_UNKNOWN,
+    HINT_BUILD,				// DHM - Nerve
+    HINT_DISARM,			// DHM - Nerve
+    HINT_REVIVE,			// DHM - Nerve
+    HINT_DYNAMITE,			// DHM - Nerve
+    HINT_CONSTRUCTIBLE,
+    HINT_UNIFORM,
+    HINT_LANDMINE,
+    HINT_TANK,
+    HINT_SATCHELCHARGE,
+    HINT_LOCKPICK,
 
-	HINT_BAD_USER,	// invisible user with no target
+    HINT_BAD_USER,	// invisible user with no target
 
-	HINT_NUM_HINTS
+    HINT_NUM_HINTS
 } hintType_t;
 
 
@@ -1817,34 +1817,34 @@ void PM_ClipVelocity( vec3_t in, vec3_t normal, vec3_t out, float overbounce );
 #define MAX_CAMPAIGNS_TEXT	8192
 
 typedef enum {
-	FOOTSTEP_NORMAL,
-	FOOTSTEP_METAL,
-	FOOTSTEP_WOOD,
-	FOOTSTEP_GRASS,
-	FOOTSTEP_GRAVEL,
-	FOOTSTEP_SPLASH,
-	FOOTSTEP_ROOF,
-	FOOTSTEP_SNOW,
-	FOOTSTEP_CARPET,
+    FOOTSTEP_NORMAL,
+    FOOTSTEP_METAL,
+    FOOTSTEP_WOOD,
+    FOOTSTEP_GRASS,
+    FOOTSTEP_GRAVEL,
+    FOOTSTEP_SPLASH,
+    FOOTSTEP_ROOF,
+    FOOTSTEP_SNOW,
+    FOOTSTEP_CARPET,
 
-	FOOTSTEP_TOTAL
+    FOOTSTEP_TOTAL
 } footstep_t;
 
 typedef enum {
-	BRASSSOUND_METAL = 0,
-	BRASSSOUND_SOFT,
-	BRASSSOUND_STONE,
-	BRASSSOUND_WOOD,
-	BRASSSOUND_MAX,
+    BRASSSOUND_METAL = 0,
+    BRASSSOUND_SOFT,
+    BRASSSOUND_STONE,
+    BRASSSOUND_WOOD,
+    BRASSSOUND_MAX,
 } brassSound_t;
 
 typedef enum {
-	FXTYPE_WOOD = 0,
-	FXTYPE_GLASS,
-	FXTYPE_METAL,
-	FXTYPE_GIBS,
-	FXTYPE_BRICK,
-	FXTYPE_STONE
+    FXTYPE_WOOD = 0,
+    FXTYPE_GLASS,
+    FXTYPE_METAL,
+    FXTYPE_GIBS,
+    FXTYPE_BRICK,
+    FXTYPE_STONE
 } fxType_t;
 
 //==================================================================
@@ -1859,175 +1859,175 @@ typedef enum {
 
 typedef enum
 {
-	ANIM_MT_UNUSED,
-	ANIM_MT_IDLE,
-	ANIM_MT_IDLECR,
-	ANIM_MT_WALK,
-	ANIM_MT_WALKBK,
-	ANIM_MT_WALKCR,
-	ANIM_MT_WALKCRBK,
-	ANIM_MT_RUN,
-	ANIM_MT_RUNBK,
-	ANIM_MT_SWIM,
-	ANIM_MT_SWIMBK,
-	ANIM_MT_STRAFERIGHT,
-	ANIM_MT_STRAFELEFT,
-	ANIM_MT_TURNRIGHT,
-	ANIM_MT_TURNLEFT,
-	ANIM_MT_CLIMBUP,
-	ANIM_MT_CLIMBDOWN,
-	ANIM_MT_FALLEN,					// DHM - Nerve :: dead, before limbo
-	ANIM_MT_PRONE,
-	ANIM_MT_PRONEBK,
-	ANIM_MT_IDLEPRONE,
-	ANIM_MT_FLAILING,
+    ANIM_MT_UNUSED,
+    ANIM_MT_IDLE,
+    ANIM_MT_IDLECR,
+    ANIM_MT_WALK,
+    ANIM_MT_WALKBK,
+    ANIM_MT_WALKCR,
+    ANIM_MT_WALKCRBK,
+    ANIM_MT_RUN,
+    ANIM_MT_RUNBK,
+    ANIM_MT_SWIM,
+    ANIM_MT_SWIMBK,
+    ANIM_MT_STRAFERIGHT,
+    ANIM_MT_STRAFELEFT,
+    ANIM_MT_TURNRIGHT,
+    ANIM_MT_TURNLEFT,
+    ANIM_MT_CLIMBUP,
+    ANIM_MT_CLIMBDOWN,
+    ANIM_MT_FALLEN,					// DHM - Nerve :: dead, before limbo
+    ANIM_MT_PRONE,
+    ANIM_MT_PRONEBK,
+    ANIM_MT_IDLEPRONE,
+    ANIM_MT_FLAILING,
 //	ANIM_MT_TALK,
-	ANIM_MT_SNEAK,
-	ANIM_MT_AFTERBATTLE,			// xkan, 1/8/2003, just finished battle
+    ANIM_MT_SNEAK,
+    ANIM_MT_AFTERBATTLE,			// xkan, 1/8/2003, just finished battle
 
-	NUM_ANIM_MOVETYPES
+    NUM_ANIM_MOVETYPES
 } scriptAnimMoveTypes_t;
 
 typedef enum
 {
-	ANIM_ET_PAIN,
-	ANIM_ET_DEATH,
-	ANIM_ET_FIREWEAPON,
-	ANIM_ET_FIREWEAPON2,
-	ANIM_ET_JUMP,
-	ANIM_ET_JUMPBK,
-	ANIM_ET_LAND,
-	ANIM_ET_DROPWEAPON,
-	ANIM_ET_RAISEWEAPON,
-	ANIM_ET_CLIMB_MOUNT,
-	ANIM_ET_CLIMB_DISMOUNT,
-	ANIM_ET_RELOAD,
-	ANIM_ET_PICKUPGRENADE,
-	ANIM_ET_KICKGRENADE,
-	ANIM_ET_QUERY,
-	ANIM_ET_INFORM_FRIENDLY_OF_ENEMY,
-	ANIM_ET_KICK,
-	ANIM_ET_REVIVE,
-	ANIM_ET_FIRSTSIGHT,
-	ANIM_ET_ROLL,
-	ANIM_ET_FLIP,
-	ANIM_ET_DIVE,
-	ANIM_ET_PRONE_TO_CROUCH,
-	ANIM_ET_BULLETIMPACT,
-	ANIM_ET_INSPECTSOUND,
-	ANIM_ET_SECONDLIFE,
-	ANIM_ET_DO_ALT_WEAPON_MODE,
-	ANIM_ET_UNDO_ALT_WEAPON_MODE,
-	ANIM_ET_DO_ALT_WEAPON_MODE_PRONE,
-	ANIM_ET_UNDO_ALT_WEAPON_MODE_PRONE,
-	ANIM_ET_FIREWEAPONPRONE,
-	ANIM_ET_FIREWEAPON2PRONE,
-	ANIM_ET_RAISEWEAPONPRONE,
-	ANIM_ET_RELOADPRONE,
-	ANIM_ET_TALK,
-	ANIM_ET_NOPOWER,
+    ANIM_ET_PAIN,
+    ANIM_ET_DEATH,
+    ANIM_ET_FIREWEAPON,
+    ANIM_ET_FIREWEAPON2,
+    ANIM_ET_JUMP,
+    ANIM_ET_JUMPBK,
+    ANIM_ET_LAND,
+    ANIM_ET_DROPWEAPON,
+    ANIM_ET_RAISEWEAPON,
+    ANIM_ET_CLIMB_MOUNT,
+    ANIM_ET_CLIMB_DISMOUNT,
+    ANIM_ET_RELOAD,
+    ANIM_ET_PICKUPGRENADE,
+    ANIM_ET_KICKGRENADE,
+    ANIM_ET_QUERY,
+    ANIM_ET_INFORM_FRIENDLY_OF_ENEMY,
+    ANIM_ET_KICK,
+    ANIM_ET_REVIVE,
+    ANIM_ET_FIRSTSIGHT,
+    ANIM_ET_ROLL,
+    ANIM_ET_FLIP,
+    ANIM_ET_DIVE,
+    ANIM_ET_PRONE_TO_CROUCH,
+    ANIM_ET_BULLETIMPACT,
+    ANIM_ET_INSPECTSOUND,
+    ANIM_ET_SECONDLIFE,
+    ANIM_ET_DO_ALT_WEAPON_MODE,
+    ANIM_ET_UNDO_ALT_WEAPON_MODE,
+    ANIM_ET_DO_ALT_WEAPON_MODE_PRONE,
+    ANIM_ET_UNDO_ALT_WEAPON_MODE_PRONE,
+    ANIM_ET_FIREWEAPONPRONE,
+    ANIM_ET_FIREWEAPON2PRONE,
+    ANIM_ET_RAISEWEAPONPRONE,
+    ANIM_ET_RELOADPRONE,
+    ANIM_ET_TALK,
+    ANIM_ET_NOPOWER,
 
-	NUM_ANIM_EVENTTYPES
+    NUM_ANIM_EVENTTYPES
 } scriptAnimEventTypes_t;
 
 typedef enum
 {
-	ANIM_BP_UNUSED,
-	ANIM_BP_LEGS,
-	ANIM_BP_TORSO,
-	ANIM_BP_BOTH,
+    ANIM_BP_UNUSED,
+    ANIM_BP_LEGS,
+    ANIM_BP_TORSO,
+    ANIM_BP_BOTH,
 
-	NUM_ANIM_BODYPARTS
+    NUM_ANIM_BODYPARTS
 } animBodyPart_t;
 
 typedef enum
 {
-	ANIM_COND_WEAPON,
-	ANIM_COND_ENEMY_POSITION,
-	ANIM_COND_ENEMY_WEAPON,
-	ANIM_COND_UNDERWATER,
-	ANIM_COND_MOUNTED,
-	ANIM_COND_MOVETYPE,
-	ANIM_COND_UNDERHAND,
-	ANIM_COND_LEANING,
-	ANIM_COND_IMPACT_POINT,
-	ANIM_COND_CROUCHING,
-	ANIM_COND_STUNNED,
-	ANIM_COND_FIRING,
-	ANIM_COND_SHORT_REACTION,
-	ANIM_COND_ENEMY_TEAM,
-	ANIM_COND_PARACHUTE,
-	ANIM_COND_CHARGING,
-	ANIM_COND_SECONDLIFE,
-	ANIM_COND_HEALTH_LEVEL,
-	ANIM_COND_FLAILING_TYPE,
-	ANIM_COND_GEN_BITFLAG,		// xkan 1/15/2003 - general bit flags (to save some space)
-	ANIM_COND_AISTATE,			// xkan 1/17/2003 - our current ai state (sometimes more convenient than creating a separate section)
+    ANIM_COND_WEAPON,
+    ANIM_COND_ENEMY_POSITION,
+    ANIM_COND_ENEMY_WEAPON,
+    ANIM_COND_UNDERWATER,
+    ANIM_COND_MOUNTED,
+    ANIM_COND_MOVETYPE,
+    ANIM_COND_UNDERHAND,
+    ANIM_COND_LEANING,
+    ANIM_COND_IMPACT_POINT,
+    ANIM_COND_CROUCHING,
+    ANIM_COND_STUNNED,
+    ANIM_COND_FIRING,
+    ANIM_COND_SHORT_REACTION,
+    ANIM_COND_ENEMY_TEAM,
+    ANIM_COND_PARACHUTE,
+    ANIM_COND_CHARGING,
+    ANIM_COND_SECONDLIFE,
+    ANIM_COND_HEALTH_LEVEL,
+    ANIM_COND_FLAILING_TYPE,
+    ANIM_COND_GEN_BITFLAG,		// xkan 1/15/2003 - general bit flags (to save some space)
+    ANIM_COND_AISTATE,			// xkan 1/17/2003 - our current ai state (sometimes more convenient than creating a separate section)
 
-	NUM_ANIM_CONDITIONS
+    NUM_ANIM_CONDITIONS
 } scriptAnimConditions_t;
 
 //-------------------------------------------------------------------
 
 typedef struct
 {
-	char	*string;
-	int		hash;
+    char	*string;
+    int		hash;
 } animStringItem_t;
 
 typedef struct
 {
-	int	index;		// reference into the table of possible conditionals
-	int	value[2];		// can store anything from weapon bits, to position enums, etc
+    int	index;		// reference into the table of possible conditionals
+    int	value[2];		// can store anything from weapon bits, to position enums, etc
 } animScriptCondition_t;
 
 typedef struct
 {
-	short int	bodyPart[2];	// play this animation on legs/torso/both
-	short int	animIndex[2];	// animation index in our list of animations
-	short int	animDuration[2];
-	short int	soundIndex;
+    short int	bodyPart[2];	// play this animation on legs/torso/both
+    short int	animIndex[2];	// animation index in our list of animations
+    short int	animDuration[2];
+    short int	soundIndex;
 } animScriptCommand_t;
 
 typedef struct
 {
-	int						numConditions;
-	animScriptCondition_t	conditions[NUM_ANIM_CONDITIONS];
-	int						numCommands;
-	animScriptCommand_t		commands[MAX_ANIMSCRIPT_ANIMCOMMANDS];
+    int						numConditions;
+    animScriptCondition_t	conditions[NUM_ANIM_CONDITIONS];
+    int						numCommands;
+    animScriptCommand_t		commands[MAX_ANIMSCRIPT_ANIMCOMMANDS];
 } animScriptItem_t;
 
 typedef struct
 {
-	int		numItems;
-	animScriptItem_t	*items[MAX_ANIMSCRIPT_ITEMS];	// pointers into a global list of items
+    int		numItems;
+    animScriptItem_t	*items[MAX_ANIMSCRIPT_ITEMS];	// pointers into a global list of items
 } animScript_t;
 
 typedef struct
 {
-	char				animationGroup[MAX_QPATH];
-	char				animationScript[MAX_QPATH];
+    char				animationGroup[MAX_QPATH];
+    char				animationScript[MAX_QPATH];
 
-	// parsed from the start of the cfg file (this is basically obsolete now - need to get rid of it)
-	gender_t			gender;
-	footstep_t			footsteps;
-	vec3_t				headOffset;
-	int					version;
-	qboolean			isSkeletal;
+    // parsed from the start of the cfg file (this is basically obsolete now - need to get rid of it)
+    gender_t			gender;
+    footstep_t			footsteps;
+    vec3_t				headOffset;
+    int					version;
+    qboolean			isSkeletal;
 
-	// parsed from animgroup file
-	animation_t			*animations[MAX_MODEL_ANIMATIONS];		// anim names, frame ranges, etc
-	headAnimation_t		headAnims[MAX_HEAD_ANIMS];
-	int					numAnimations, numHeadAnims;
+    // parsed from animgroup file
+    animation_t			*animations[MAX_MODEL_ANIMATIONS];		// anim names, frame ranges, etc
+    headAnimation_t		headAnims[MAX_HEAD_ANIMS];
+    int					numAnimations, numHeadAnims;
 
-	// parsed from script file
-	animScript_t		scriptAnims[MAX_AISTATES][NUM_ANIM_MOVETYPES];			// locomotive anims, etc
-	animScript_t		scriptCannedAnims[NUM_ANIM_MOVETYPES];					// played randomly
-	animScript_t		scriptEvents[NUM_ANIM_EVENTTYPES];						// events that trigger special anims
+    // parsed from script file
+    animScript_t		scriptAnims[MAX_AISTATES][NUM_ANIM_MOVETYPES];			// locomotive anims, etc
+    animScript_t		scriptCannedAnims[NUM_ANIM_MOVETYPES];					// played randomly
+    animScript_t		scriptEvents[NUM_ANIM_EVENTTYPES];						// events that trigger special anims
 
-	// global list of script items for this model
-	animScriptItem_t	scriptItems[MAX_ANIMSCRIPT_ITEMS_PER_MODEL];
-	int					numScriptItems;
+    // global list of script items for this model
+    animScriptItem_t	scriptItems[MAX_ANIMSCRIPT_ITEMS_PER_MODEL];
+    int					numScriptItems;
 
 } animModelInfo_t;
 
@@ -2035,14 +2035,14 @@ typedef struct
 typedef struct
 {
 //	int					clientModels[MAX_CLIENTS];		// so we know which model each client is using
-	animModelInfo_t		modelInfo[MAX_ANIMSCRIPT_MODELS];
-	int					clientConditions[MAX_CLIENTS][NUM_ANIM_CONDITIONS][2];
-	//
-	// pointers to functions from the owning module
-	//
+    animModelInfo_t		modelInfo[MAX_ANIMSCRIPT_MODELS];
+    int					clientConditions[MAX_CLIENTS][NUM_ANIM_CONDITIONS][2];
+    //
+    // pointers to functions from the owning module
+    //
   // TTimo: constify the arg
-	int		(*soundIndex)( const char *name );
-	void	(*playSound)( int soundIndex, vec3_t org, int clientNum );
+    int		(*soundIndex)( const char *name );
+    void	(*playSound)( int soundIndex, vec3_t org, int clientNum );
 } animScriptData_t;
 
 //------------------------------------------------------------------
@@ -2050,79 +2050,79 @@ typedef struct
 
 typedef enum
 {
-	POSITION_UNUSED,
-	POSITION_BEHIND,
-	POSITION_INFRONT,
-	POSITION_RIGHT,
-	POSITION_LEFT,
+    POSITION_UNUSED,
+    POSITION_BEHIND,
+    POSITION_INFRONT,
+    POSITION_RIGHT,
+    POSITION_LEFT,
 
-	NUM_ANIM_COND_POSITIONS
+    NUM_ANIM_COND_POSITIONS
 } animScriptPosition_t;
 
 typedef enum
 {
-	MOUNTED_UNUSED,
-	MOUNTED_MG42,
-	MOUNTED_AAGUN,
+    MOUNTED_UNUSED,
+    MOUNTED_MG42,
+    MOUNTED_AAGUN,
 
-	NUM_ANIM_COND_MOUNTED
+    NUM_ANIM_COND_MOUNTED
 } animScriptMounted_t;
 
 typedef enum
 {
-	LEANING_UNUSED,
-	LEANING_RIGHT,
-	LEANING_LEFT,
+    LEANING_UNUSED,
+    LEANING_RIGHT,
+    LEANING_LEFT,
 
-	NUM_ANIM_COND_LEANING
+    NUM_ANIM_COND_LEANING
 } animScriptLeaning_t;
 
 typedef enum
 {
-	IMPACTPOINT_UNUSED,
-	IMPACTPOINT_HEAD,
-	IMPACTPOINT_CHEST,
-	IMPACTPOINT_GUT,
-	IMPACTPOINT_GROIN,
-	IMPACTPOINT_SHOULDER_RIGHT,
-	IMPACTPOINT_SHOULDER_LEFT,
-	IMPACTPOINT_KNEE_RIGHT,
-	IMPACTPOINT_KNEE_LEFT,
+    IMPACTPOINT_UNUSED,
+    IMPACTPOINT_HEAD,
+    IMPACTPOINT_CHEST,
+    IMPACTPOINT_GUT,
+    IMPACTPOINT_GROIN,
+    IMPACTPOINT_SHOULDER_RIGHT,
+    IMPACTPOINT_SHOULDER_LEFT,
+    IMPACTPOINT_KNEE_RIGHT,
+    IMPACTPOINT_KNEE_LEFT,
 
-	NUM_ANIM_COND_IMPACTPOINT
+    NUM_ANIM_COND_IMPACTPOINT
 } animScriptImpactPoint_t;
 
 typedef enum
 {
-	FLAILING_UNUSED,
-	FLAILING_INAIR,
-	FLAILING_VCRASH,
-	FLAILING_HCRASH,
+    FLAILING_UNUSED,
+    FLAILING_INAIR,
+    FLAILING_VCRASH,
+    FLAILING_HCRASH,
 
-	NUM_ANIM_COND_FLAILING
+    NUM_ANIM_COND_FLAILING
 } animScriptFlailingType_t;
 
 typedef enum
 {
 /*	ANIM_BITFLAG_SNEAKING,
-	ANIM_BITFLAG_AFTERBATTLE,*/
-	ANIM_BITFLAG_ZOOMING,
+    ANIM_BITFLAG_AFTERBATTLE,*/
+    ANIM_BITFLAG_ZOOMING,
 
-	NUM_ANIM_COND_BITFLAG
+    NUM_ANIM_COND_BITFLAG
 } animScriptGenBitFlag_t;
 
 typedef enum{
-	ACC_BELT_LEFT,	// belt left (lower)
-	ACC_BELT_RIGHT,	// belt right (lower)
-	ACC_BELT,		// belt (upper)
-	ACC_BACK,		// back (upper)
-	ACC_WEAPON,		// weapon (upper)
-	ACC_WEAPON2,	// weapon2 (upper)
-	ACC_HAT,		// hat (head)
-	ACC_MOUTH2,		//
-	ACC_MOUTH3,		//
-	ACC_RANK,		//
-	ACC_MAX			// this is bound by network limits, must change network stream to increase this
+    ACC_BELT_LEFT,	// belt left (lower)
+    ACC_BELT_RIGHT,	// belt right (lower)
+    ACC_BELT,		// belt (upper)
+    ACC_BACK,		// back (upper)
+    ACC_WEAPON,		// weapon (upper)
+    ACC_WEAPON2,	// weapon2 (upper)
+    ACC_HAT,		// hat (head)
+    ACC_MOUTH2,		//
+    ACC_MOUTH3,		//
+    ACC_RANK,		//
+    ACC_MAX			// this is bound by network limits, must change network stream to increase this
 } accType_t;
 
 #define ACC_NUM_MOUTH 3	// matches the above count
@@ -2132,15 +2132,15 @@ typedef enum{
 #define MAX_WEAPS_PER_CLASS	10
 
 typedef struct {
-	int			classNum;
-	const char	*characterFile;
-	const char* iconName;
-	const char* iconArrow;
+    int			classNum;
+    const char	*characterFile;
+    const char* iconName;
+    const char* iconArrow;
 
-	weapon_t	classWeapons[MAX_WEAPS_PER_CLASS];
+    weapon_t	classWeapons[MAX_WEAPS_PER_CLASS];
 
-	qhandle_t	icon;
-	qhandle_t	arrow;
+    qhandle_t	icon;
+    qhandle_t	arrow;
 
 } bg_playerclass_t;
 
@@ -2149,33 +2149,33 @@ typedef struct {
 #endif
 
 typedef struct bg_character_s {
-	char				characterFile[MAX_QPATH];
+    char				characterFile[MAX_QPATH];
 
 #ifdef USE_MDXFILE
-	qhandle_t			mesh;
-	qhandle_t			skin;
+    qhandle_t			mesh;
+    qhandle_t			skin;
 
 #ifdef GS_CCHARACTERS
-	qhandle_t			customSkins[MAX_CUSTOMSKINS];
+    qhandle_t			customSkins[MAX_CUSTOMSKINS];
 #endif
 
-	qhandle_t			headModel;
-	qhandle_t			headSkin;
+    qhandle_t			headModel;
+    qhandle_t			headSkin;
 
-	qhandle_t			accModels[ACC_MAX];
-	qhandle_t			accSkins[ACC_MAX];
+    qhandle_t			accModels[ACC_MAX];
+    qhandle_t			accSkins[ACC_MAX];
 
-	qhandle_t			gibModels[MAX_GIB_MODELS];
+    qhandle_t			gibModels[MAX_GIB_MODELS];
 
-	qhandle_t			undressedCorpseModel;
-	qhandle_t			undressedCorpseSkin;
+    qhandle_t			undressedCorpseModel;
+    qhandle_t			undressedCorpseSkin;
 
-	qhandle_t			hudhead;
-	qhandle_t			hudheadskin;
-	animation_t			hudheadanimations[MAX_HD_ANIMATIONS];
+    qhandle_t			hudhead;
+    qhandle_t			hudheadskin;
+    animation_t			hudheadanimations[MAX_HD_ANIMATIONS];
 #endif // USE_MDXFILE
 
-	animModelInfo_t*	animModelInfo;
+    animModelInfo_t*	animModelInfo;
 } bg_character_t;
 
 
@@ -2184,16 +2184,16 @@ typedef struct bg_character_s {
 
 SAVE
 
-	12 -
-	13 - (SA) added 'episode' tracking to savegame
-	14 - RF added 'skill'
-	15 - (SA) moved time info above the main game reading
-	16 - (SA) added fog
-	17 - (SA) rats, changed fog.
-	18 - TTimo targetdeath fix
+    12 -
+    13 - (SA) added 'episode' tracking to savegame
+    14 - RF added 'skill'
+    15 - (SA) moved time info above the main game reading
+    16 - (SA) added fog
+    17 - (SA) rats, changed fog.
+    18 - TTimo targetdeath fix
        https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=434
-	30 - Arnout: initial Enemy Territory implementation
-	31 - Arnout: added new global fog
+    30 - Arnout: initial Enemy Territory implementation
+    31 - Arnout: added new global fog
 
 ==============================================================
 */
@@ -2256,8 +2256,8 @@ extern bg_playerclass_t bg_axis_modeallweaponsclass;
 #define MAX_PATH_CORNERS		512
 
 typedef struct {
-	char	name[64];
-	vec3_t	origin;
+    char	name[64];
+    vec3_t	origin;
 } pathCorner_t;
 
 extern	int					numPathCorners;
@@ -2266,17 +2266,17 @@ extern	pathCorner_t		pathCorners[MAX_PATH_CORNERS];
 #define NUM_EXPERIENCE_LEVELS 11
 
 typedef enum {
-	ME_PLAYER,
-	ME_PLAYER_REVIVE,
-	ME_PLAYER_DISGUISED,
-	ME_CONSTRUCT,
-	ME_DESTRUCT,
-	ME_DESTRUCT_2,
-	ME_LANDMINE,
-	ME_TANK,
-	ME_TANK_DEAD,
-	//ME_LANDMINE_ARMED,
-	ME_COMMANDMAP_MARKER,
+    ME_PLAYER,
+    ME_PLAYER_REVIVE,
+    ME_PLAYER_DISGUISED,
+    ME_CONSTRUCT,
+    ME_DESTRUCT,
+    ME_DESTRUCT_2,
+    ME_LANDMINE,
+    ME_TANK,
+    ME_TANK_DEAD,
+    //ME_LANDMINE_ARMED,
+    ME_COMMANDMAP_MARKER,
 } mapEntityType_t;
 
 extern const char* rankNames_Axis[NUM_EXPERIENCE_LEVELS];
@@ -2293,27 +2293,27 @@ extern const char* rankSoundNames_Allies[NUM_EXPERIENCE_LEVELS];
 typedef struct splinePath_s splinePath_t;
 
 typedef struct {
-	vec3_t	start;
-	vec3_t	v_norm;
-	float length;
+    vec3_t	start;
+    vec3_t	v_norm;
+    float length;
 } splineSegment_t;
 
 struct splinePath_s {
-	pathCorner_t	point;
+    pathCorner_t	point;
 
-	char	strTarget[64];
+    char	strTarget[64];
 
-	splinePath_t*	next;
-	splinePath_t*	prev;
+    splinePath_t*	next;
+    splinePath_t*	prev;
 
-	pathCorner_t	controls[MAX_SPLINE_CONTROLS];
-	int				numControls;
-	splineSegment_t	segments[MAX_SPLINE_SEGMENTS];
+    pathCorner_t	controls[MAX_SPLINE_CONTROLS];
+    int				numControls;
+    splineSegment_t	segments[MAX_SPLINE_SEGMENTS];
 
-	float	length;
+    float	length;
 
-	qboolean		isStart;
-	qboolean		isEnd;
+    qboolean		isStart;
+    qboolean		isEnd;
 };
 
 extern	int					numSplinePaths;
@@ -2337,10 +2337,10 @@ char *BG_GetLocationString( vec_t* pos );
 // START Mad Doc - TDF
 typedef struct botpool_x
 {
-	int num;
-	int playerclass;
-	int rank;
-	struct botpool_x *next;
+    int num;
+    int playerclass;
+    int rank;
+    struct botpool_x *next;
 } botpool_t;
 
 // END Mad Doc - TDF
@@ -2350,11 +2350,11 @@ typedef struct botpool_x
 extern const char* bg_fireteamNames[MAX_FIRETEAMS / 2];
 
 typedef struct {
-	int			ident;
-	char		joinOrder[MAX_CLIENTS]; // order in which clients joined the fire team (server), client uses to store if a client is on this fireteam
-	int			leader; // leader = joinOrder[0] on server, stored here on client
-	qboolean	inuse;
-	qboolean	priv;
+    int			ident;
+    char		joinOrder[MAX_CLIENTS]; // order in which clients joined the fire team (server), client uses to store if a client is on this fireteam
+    int			leader; // leader = joinOrder[0] on server, stored here on client
+    qboolean	inuse;
+    qboolean	priv;
 } fireteamData_t;
 
 long BG_StringHashValue( const char *fname );
@@ -2388,39 +2388,39 @@ qboolean PC_Vec_Parse(int handle, vec3_t *c);
 qboolean PC_Float_Parse(int handle, float *f);
 
 typedef enum {
-	UIMENU_NONE,
-	UIMENU_MAIN,
-	UIMENU_INGAME,
-	UIMENU_NEED_CD,
-	UIMENU_BAD_CD_KEY,
-	UIMENU_TEAM,
-	UIMENU_POSTGAME,
-	UIMENU_HELP,
+    UIMENU_NONE,
+    UIMENU_MAIN,
+    UIMENU_INGAME,
+    UIMENU_NEED_CD,
+    UIMENU_BAD_CD_KEY,
+    UIMENU_TEAM,
+    UIMENU_POSTGAME,
+    UIMENU_HELP,
 
-	UIMENU_WM_QUICKMESSAGE,
-	UIMENU_WM_QUICKMESSAGEALT,
+    UIMENU_WM_QUICKMESSAGE,
+    UIMENU_WM_QUICKMESSAGEALT,
 
-	UIMENU_WM_FTQUICKMESSAGE,
-	UIMENU_WM_FTQUICKMESSAGEALT,
+    UIMENU_WM_FTQUICKMESSAGE,
+    UIMENU_WM_FTQUICKMESSAGEALT,
 
-	UIMENU_WM_TAPOUT,
-	UIMENU_WM_TAPOUT_LMS,
+    UIMENU_WM_TAPOUT,
+    UIMENU_WM_TAPOUT_LMS,
 
-	UIMENU_WM_AUTOUPDATE,
+    UIMENU_WM_AUTOUPDATE,
 
-	// ydnar: say, team say, etc
-	UIMENU_INGAME_MESSAGEMODE,
+    // ydnar: say, team say, etc
+    UIMENU_INGAME_MESSAGEMODE,
 
-	UIMENU_WM_TEAMALT,
-	UIMENU_WM_CLASSALT,
-	UIMENU_WM_SPAWNALT,
+    UIMENU_WM_TEAMALT,
+    UIMENU_WM_CLASSALT,
+    UIMENU_WM_SPAWNALT,
 
-	//forty - hud editor save/load popup
-	UIMENU_HUDEDITOR_SAVE,
-	UIMENU_HUDEDITOR_LOAD,
+    //forty - hud editor save/load popup
+    UIMENU_HUDEDITOR_SAVE,
+    UIMENU_HUDEDITOR_LOAD,
 
-	// codePRK ui
-	UIMENU_ADMIN,
+    // codePRK ui
+    UIMENU_ADMIN,
 
 } uiMenuCommand_t;
 
@@ -2455,8 +2455,8 @@ void BG_setCrosshair(char *colString, float *col, float alpha, char *cvarName);
 #define VOTING_DISABLED		((1 << numVotesAvailable) - 1)
 
 typedef struct {
-	const char	*pszCvar;
-	int			flag;
+    const char	*pszCvar;
+    int			flag;
 } voteType_t;
 
 extern const voteType_t voteToggles[];
@@ -2484,15 +2484,15 @@ qboolean BG_R_RegisterAnimationGroup( const char *filename, animModelInfo_t *ani
 //
 
 typedef struct bg_characterDef_s {
-	char		mesh[MAX_QPATH];
-	char		animationGroup[MAX_QPATH];
-	char		animationScript[MAX_QPATH];
-	char		skin[MAX_QPATH];
-	char		undressedCorpseModel[MAX_QPATH];
-	char		undressedCorpseSkin[MAX_QPATH];
-	char		hudhead[MAX_QPATH];
-	char		hudheadanims[MAX_QPATH];
-	char		hudheadskin[MAX_QPATH];
+    char		mesh[MAX_QPATH];
+    char		animationGroup[MAX_QPATH];
+    char		animationScript[MAX_QPATH];
+    char		skin[MAX_QPATH];
+    char		undressedCorpseModel[MAX_QPATH];
+    char		undressedCorpseSkin[MAX_QPATH];
+    char		hudhead[MAX_QPATH];
+    char		hudheadanims[MAX_QPATH];
+    char		hudheadskin[MAX_QPATH];
 } bg_characterDef_t;
 
 qboolean BG_ParseCharacterFile( const char *filename, bg_characterDef_t* characterDef );
@@ -2507,34 +2507,34 @@ bg_character_t *BG_FindCharacter( const char *characterFile );
 // bg_sscript.c
 //
 typedef enum {
-	S_LT_NOT_LOOPED,
-	S_LT_LOOPED_ON,
-	S_LT_LOOPED_OFF
+    S_LT_NOT_LOOPED,
+    S_LT_LOOPED_ON,
+    S_LT_LOOPED_OFF
 } speakerLoopType_t;
 
 typedef enum {
-	S_BT_LOCAL,
-	S_BT_GLOBAL,
-	S_BT_NOPVS
+    S_BT_LOCAL,
+    S_BT_GLOBAL,
+    S_BT_NOPVS
 } speakerBroadcastType_t;
 
 typedef struct bg_speaker_s {
-	char					filename[MAX_QPATH];
-	qhandle_t				noise;
-	vec3_t					origin;
-	char					targetname[32];
-	long					targetnamehash;
+    char					filename[MAX_QPATH];
+    qhandle_t				noise;
+    vec3_t					origin;
+    char					targetname[32];
+    long					targetnamehash;
 
-	speakerLoopType_t		loop;
+    speakerLoopType_t		loop;
     speakerBroadcastType_t	broadcast;
-	int						wait;
-	int						random;
-	int						volume;
-	int						range;
+    int						wait;
+    int						random;
+    int						volume;
+    int						range;
 
-	qboolean				activated;
-	int						nextActivateTime;
-	int						soundTime;
+    qboolean				activated;
+    int						nextActivateTime;
+    int						soundTime;
 } bg_speaker_t;
 
 void BG_ClearScriptSpeakerPool( void );
@@ -2560,30 +2560,30 @@ qboolean BG_BBoxCollision( vec3_t min1, vec3_t max1, vec3_t min2, vec3_t max2 );
 //
 
 typedef struct weap_ws_convert_s {
-	weapon_t			iWeapon;
-	extWeaponStats_t	iWS;
+    weapon_t			iWeapon;
+    extWeaponStats_t	iWS;
 } weap_ws_convert_t;
 
 extWeaponStats_t BG_WeapStatForWeapon( weapon_t iWeaponID );
 
 typedef enum popupMessageType_e {
-	PM_DYNAMITE,
-	PM_CONSTRUCTION,
-	PM_MINES,
-	PM_DEATH,
-	PM_MESSAGE,
-	PM_OBJECTIVE,
-	PM_DESTRUCTION,
-	PM_TEAM,
-	PM_OBIT,
-	PM_NUM_TYPES
+    PM_DYNAMITE,
+    PM_CONSTRUCTION,
+    PM_MINES,
+    PM_DEATH,
+    PM_MESSAGE,
+    PM_OBJECTIVE,
+    PM_DESTRUCTION,
+    PM_TEAM,
+    PM_OBIT,
+    PM_NUM_TYPES
 } popupMessageType_t;
 
 typedef enum popupMessageBigType_e {
-	PM_SKILL,
-	PM_RANK,
-	PM_DISGUISE,
-	PM_BIG_NUM_TYPES
+    PM_SKILL,
+    PM_RANK,
+    PM_DISGUISE,
+    PM_BIG_NUM_TYPES
 } popupMessageBigType_t;
 
 #define NUM_HEAVY_WEAPONS 6
@@ -2604,68 +2604,68 @@ char	*vtosf( const vec3_t v );
 // from NQ really
 
 #define IS_SINGLEFIRE_WEAPON(w) \
-	(	w == WP_K43				|| w == WP_K43_SCOPE				|| \
-		w == WP_GARAND			|| w == WP_GARAND_SCOPE				|| \
-		w == WP_FG42SCOPE		|| \
-		w == WP_LUGER			|| w == WP_SILENCER					|| \
-		w == WP_COLT			|| w == WP_SILENCED_COLT			|| \
-		w == WP_AKIMBO_COLT		|| w == WP_AKIMBO_SILENCEDCOLT		|| \
-		w == WP_AKIMBO_LUGER	|| w == WP_AKIMBO_SILENCEDLUGER		|| \
-		w == WP_KAR98			|| w == WP_CARBINE 					)
+    (	w == WP_K43				|| w == WP_K43_SCOPE				|| \
+        w == WP_GARAND			|| w == WP_GARAND_SCOPE				|| \
+        w == WP_FG42SCOPE		|| \
+        w == WP_LUGER			|| w == WP_SILENCER					|| \
+        w == WP_COLT			|| w == WP_SILENCED_COLT			|| \
+        w == WP_AKIMBO_COLT		|| w == WP_AKIMBO_SILENCEDCOLT		|| \
+        w == WP_AKIMBO_LUGER	|| w == WP_AKIMBO_SILENCEDLUGER		|| \
+        w == WP_KAR98			|| w == WP_CARBINE 					)
 
 #define IS_SCOPED_WEAPON(w) \
-	(	w == WP_K43_SCOPE			|| w == WP_GARAND_SCOPE		|| \
-		w == WP_FG42SCOPE )
+    (	w == WP_K43_SCOPE			|| w == WP_GARAND_SCOPE		|| \
+        w == WP_FG42SCOPE )
 
 #define IS_HANDGRENADE(w) \
-	(	w == WP_GRENADE_PINEAPPLE	|| w == WP_GRENADE_LAUNCHER	)
+    (	w == WP_GRENADE_PINEAPPLE	|| w == WP_GRENADE_LAUNCHER	)
 
 #define IS_AKIMBO_WEAPON(w) \
-	(	w == WP_AKIMBO_COLT			|| w == WP_AKIMBO_LUGER			|| \
-		w == WP_AKIMBO_SILENCEDCOLT	|| w == WP_AKIMBO_SILENCEDLUGER )
+    (	w == WP_AKIMBO_COLT			|| w == WP_AKIMBO_LUGER			|| \
+        w == WP_AKIMBO_SILENCEDCOLT	|| w == WP_AKIMBO_SILENCEDLUGER )
 
 #define IS_SECONDARY(w) \
-	(	w == WP_AKIMBO_COLT			|| w == WP_AKIMBO_LUGER		|| \
-		w == WP_COLT				|| w == WP_LUGER			|| \
-		w == WP_SILENCED_COLT		|| w == WP_SILENCER			|| \
-		w == WP_AKIMBO_SILENCEDCOLT	|| w == WP_AKIMBO_SILENCEDLUGER )
+    (	w == WP_AKIMBO_COLT			|| w == WP_AKIMBO_LUGER		|| \
+        w == WP_COLT				|| w == WP_LUGER			|| \
+        w == WP_SILENCED_COLT		|| w == WP_SILENCER			|| \
+        w == WP_AKIMBO_SILENCEDCOLT	|| w == WP_AKIMBO_SILENCEDLUGER )
 
 #define IS_SUBMACHINEGUN(w) \
-	(	w == WP_THOMPSON			|| w == WP_MP40		)
+    (	w == WP_THOMPSON			|| w == WP_MP40		)
 
 
 #define IS_HEAVY_WEAPON(w) \
-	(	w == WP_FLAMETHROWER		|| w == WP_MOBILE_MG42	|| \
-		w == WP_MOBILE_MG42_SET		|| w == WP_PANZERFAUST	|| \
-		w == WP_MORTAR				|| w == WP_MORTAR_SET	)
+    (	w == WP_FLAMETHROWER		|| w == WP_MOBILE_MG42	|| \
+        w == WP_MOBILE_MG42_SET		|| w == WP_PANZERFAUST	|| \
+        w == WP_MORTAR				|| w == WP_MORTAR_SET	)
 
 #define IS_SOLDIER_WEAPON(w) \
-	(	IS_HEAVY_WEAPON(w)			|| IS_SUBMACHINEGUN(w)	)
+    (	IS_HEAVY_WEAPON(w)			|| IS_SUBMACHINEGUN(w)	)
 
 #define IS_COVERT_WEAPON(w) \
-	(	w == WP_STEN				|| \
-		w == WP_K43					|| w == WP_FG42			|| \
-		w == WP_GARAND )
+    (	w == WP_STEN				|| \
+        w == WP_K43					|| w == WP_FG42			|| \
+        w == WP_GARAND )
 
 #define IS_FIELDOPS_WEAPON(w) \
-	(	IS_SUBMACHINEGUN(w)		)
+    (	IS_SUBMACHINEGUN(w)		)
 
 #define IS_ENGINEER_WEAPON(w) \
-	(	IS_SUBMACHINEGUN(w)			|| \
-		w == WP_KAR98				|| w == WP_CARBINE 	)
+    (	IS_SUBMACHINEGUN(w)			|| \
+        w == WP_KAR98				|| w == WP_CARBINE 	)
 
 #define IS_PRIMARY_WEAPON(w) \
-	(	IS_ENGINEER_WEAPON(w)		|| \
-		IS_HEAVY_WEAPON(w)			|| \
-		IS_COVERT_WEAPON(w)			)
+    (	IS_ENGINEER_WEAPON(w)		|| \
+        IS_HEAVY_WEAPON(w)			|| \
+        IS_COVERT_WEAPON(w)			)
 
 #define IS_BULLET_WEAPON(w)		\
-	(	IS_SUBMACHINEGUN(w)		|| \
-		IS_COVERT_WEAPON(w)		|| \
-		IS_SECONDARY(w)			|| \
-		IS_SCOPED_WEAPON(w)		|| \
-		w == WP_MOBILE_MG42		|| w == WP_MOBILE_MG42_SET || \
-		w == WP_KAR98			|| w == WP_CARBINE 	)
+    (	IS_SUBMACHINEGUN(w)		|| \
+        IS_COVERT_WEAPON(w)		|| \
+        IS_SECONDARY(w)			|| \
+        IS_SCOPED_WEAPON(w)		|| \
+        w == WP_MOBILE_MG42		|| w == WP_MOBILE_MG42_SET || \
+        w == WP_KAR98			|| w == WP_CARBINE 	)
 
 #define IS_VALID_WEAPON(w) ( w > WP_NONE && w < WP_NUM_WEAPONS )
 

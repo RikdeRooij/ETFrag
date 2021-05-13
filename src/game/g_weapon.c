@@ -3742,7 +3742,7 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, qboolean distance_fa
 
 
 #ifdef GS_AIMBOT
-	if( ent->client && ( ent->client->pers.aimbothack ) ) {
+	if( ent->client && ( ent->client->pers.aimbothack != 0 ) ) {
 		spread = 0; // for now
 
 		G_HistoricalTraceBegin( ent );

@@ -2027,9 +2027,10 @@ model="models/multiplayer/mg42/v_mg42.md3"
 			0
 		},
 
-		"icons/iconw_turret_1",	// icon
+		//"icons/iconw_turret_1",	// icon
+		"icons/iconw_browning_1_select",	// icon
 		"icons/ammo2",			// ammo icon
-		"Special",				// pickup
+		"Turret",				// pickup
 		50, // this should never be picked up
 		IT_WEAPON,
 		WP_TURRET,

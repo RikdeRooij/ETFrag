@@ -1,4 +1,5 @@
 //  diskid32.cpp
+// https://www.winsim.com/diskid32/diskid32.cpp
 
 
 //  for displaying the details of hard drives in a command window
@@ -47,7 +48,7 @@
 
 // #############################################################################
 
-	//  special include from the MS DDK
+    //  special include from the MS DDK
 //#include "c:\win2kddk\inc\ddk\ntddk.h"
 //#include "c:\win2kddk\inc\ntddstor.h"
 
@@ -156,7 +157,7 @@ typedef struct _SRB_IO_CONTROL
 BYTE IdOutCmd [sizeof (SENDCMDOUTPARAMS) + IDENTIFY_BUFFER_SIZE - 1];
 
 
-//void PrintIdeInfo (int drive, DWORD diskdata [256]);
+void PrintIdeInfo (int drive, DWORD diskdata [256]);
 BOOL DoIDENTIFY (HANDLE, PSENDCMDINPARAMS, PSENDCMDOUTPARAMS, BYTE, BYTE,
                  PDWORD);
 
@@ -223,7 +224,7 @@ int ReadPhysicalDriveInNTWithAdminRights (void)
             SENDCMDINPARAMS  scip;
             //SENDCMDOUTPARAMS OutCmd;
 
-			   // Now, get the ID sector for all IDE devices in the system.
+               // Now, get the ID sector for all IDE devices in the system.
                // If the device is ATAPI use the IDE_ATAPI_IDENTIFY command,
                // otherwise use the IDE_ATA_IDENTIFY command
             bIDCmd = (VersionParams.bIDEDeviceMap >> drive & 0x10) ? \
@@ -247,11 +248,11 @@ int ReadPhysicalDriveInNTWithAdminRights (void)
                for (ijk = 0; ijk < 256; ijk++)
                   diskdata [ijk] = pIdSector [ijk];
 
-               //PrintIdeInfo (drive, diskdata);
+               PrintIdeInfo (drive, diskdata);
 
                done = TRUE;
             }
-	    }
+        }
 
          CloseHandle (hPhysicalDriveIOCTL);
       }
@@ -344,7 +345,7 @@ int ReadPhysicalDriveInNTUsingSmart (void)
       hPhysicalDriveIOCTL = CreateFile (driveName,
                                GENERIC_READ | GENERIC_WRITE, 
                                FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE, 
-							   NULL, OPEN_EXISTING, 0, NULL);
+                               NULL, OPEN_EXISTING, 0, NULL);
       // if (hPhysicalDriveIOCTL == INVALID_HANDLE_VALUE)
       //    printf ("Unable to open physical drive %d, error code: 0x%lX\n",
       //            drive, GetLastError ());
@@ -364,36 +365,36 @@ int ReadPhysicalDriveInNTUsingSmart (void)
          if ( ! DeviceIoControl (hPhysicalDriveIOCTL, SMART_GET_VERSION,
                    NULL, 
                    0,
-     			   &GetVersionParams, sizeof (GETVERSIONINPARAMS),
-				   &cbBytesReturned, NULL) )
+                   &GetVersionParams, sizeof (GETVERSIONINPARAMS),
+                   &cbBytesReturned, NULL) )
          {         
 
          }
          else
          {
-			 	// Print the SMART version
-           	// PrintVersion (& GetVersionParams);
-	           // Allocate the command buffer
-			ULONG CommandSize = sizeof(SENDCMDINPARAMS) + IDENTIFY_BUFFER_SIZE;
-        	PSENDCMDINPARAMS Command = (PSENDCMDINPARAMS) malloc (CommandSize);
-			DWORD BytesReturned = 0;
+                // Print the SMART version
+            // PrintVersion (& GetVersionParams);
+               // Allocate the command buffer
+            ULONG CommandSize = sizeof(SENDCMDINPARAMS) + IDENTIFY_BUFFER_SIZE;
+            PSENDCMDINPARAMS Command = (PSENDCMDINPARAMS) malloc (CommandSize);
+            DWORD BytesReturned = 0;
 
-	           // Retrieve the IDENTIFY data
-	           // Prepare the command
+               // Retrieve the IDENTIFY data
+               // Prepare the command
 #define ID_CMD          0xEC            // Returns ID sector for ATA
-			Command -> irDriveRegs.bCommandReg = ID_CMD;
+            Command -> irDriveRegs.bCommandReg = ID_CMD;
 
-	        if ( ! DeviceIoControl (hPhysicalDriveIOCTL, 
-				                    SMART_RCV_DRIVE_DATA, Command, sizeof(SENDCMDINPARAMS),
-									Command, CommandSize,
-									&BytesReturned, NULL) )
+            if ( ! DeviceIoControl (hPhysicalDriveIOCTL, 
+                                    SMART_RCV_DRIVE_DATA, Command, sizeof(SENDCMDINPARAMS),
+                                    Command, CommandSize,
+                                    &BytesReturned, NULL) )
             {
-		           // Print the error
-		        //PrintError ("SMART_RCV_DRIVE_DATA IOCTL", GetLastError());
-	        } 
-			else
-			{
-        	       // Print the IDENTIFY data
+                   // Print the error
+                //PrintError ("SMART_RCV_DRIVE_DATA IOCTL", GetLastError());
+            } 
+            else
+            {
+                   // Print the IDENTIFY data
                 DWORD diskdata [256];
                 USHORT *pIdSector = (USHORT *)
                              (PIDENTIFY_DATA) ((PSENDCMDOUTPARAMS) Command) -> bBuffer;
@@ -401,13 +402,13 @@ int ReadPhysicalDriveInNTUsingSmart (void)
                 for (ijk = 0; ijk < 256; ijk++)
                    diskdata [ijk] = pIdSector [ijk];
 
-                //PrintIdeInfo (drive, diskdata);
+                PrintIdeInfo (drive, diskdata);
                 done = TRUE;
-			}
-	           // Done
+            }
+               // Done
             CloseHandle (hPhysicalDriveIOCTL);
-			free (Command);
-		 }
+            free (Command);
+         }
       }
    }
 
@@ -422,12 +423,12 @@ int ReadPhysicalDriveInNTUsingSmart (void)
 
 #pragma pack(4)
 
-	//  function to decode the serial numbers of IDE hard drives
-	//  using the IOCTL_STORAGE_QUERY_PROPERTY command 
+    //  function to decode the serial numbers of IDE hard drives
+    //  using the IOCTL_STORAGE_QUERY_PROPERTY command 
 char * flipAndCodeBytes (const char * str,
-			 int pos,
-			 int flip,
-			 char * buf)
+             int pos,
+             int flip,
+             char * buf)
 {
    int i;
    int j = 0;
@@ -447,35 +448,35 @@ char * flipAndCodeBytes (const char * str,
       buf[k] = 0;
       for (i = pos; j && str[i] != '\0'; ++i)
       {
-	 char c = tolower(str[i]);
+     char c = tolower(str[i]);
 
-	 if (isspace(c))
-	    c = '0';
+     if (isspace(c))
+        c = '0';
 
-	 ++p;
-	 buf[k] <<= 4;
+     ++p;
+     buf[k] <<= 4;
 
-	 if (c >= '0' && c <= '9')
-	    buf[k] |= (unsigned char) (c - '0');
-	 else if (c >= 'a' && c <= 'f')
-	    buf[k] |= (unsigned char) (c - 'a' + 10);
-	 else
-	 {
-	    j = 0;
-	    break;
-	 }
+     if (c >= '0' && c <= '9')
+        buf[k] |= (unsigned char) (c - '0');
+     else if (c >= 'a' && c <= 'f')
+        buf[k] |= (unsigned char) (c - 'a' + 10);
+     else
+     {
+        j = 0;
+        break;
+     }
 
-	 if (p == 2)
-	 {
-	    if (buf[k] != '\0' && (!(buf[k] >= -1 && buf[k] <= 255 && isprint(buf[k]))))
-	    {
-	       j = 0;
-	       break;
-	    }
-	    ++k;
-	    p = 0;
-	    buf[k] = 0;
-	 }
+     if (p == 2)
+     {
+        if (buf[k] != '\0' && (!(buf[k] >= -1 && buf[k] <= 255 && isprint(buf[k]))))
+        {
+           j = 0;
+           break;
+        }
+        ++k;
+        p = 0;
+        buf[k] = 0;
+     }
 
       }
    }
@@ -487,15 +488,15 @@ char * flipAndCodeBytes (const char * str,
       k = 0;
       for (i = pos; j && str[i] != '\0'; ++i)
       {
-	     char c = str[i];
+         char c = str[i];
 
-	     if (!(c >= -1 && c <= 255 && isprint(c)))
-	     {
-	        j = 0;
-	        break;
-	     }
+         if (!(c >= -1 && c <= 255 && isprint(c)))
+         {
+            j = 0;
+            break;
+         }
 
-	     buf[k++] = c;
+         buf[k++] = c;
       }
    }
 
@@ -511,9 +512,9 @@ char * flipAndCodeBytes (const char * str,
       // Flip adjacent characters
       for (j = 0; j < k; j += 2)
       {
-	     char t = buf[j];
-	     buf[j] = buf[j + 1];
-	     buf[j + 1] = t;
+         char t = buf[j];
+         buf[j] = buf[j + 1];
+         buf[j + 1] = t;
       }
 
    // Trim any beginning and end space
@@ -522,9 +523,9 @@ char * flipAndCodeBytes (const char * str,
    {
       if (! isspace(buf[k]))
       {
-	     if (i < 0)
-	        i = k;
-	     j = k;
+         if (i < 0)
+            i = k;
+         j = k;
       }
    }
 
@@ -568,100 +569,100 @@ int ReadPhysicalDriveInNTWithZeroRights (void)
       }
       else
       {
-		 STORAGE_PROPERTY_QUERY query;
-         int cbBytesReturned = 0;
-		 char buffer [10000];
+         STORAGE_PROPERTY_QUERY query;
+         DWORD cbBytesReturned = 0;
+         char buffer [10000];
 
          memset ((void *) & query, 0, sizeof (query));
-		 query.PropertyId = StorageDeviceProperty;
-		 query.QueryType = PropertyStandardQuery;
+         query.PropertyId = StorageDeviceProperty;
+         query.QueryType = PropertyStandardQuery;
 
-		 memset (buffer, 0, sizeof (buffer));
+         memset (buffer, 0, sizeof (buffer));
 
          if ( DeviceIoControl (hPhysicalDriveIOCTL, IOCTL_STORAGE_QUERY_PROPERTY,
                    & query,
                    sizeof (query),
-				   & buffer,
-				   sizeof (buffer),
+                   & buffer,
+                   sizeof (buffer),
                    & cbBytesReturned, NULL) )
          {         
-			 STORAGE_DEVICE_DESCRIPTOR * descrip = (STORAGE_DEVICE_DESCRIPTOR *) & buffer;
-			 char serialNumber [1000];
-			 char modelNumber [1000];
+             STORAGE_DEVICE_DESCRIPTOR * descrip = (STORAGE_DEVICE_DESCRIPTOR *) & buffer;
+             char serialNumber [1000];
+             char modelNumber [1000];
              char vendorId [1000];
-	         char productRevision [1000];
+             char productRevision [1000];
 
 
              flipAndCodeBytes (buffer,
                                descrip -> VendorIdOffset,
-			                   0, vendorId );
-	         flipAndCodeBytes (buffer,
-			                   descrip -> ProductIdOffset,
-			                   0, modelNumber );
-	         flipAndCodeBytes (buffer,
-			                   descrip -> ProductRevisionOffset,
-			                   0, productRevision );
-	         flipAndCodeBytes (buffer,
-			                   descrip -> SerialNumberOffset,
-			                   1, serialNumber );
+                               0, vendorId );
+             flipAndCodeBytes (buffer,
+                               descrip -> ProductIdOffset,
+                               0, modelNumber );
+             flipAndCodeBytes (buffer,
+                               descrip -> ProductRevisionOffset,
+                               0, productRevision );
+             flipAndCodeBytes (buffer,
+                               descrip -> SerialNumberOffset,
+                               1, serialNumber );
 
-			 if (0 == HardDriveSerialNumber [0] &&
-						//  serial number must be alphanumeric
-			            //  (but there can be leading spaces on IBM drives)
-				   (isalnum (serialNumber [0]) || isalnum (serialNumber [19])))
-			 {
-				strcpy (HardDriveSerialNumber, serialNumber);
-				strcpy (HardDriveModelNumber, modelNumber);
-				done = TRUE;
-			 }
+             if (0 == HardDriveSerialNumber [0] &&
+                        //  serial number must be alphanumeric
+                        //  (but there can be leading spaces on IBM drives)
+                   (isalnum (serialNumber [0]) || isalnum (serialNumber [19])))
+             {
+                strcpy (HardDriveSerialNumber, serialNumber);
+                strcpy (HardDriveModelNumber, modelNumber);
+                done = TRUE;
+             }
 #ifdef PRINTING_TO_CONSOLE_ALLOWED
              printf ("\n**** STORAGE_DEVICE_DESCRIPTOR for drive %d ****\n"
-		             "Vendor Id = [%s]\n"
-		             "Product Id = [%s]\n"
-		             "Product Revision = [%s]\n"
-		             "Serial Number = [%s]\n",
-		             drive,
-		             vendorId,
-		             modelNumber,
-		             productRevision,
-		             serialNumber);
+                     "Vendor Id = [%s]\n"
+                     "Product Id = [%s]\n"
+                     "Product Revision = [%s]\n"
+                     "Serial Number = [%s]\n",
+                     drive,
+                     vendorId,
+                     modelNumber,
+                     productRevision,
+                     serialNumber);
 #endif
-	           // Get the disk drive geometry.
-	         memset (buffer, 0, sizeof(buffer));
-	         if ( ! DeviceIoControl (hPhysicalDriveIOCTL,
-			          IOCTL_DISK_GET_DRIVE_GEOMETRY_EX,
-			          NULL,
-			          0,
-			          &buffer,
-			          sizeof(buffer),
-			          &cbBytesReturned,
-			          NULL))
-	         {
+               // Get the disk drive geometry.
+             memset (buffer, 0, sizeof(buffer));
+             if ( ! DeviceIoControl (hPhysicalDriveIOCTL,
+                      IOCTL_DISK_GET_DRIVE_GEOMETRY_EX,
+                      NULL,
+                      0,
+                      &buffer,
+                      sizeof(buffer),
+                      &cbBytesReturned,
+                      NULL))
+             {
 
-          	 }
-	         else
-	         {         
-	            DISK_GEOMETRY_EX* geom = (DISK_GEOMETRY_EX*) &buffer;
-	            int fixed = (geom->Geometry.MediaType == FixedMedia);
-	            __int64 size = geom->DiskSize.QuadPart;
-				     
+             }
+             else
+             {         
+                DISK_GEOMETRY_EX* geom = (DISK_GEOMETRY_EX*) &buffer;
+                int fixed = (geom->Geometry.MediaType == FixedMedia);
+                __int64 size = geom->DiskSize.QuadPart;
+                     
 #ifdef PRINTING_TO_CONSOLE_ALLOWED
-	            printf ("\n**** DISK_GEOMETRY_EX for drive %d ****\n"
-		                "Disk is%s fixed\n"
-		                "DiskSize = %I64d\n",
-		                drive,
-		                fixed ? "" : " NOT",
-		                size);
+                printf ("\n**** DISK_GEOMETRY_EX for drive %d ****\n"
+                        "Disk is%s fixed\n"
+                        "DiskSize = %I64d\n",
+                        drive,
+                        fixed ? "" : " NOT",
+                        size);
 #endif
-	        }
+            }
          }
-		 else
-		 {
-			 DWORD err = GetLastError ();
+         else
+         {
+             DWORD err = GetLastError ();
 #ifdef PRINTING_TO_CONSOLE_ALLOWED
-			 printf ("\nDeviceIOControl IOCTL_STORAGE_QUERY_PROPERTY error = %d\n", err);
+             printf ("\nDeviceIOControl IOCTL_STORAGE_QUERY_PROPERTY error = %d\n", err);
 #endif
-		 }
+         }
 
          CloseHandle (hPhysicalDriveIOCTL);
       }
@@ -737,11 +738,11 @@ int ReadDrivePortsInWin9X (void)
    rt_IdeDInfo info;
    pOutBufVxD = &info;
 
-		//  set the thread priority high so that we get exclusive access to the disk
+        //  set the thread priority high so that we get exclusive access to the disk
    status =
-		// SetThreadPriority (GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-		SetPriorityClass (GetCurrentProcess (), REALTIME_PRIORITY_CLASS);
-		// SetPriorityClass (GetCurrentProcess (), HIGH_PRIORITY_CLASS);
+        // SetThreadPriority (GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+        SetPriorityClass (GetCurrentProcess (), REALTIME_PRIORITY_CLASS);
+        // SetPriorityClass (GetCurrentProcess (), HIGH_PRIORITY_CLASS);
 
 
 
@@ -755,13 +756,13 @@ int ReadDrivePortsInWin9X (void)
       // 1. Try to load the VxD
        //  must use the short file name path to open a VXD file
    VxDHandle = CreateFile ("\\\\.\\IDE21201.VXD", 0, 0, 0,
-							0, FILE_FLAG_DELETE_ON_CLOSE, 0);
+                            0, FILE_FLAG_DELETE_ON_CLOSE, 0);
 
    if (VxDHandle != INVALID_HANDLE_VALUE)
    {
          // 2. Run VxD function
       DeviceIoControl (VxDHandle, m_cVxDFunctionIdesDInfo,
-					0, 0, pOutBufVxD, sizeof(pt_IdeDInfo), &lpBytesReturned, 0);
+                    0, 0, pOutBufVxD, sizeof(pt_IdeDInfo), &lpBytesReturned, 0);
 
          // 3. Unload VxD
       CloseHandle (VxDHandle);
@@ -775,18 +776,18 @@ int ReadDrivePortsInWin9X (void)
    {
       if((pOutBufVxD->DiskExists[i]) && (pOutBufVxD->IDEExists[i/2]))
       {
-			int j;
-			DWORD diskinfo [256];
-			for ( j = 0; j < 256; j++) 
-				diskinfo [j] = pOutBufVxD -> DisksRawInfo [i * 256 + j];
+            int j;
+            DWORD diskinfo [256];
+            for ( j = 0; j < 256; j++) 
+                diskinfo [j] = pOutBufVxD -> DisksRawInfo [i * 256 + j];
 
             // process the information for this buffer
-		   //PrintIdeInfo (i, diskinfo);
-			done = TRUE;
+           PrintIdeInfo (i, diskinfo);
+            done = TRUE;
       }
    }
 
-		//  reset the thread priority back to normal
+        //  reset the thread priority back to normal
    // SetThreadPriority (GetCurrentThread(), THREAD_PRIORITY_NORMAL);
    SetPriorityClass (GetCurrentProcess (), NORMAL_PRIORITY_CLASS);
 
@@ -862,7 +863,7 @@ int ReadIdeDriveAsScsiDriveInNT (void)
                   for (ijk = 0; ijk < 256; ijk++)
                      diskdata [ijk] = pIdSector [ijk];
 
-                  //PrintIdeInfo (controller * 2 + drive, diskdata);
+                  PrintIdeInfo (controller * 2 + drive, diskdata);
 
                   done = TRUE;
                }
@@ -875,6 +876,138 @@ int ReadIdeDriveAsScsiDriveInNT (void)
    return done;
 }
 
+char *ConvertToString(DWORD diskdata[256],
+					  int firstIndex,
+					  int lastIndex,
+					  char* buf)
+{
+	int index = 0;
+	int position = 0;
+
+	   //  each integer has two characters stored in it backwards
+	for (index = firstIndex; index <= lastIndex; index++)
+	{
+		  //  get high byte for 1st character
+		buf[position++] = (char)(diskdata[index] / 256);
+
+		   //  get low byte for 2nd character
+		buf[position++] = (char)(diskdata[index] % 256);
+	}
+
+	   //  end the string 
+	buf[position] = '\0';
+
+	   //  cut off the trailing blanks
+	for (index = position - 1; index > 0 && isspace(buf[index]); index--)
+		buf[index] = '\0';
+
+	return buf;
+}
+
+void PrintIdeInfo(int drive, DWORD diskdata[256])
+{
+	char serialNumber[1024];
+	char modelNumber[1024];
+	char revisionNumber[1024];
+	char bufferSize[32];
+
+	   //  copy the hard drive serial number to the buffer
+	ConvertToString(diskdata, 10, 19, serialNumber);
+	ConvertToString(diskdata, 27, 46, modelNumber);
+	ConvertToString(diskdata, 23, 26, revisionNumber);
+	sprintf(bufferSize, "%u", diskdata[21] * 512);
+
+	if (0 == HardDriveSerialNumber[0] &&
+		//  serial number must be alphanumeric
+		//  (but there can be leading spaces on IBM drives)
+		(isalnum(serialNumber[0]) || isalnum(serialNumber[19])))
+	{
+		strcpy(HardDriveSerialNumber, serialNumber);
+		strcpy(HardDriveModelNumber, modelNumber);
+	}
+
+#ifdef PRINTING_TO_CONSOLE_ALLOWED
+
+	__int64 sectors = 0;
+	__int64 bytes = 0;
+
+	printf("\nDrive %d - ", drive);
+
+	switch (drive / 2)
+	{
+		case 0: printf("Primary Controller - ");
+			break;
+		case 1: printf("Secondary Controller - ");
+			break;
+		case 2: printf("Tertiary Controller - ");
+			break;
+		case 3: printf("Quaternary Controller - ");
+			break;
+	}
+
+	switch (drive % 2)
+	{
+		case 0: printf("Master drive\n\n");
+			break;
+		case 1: printf("Slave drive\n\n");
+			break;
+	}
+
+	printf("Drive Model Number________________: [%s]\n",
+		   modelNumber);
+	printf("Drive Serial Number_______________: [%s]\n",
+		   serialNumber);
+	printf("Drive Controller Revision Number__: [%s]\n",
+		   revisionNumber);
+
+	printf("Controller Buffer Size on Drive___: %s bytes\n",
+		   bufferSize);
+
+	printf("Drive Type________________________: ");
+	if (diskdata[0] & 0x0080)
+		printf("Removable\n");
+	else if (diskdata[0] & 0x0040)
+		printf("Fixed\n");
+	else printf("Unknown\n");
+
+		 //  calculate size based on 28 bit or 48 bit addressing
+		 //  48 bit addressing is reflected by bit 10 of word 83
+	if (diskdata[83] & 0x400)
+		sectors = diskdata[103] * 65536I64 * 65536I64 * 65536I64 +
+		diskdata[102] * 65536I64 * 65536I64 +
+		diskdata[101] * 65536I64 +
+		diskdata[100];
+	else
+		sectors = diskdata[61] * 65536 + diskdata[60];
+		//  there are 512 bytes in a sector
+	bytes = sectors * 512;
+	printf("Drive Size________________________: %I64d bytes\n",
+		   bytes);
+
+#endif  // PRINTING_TO_CONSOLE_ALLOWED
+
+	/*char string1[1000];
+	sprintf(string1, "Drive%dModelNumber", drive);
+	WriteConstantString(string1, modelNumber);
+
+	sprintf(string1, "Drive%dSerialNumber", drive);
+	WriteConstantString(string1, serialNumber);
+
+	sprintf(string1, "Drive%dControllerRevisionNumber", drive);
+	WriteConstantString(string1, revisionNumber);
+
+	sprintf(string1, "Drive%dControllerBufferSize", drive);
+	WriteConstantString(string1, bufferSize);
+
+	sprintf(string1, "Drive%dType", drive);
+	if (diskdata[0] & 0x0080)
+		WriteConstantString(string1, "Removable");
+	else if (diskdata[0] & 0x0040)
+		WriteConstantString(string1, "Fixed");
+	else
+		WriteConstantString(string1, "Unknown");*/
+}
+
 
 //char *workedmethod;
 //long getHardDriveComputerID ()
@@ -885,51 +1018,51 @@ void getHardDriveComputerID ( void )
    __int64 id = 0;
    OSVERSIONINFO version;
 
-	strcpy (HardDriveSerialNumber, "");
-	strcpy (HardDriveModelNumber, "");
+    strcpy (HardDriveSerialNumber, "");
+    strcpy (HardDriveModelNumber, "");
 
-	HardDriveSerialNumber[0] = 0;
-	HardDriveModelNumber[0] = 0;
+    HardDriveSerialNumber[0] = 0;
+    HardDriveModelNumber[0] = 0;
 
 
    memset (&version, 0, sizeof (version));
    version.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
    GetVersionEx (&version);
    if (version.dwPlatformId == VER_PLATFORM_WIN32_NT)
-	{
-		//  this works under WinNT4 or Win2K if you have admin rights
+    {
+        //  this works under WinNT4 or Win2K if you have admin rights
 
-		//printf ("\nTrying to read the drive IDs using physical access with admin rights\n");
-		done = ReadPhysicalDriveInNTWithAdminRights ();
-		//workedmethod = "ReadPhysicalDriveInNTWithAdminRights";
-
-
-		//  this should work in WinNT or Win2K if previous did not work
-		//  this is kind of a backdoor via the SCSI mini port driver into
-		//     the IDE drives
-
-		//printf ("\nTrying to read the drive IDs using the SCSI back door\n");
-		//if ( ! done) {
-			done = ReadIdeDriveAsScsiDriveInNT ();
-		//	workedmethod = "ReadIdeDriveAsScsiDriveInNT";
-		//}
+        //printf ("\nTrying to read the drive IDs using physical access with admin rights\n");
+        done = ReadPhysicalDriveInNTWithAdminRights ();
+        //workedmethod = "ReadPhysicalDriveInNTWithAdminRights";
 
 
-		//  this works under WinNT4 or Win2K or WinXP if you have any rights
-		//printf ("\nTrying to read the drive IDs using physical access with zero rights\n");
-		//if ( ! done) {
-			done = ReadPhysicalDriveInNTWithZeroRights ();
-		//	workedmethod = "ReadPhysicalDriveInNTWithZeroRights";
-		//}
+        //  this should work in WinNT or Win2K if previous did not work
+        //  this is kind of a backdoor via the SCSI mini port driver into
+        //     the IDE drives
+
+        //printf ("\nTrying to read the drive IDs using the SCSI back door\n");
+        if ( ! done) {
+            done = ReadIdeDriveAsScsiDriveInNT ();
+        //	workedmethod = "ReadIdeDriveAsScsiDriveInNT";
+        }
 
 
-		//  this works under WinNT4 or Win2K or WinXP or Windows Server 2003 or Vista if you have any rights
+        //  this works under WinNT4 or Win2K or WinXP if you have any rights
+        //printf ("\nTrying to read the drive IDs using physical access with zero rights\n");
+        if ( ! done) {
+            done = ReadPhysicalDriveInNTWithZeroRights ();
+        //	workedmethod = "ReadPhysicalDriveInNTWithZeroRights";
+        }
 
-		//printf ("\nTrying to read the drive IDs using Smart\n");
-		//if ( ! done) {
-			done = ReadPhysicalDriveInNTUsingSmart ();
-		//	workedmethod = "ReadPhysicalDriveInNTUsingSmart";
-		//}
+
+        //  this works under WinNT4 or Win2K or WinXP or Windows Server 2003 or Vista if you have any rights
+
+        //printf ("\nTrying to read the drive IDs using Smart\n");
+        if ( ! done) {
+            done = ReadPhysicalDriveInNTUsingSmart ();
+        //	workedmethod = "ReadPhysicalDriveInNTUsingSmart";
+        }
    }
    else
    {
@@ -939,109 +1072,139 @@ void getHardDriveComputerID ( void )
          //  try this up to 10 times to get a hard drive serial number
       for (attempt = 0;
            attempt < 10 && ! done && 0 == HardDriveSerialNumber [0];
-		   attempt++) {
+           attempt++) {
          done = ReadDrivePortsInWin9X ();
-		//workedmethod = "ReadDrivePortsInWin9X";
+        //workedmethod = "ReadDrivePortsInWin9X";
 
-	  }
+      }
    }
 
 
    if ( ! done) {
-		//return -1;
-		return;
-		//workedmethod = "none";
+        //return -1;
+        return;
+        //workedmethod = "none";
    }
 
 }
 
 
+// Note: This function returns a pointer to a substring of the original string.
+// If the given string was allocated dynamically, the caller must not overwrite
+// that pointer with the returned value, since the original pointer must be
+// deallocated using the same allocator with which it was allocated.  The return
+// value must NOT be deallocated using free() etc.
+char *trimwhitespace(char *str)
+{
+	char *end;
+
+	// Trim leading space
+	while (isspace((unsigned char)*str)) str++;
+
+	if (*str == 0)  // All spaces?
+		return str;
+
+	  // Trim trailing space
+	end = str + strlen(str) - 1;
+	while (end > str && isspace((unsigned char)*end)) end--;
+
+	// Write new null terminator character
+	end[1] = '\0';
+
+	return str;
+}
+
+
 char *GetUUID_WIN32( void )
 {
-	//long id = getHardDriveComputerID();
-	char *ids;
-	char UUID [33];
-	char *HDserial;
-	char *HDmodel;
-	char HDserialEdit [33]; // alphanumeric
-	char HDmodelEdit [33]; // alphanumeric
-	int slen;
-	int mlen;
-	int i, j, k;
+    //long id = getHardDriveComputerID();
+    char UUID [33];
+    char HDserialEdit [33]; // alphanumeric
+    char HDmodelEdit [33]; // alphanumeric
+    int slen;
+    int mlen;
+    int i, j, k;
+
+    // get info
+    getHardDriveComputerID();
 
 
-	ids = "";
-
-	// get info
-	getHardDriveComputerID();
-
-
-	if(!(HardDriveSerialNumber [0])) {
-		//return '\0';
-		char *macadr = GetMAC();
-		Q_strncpyz( HardDriveSerialNumber, macadr, sizeof(HardDriveSerialNumber) );
-		if(!( HardDriveSerialNumber[0] )) {
-			return "";
-		}
-	}
+    if(!(HardDriveSerialNumber [0])) {
+        //return '\0';
+        char *macadr = GetMAC();
+        Q_strncpyz( HardDriveSerialNumber, macadr, sizeof(HardDriveSerialNumber) );
+        if(!( HardDriveSerialNumber[0] )) {
+            return "";
+        }
+    }
 
 
-	HDserial = HardDriveSerialNumber;
-	HDmodel = HardDriveModelNumber;
-	slen = strlen( HDserial );
-	mlen = strlen( HDmodel );
-	if( slen > 32 )
+    slen = strlen(HardDriveSerialNumber);
+    mlen = strlen(HardDriveModelNumber);
+    if( slen > 32 )
+        slen = 32;
+    if( mlen > 32 )
+        mlen = 32;
+
+
+// -----------------------------------------------------
+    strcpy (HDserialEdit, "");
+    j = 0;
+    for( i=0; i<slen; i++ ) {
+        if( Q_isalphanumeric( HardDriveSerialNumber[slen - i - 1] ) ) {
+            HDserialEdit[j] = HardDriveSerialNumber[slen - i - 1];
+            j++;
+        } else {
+            //HDserialEdit[j] = ':';
+            //j++;
+        }
+    }
+    HDserialEdit[j] = '\0';
+
+
+    strcpy (HDmodelEdit, "");
+    j = 0;
+    for( i=0; i<mlen; i++ ) {
+        if( Q_isalphanumeric( HardDriveModelNumber[i] ) ) {
+            HDmodelEdit[j] = HardDriveModelNumber[i];
+            j++;
+        } else {
+            //HDmodelEdit[j] = '#';
+            //j++;
+        }
+    }
+    HDmodelEdit[j] = '\0';
+// -----------------------------------------------------
+
+	slen = strlen(HDserialEdit);
+	mlen = strlen(HDmodelEdit);
+	if (slen > 32)
 		slen = 32;
-	if( mlen > 32 )
+	if (mlen > 32)
 		mlen = 32;
 
-
-// -----------------------------------------------------
-	strcpy (HDserialEdit, "");
-	j = 0;
-	for( i=0; i<slen; i++ ) {
-		if( Q_isalphanumeric( HardDriveSerialNumber[i] ) ) {
-			HDserialEdit[j] = HardDriveSerialNumber[i];
-			j++;
-		} else {
-			HDserialEdit[j] = ':';
-			j++;
-		}
+    Q_strncpyz( UUID, HDserialEdit, sizeof(UUID) );
+    if(slen < 32 ) {
+        for( k=0; ((k<mlen) && ((slen+k)<32)); k++ ) {
+            UUID[slen+k] = HDmodelEdit[k];
+        }
+        UUID[slen+k] = '\0';
 	}
-	HDserialEdit[j] = '\0';
-
-
-	strcpy (HDmodelEdit, "");
-	j = 0;
-	for( i=0; i<mlen; i++ ) {
-		if( Q_isalphanumeric( HardDriveModelNumber[i] ) ) {
-			HDmodelEdit[j] = HardDriveModelNumber[i];
-			j++;
-		} else {
-			HDmodelEdit[j] = '#';
-			j++;
+	int ulen = strlen(UUID);
+	if (ulen < 32)
+	{
+		for (k = ulen; k < 32; k++)
+		{
+			UUID[k] = '0';
 		}
-	}
-	HDmodelEdit[j] = '\0';
-// -----------------------------------------------------
-
-
-	Q_strncpyz( UUID, HDserialEdit, sizeof(UUID) );
-
-	if( slen < 32 ) {
-		for( k=0; ((k<mlen) && ((slen+k)<32)); k++ ) {
-			UUID[slen+k] = HDmodelEdit[k];
-		}
-		UUID[slen+k] = '\0';
+		UUID[32] = '\0';
 	}
 
-	//ids = UUID;
-	ids = va("%s", UUID);
 
-
-	//CG_Printf("^1*GetUUID: ^5%s\n", ids);
-
-	return ids;
+	static  char ids[33];
+	Q_strncpyz(ids, UUID, sizeof(ids));
+    //CG_Printf("^1*GetUUID: ^5%s\n", ids);
+    return ids;
 }
 
 
@@ -1071,14 +1234,14 @@ char *GetUUID_WIN32( void )
 
 char *ConvertMACaddress(unsigned char MACData[])
 {
-   static char string [256];
+   static char string [32];
 //#ifdef PRINTING_TO_CONSOLE_ALLOWED
 //	CG_Printf("MAC Address: %02X-%02X-%02X-%02X-%02X-%02X\n", 
 //		MACData[0], MACData[1], MACData[2], MACData[3], MACData[4], MACData[5]);
 //#endif
 
    //sprintf (string, "%02X-%02X-%02X-%02X-%02X-%02X", MACData[0], MACData[1], 
-	//		   MACData[2], MACData[3], MACData[4], MACData[5]);
+    //		   MACData[2], MACData[3], MACData[4], MACData[5]);
 
    Com_sprintf(string, sizeof(string), "%02X-%02X-%02X-%02X-%02X-%02X", MACData[0], MACData[1], MACData[2], MACData[3], MACData[4], MACData[5]);
    return string;
@@ -1088,33 +1251,33 @@ char *ConvertMACaddress(unsigned char MACData[])
 // Fetches the MAC address and prints it
 char *GetMACaddress( void )
 {
-	char *MACaddress;
-	IP_ADAPTER_INFO AdapterInfo[16];		// Allocate information
-											// for up to 16 NICs
+    char *MACaddress;
+    IP_ADAPTER_INFO AdapterInfo[16];		// Allocate information
+                                            // for up to 16 NICs
 
-	DWORD dwBufLen = sizeof(AdapterInfo);	// Save memory size of buffer
+    DWORD dwBufLen = sizeof(AdapterInfo);	// Save memory size of buffer
 
-	DWORD dwStatus = GetAdaptersInfo(		// Call GetAdapterInfo
-		AdapterInfo,						// [out] buffer to receive data
-		&dwBufLen);							// [in] size of receive data buffer
+    DWORD dwStatus = GetAdaptersInfo(		// Call GetAdapterInfo
+        AdapterInfo,						// [out] buffer to receive data
+        &dwBufLen);							// [in] size of receive data buffer
 
-	PIP_ADAPTER_INFO pAdapterInfo = AdapterInfo;	// Contains pointer to
-													// current adapter info
+    PIP_ADAPTER_INFO pAdapterInfo = AdapterInfo;	// Contains pointer to
+                                                    // current adapter info
 
-	assert(dwStatus == ERROR_SUCCESS);	// Verify return value is
-										// valid, no buffer overflow
+    assert(dwStatus == ERROR_SUCCESS);	// Verify return value is
+                                        // valid, no buffer overflow
 
-	if( dwStatus != ERROR_SUCCESS )
-		return '\0';
+    if( dwStatus != ERROR_SUCCESS )
+        return '\0';
 
-	do {
-		MACaddress = ConvertMACaddress( pAdapterInfo->Address );
+    do {
+        MACaddress = ConvertMACaddress( pAdapterInfo->Address );
 
-		pAdapterInfo = pAdapterInfo->Next;    // Progress through linked list
-	}
-	while(pAdapterInfo);                    // Terminate if last adapter
+        pAdapterInfo = pAdapterInfo->Next;    // Progress through linked list
+    }
+    while(pAdapterInfo);                    // Terminate if last adapter
 
-	return MACaddress;
+    return MACaddress;
 }
 
 
@@ -1129,32 +1292,32 @@ char *GetMACaddress( void )
 
 char *GetMserial( void )
 {
-	char *out;
+    char *out;
 
 #ifdef WIN32
-	getHardDriveComputerID();
-	out = HardDriveSerialNumber;
+    getHardDriveComputerID();
+    out = HardDriveSerialNumber;
 #else
-	out = "";
+    out = "";
 #endif
 
-	return out;
+    return out;
 }
 
 
 char *GetMmodel( void )
 {
-	char *out;
+    char *out;
 
 #ifdef WIN32
-	getHardDriveComputerID();
-	out = HardDriveModelNumber;
+    getHardDriveComputerID();
+    out = HardDriveModelNumber;
 #else
-	out = "";
+    out = "";
 #endif
 
 
-	return out;
+    return out;
 }
 
 
@@ -1172,23 +1335,23 @@ char *GetMmodel( void )
 //std::string getDiskSerialNumber()
 char *getDiskSN_linux( void )
 {
-	struct hd_driveid id;
-	int fd;
-	char *testHDS;
+    struct hd_driveid id;
+    int fd;
+    char *testHDS;
 
-	if ((fd = open("/dev/hda", O_RDONLY)) == -1)
-		return "error_opening"; //error opening /dev/hda
+    if ((fd = open("/dev/hda", O_RDONLY)) == -1)
+        return "error_opening"; //error opening /dev/hda
    
-	if (ioctl(fd, HDIO_GET_IDENTITY, &id) == -1)
-		return "error_retrieving"; //error retrieving indentification
+    if (ioctl(fd, HDIO_GET_IDENTITY, &id) == -1)
+        return "error_retrieving"; //error retrieving indentification
    
-	//return std::string((const char*)id.serial_no);
+    //return std::string((const char*)id.serial_no);
 
-	testHDS = va("%s", id.serial_no);
+    testHDS = va("%s", id.serial_no);
 
-	CG_Printf("^6Serial number - %s", testHDS);
+    CG_Printf("^6Serial number - %s", testHDS);
 
-	return testHDS;
+    return testHDS;
 }
 
 
@@ -1201,88 +1364,88 @@ unsigned char cMacAddr[8]; // Server's MAC address
 
 static int GetSvrMacAddress( char *pIface )
 {
-	int nSD; // Socket descriptor
-	struct ifreq sIfReq; // Interface request
-	struct if_nameindex *pIfList; // Ptr to interface name index
-	struct if_nameindex *pListSave; // Ptr to interface name index
+    int nSD; // Socket descriptor
+    struct ifreq sIfReq; // Interface request
+    struct if_nameindex *pIfList; // Ptr to interface name index
+    struct if_nameindex *pListSave; // Ptr to interface name index
 
-	// Initialize this function
-	pIfList = (struct if_nameindex *)NULL;
-	pListSave = (struct if_nameindex *)NULL;
-	#ifndef SIOCGIFADDR
-	// The kernel does not support the required ioctls
-	return( 0 );
-	#endif
+    // Initialize this function
+    pIfList = (struct if_nameindex *)NULL;
+    pListSave = (struct if_nameindex *)NULL;
+    #ifndef SIOCGIFADDR
+    // The kernel does not support the required ioctls
+    return( 0 );
+    #endif
 
-	// Create a socket that we can use for all of our ioctls
-	nSD = socket( PF_INET, SOCK_STREAM, 0 );
-	if ( nSD < 0 )
-	{
-		// Socket creation failed, this is a fatal error
-		CG_Printf( "File %s: line %d: Socket failed\n", __FILE__, __LINE__ );
-		return( 0 );
-	}
+    // Create a socket that we can use for all of our ioctls
+    nSD = socket( PF_INET, SOCK_STREAM, 0 );
+    if ( nSD < 0 )
+    {
+        // Socket creation failed, this is a fatal error
+        CG_Printf( "File %s: line %d: Socket failed\n", __FILE__, __LINE__ );
+        return( 0 );
+    }
 
-	// Obtain a list of dynamically allocated structures
-	pIfList = pListSave = if_nameindex();
+    // Obtain a list of dynamically allocated structures
+    pIfList = pListSave = if_nameindex();
 
-	// Walk thru the array returned and query for each interface's
-	// address
-	//for ( pIfList; *(char *)pIfList != 0; pIfList++ )
-	for ( ; *(char *)pIfList != 0; pIfList++ )
-	{
-		// Determine if we are processing the interface that we
-		// are interested in
-		if ( strcmp(pIfList->if_name, pIface) )
-			continue;
+    // Walk thru the array returned and query for each interface's
+    // address
+    //for ( pIfList; *(char *)pIfList != 0; pIfList++ )
+    for ( ; *(char *)pIfList != 0; pIfList++ )
+    {
+        // Determine if we are processing the interface that we
+        // are interested in
+        if ( strcmp(pIfList->if_name, pIface) )
+            continue;
 
-		strncpy( sIfReq.ifr_name, pIfList->if_name, IF_NAMESIZE );
+        strncpy( sIfReq.ifr_name, pIfList->if_name, IF_NAMESIZE );
 
-		// Get the MAC address for this interface
-		if ( ioctl(nSD, SIOCGIFHWADDR, &sIfReq) != 0 )
-		{
-			// We failed to get the MAC address for the interface
-			CG_Printf( "File %s: line %d: Ioctl failed\n", __FILE__, __LINE__ );
-			return( 0 );
-		}
-		memmove( (void *)&cMacAddr[0], (void *)&sIfReq.ifr_ifru.ifru_hwaddr.sa_data[0], 6 );
-		break;
-	}
+        // Get the MAC address for this interface
+        if ( ioctl(nSD, SIOCGIFHWADDR, &sIfReq) != 0 )
+        {
+            // We failed to get the MAC address for the interface
+            CG_Printf( "File %s: line %d: Ioctl failed\n", __FILE__, __LINE__ );
+            return( 0 );
+        }
+        memmove( (void *)&cMacAddr[0], (void *)&sIfReq.ifr_ifru.ifru_hwaddr.sa_data[0], 6 );
+        break;
+    }
 
 
-	if_freenameindex( pListSave );
-		close( nSD );
+    if_freenameindex( pListSave );
+        close( nSD );
 
-	return( 1 );
+    return( 1 );
 }
 
 //int main( int argc, char * argv[] )
 char *getMAC_linux( void )
 {
-	char *macaddress;
-	bzero( (void *)&cMacAddr[0], sizeof(cMacAddr) );
+    char *macaddress;
+    bzero( (void *)&cMacAddr[0], sizeof(cMacAddr) );
 
-	macaddress = "";
+    macaddress = "";
 
-	if ( !GetSvrMacAddress("eth0") )
-	{
-		// We failed to get the local host's MAC address
-		CG_Printf( "Fatal error: Failed to get local host's MAC address\n" );
-	}
-	//printf
-	CG_Printf( "HWaddr %02X:%02X:%02X:%02X:%02X:%02X\n",
-	cMacAddr[0], cMacAddr[1], cMacAddr[2],
-	cMacAddr[3], cMacAddr[4], cMacAddr[5] );
-	
-	Com_Printf( "HWaddr %02X:%02X:%02X:%02X:%02X:%02X\n",
-	cMacAddr[0], cMacAddr[1], cMacAddr[2],
-	cMacAddr[3], cMacAddr[4], cMacAddr[5] );
+    if ( !GetSvrMacAddress("eth0") )
+    {
+        // We failed to get the local host's MAC address
+        CG_Printf( "Fatal error: Failed to get local host's MAC address\n" );
+    }
+    //printf
+    CG_Printf( "HWaddr %02X:%02X:%02X:%02X:%02X:%02X\n",
+    cMacAddr[0], cMacAddr[1], cMacAddr[2],
+    cMacAddr[3], cMacAddr[4], cMacAddr[5] );
+    
+    Com_Printf( "HWaddr %02X:%02X:%02X:%02X:%02X:%02X\n",
+    cMacAddr[0], cMacAddr[1], cMacAddr[2],
+    cMacAddr[3], cMacAddr[4], cMacAddr[5] );
 
-	macaddress = va( "HWaddr %02X:%02X:%02X:%02X:%02X:%02X\n",
-	cMacAddr[0], cMacAddr[1], cMacAddr[2],
-	cMacAddr[3], cMacAddr[4], cMacAddr[5] );
+    macaddress = va( "HWaddr %02X:%02X:%02X:%02X:%02X:%02X\n",
+    cMacAddr[0], cMacAddr[1], cMacAddr[2],
+    cMacAddr[3], cMacAddr[4], cMacAddr[5] );
 
-	return macaddress;
+    return macaddress;
 }
 
 
@@ -1294,72 +1457,63 @@ char *getMAC_linux( void )
 
 char *GetMAC( void )
 {
-	char *mac;
+    char *mac;
 
 #ifdef WIN32
-	mac = GetMACaddress();
+    mac = GetMACaddress();
 #elif __linux__
-	mac = getMAC_linux();
+    mac = getMAC_linux();
 #else
-	mac = "";
+    mac = "";
 #endif
 
-	return mac;
+    return mac;
 }
 
 
 char *GetUUID_Encrypt( void )
 {
-	char *uuid;
-	char *uuidout;
-	char in[33]; // trailing 0
-	char edit[32];
-	char out[32];
-	int i, j, k;
-	int fulllen;
-	int halflen;
+    char *uuid;
+    char in[33]; // trailing 0
+    char edit[33];
+    char out[33];
+    int i, j, k;
+    int fulllen;
+    int halflen;
 
-	uuid = "";
-
-	CG_Printf("^1*UUID_Enc\n");
+    //CG_Printf("^1*UUID_Enc\n");
 
 #ifdef WIN32
-	uuid = GetUUID_WIN32();
+    uuid = GetUUID_WIN32();
 #elif __linux__
-
-	CG_Printf("^1*UUID_Enc: __linux__^5\n");
-
-	return getDiskSN_linux();
-
-//	return "NOUUID_LINUX";
-	//return '\0';
+    return getDiskSN_linux();
 #else
-	return "NOUUID_UNIX";
-	//return '\0';
+    return "NOUUID_UNIX";
+    //return '\0';
 #endif
 
-	return "NOUUID_WIN32";
+    if (!uuid || !*uuid)
+    {
+        return "NOUUID_WIN32";
+        return '\0';
+    }
+    //CG_Printf("^1*GetUUID_enc: inuuid: ^5%s\n", uuid);
 
-	if( !uuid || !*uuid ) {
-		return '\0';
-	}
-	//CG_Printf("^1*GetUUID_enc: inuuid: ^5%s\n", uuid);
+    //Q_strncpyz( in, uuid, sizeof(in) );
+    strcpy( in, uuid );
+    in[strlen(uuid)] = 0;
 
-	//Q_strncpyz( in, uuid, sizeof(in) );
-	strcpy( in, uuid );
-	in[strlen(uuid)] = 0;
+    if( !in[0] ) {
+        return '\0';
+    }
 
-	if( !in[0] ) {
-		return '\0';
-	}
+    //CG_Printf("^1*GetUUID_enc: in: ^5%s\n", in);
 
-	//CG_Printf("^1*GetUUID_enc: in: ^5%s\n", in);
-
-	strcpy( edit, "" );
-	for ( i=0; i<(int)strlen(in); i++ )
-	{
-		switch (in[i])
-		{
+    strcpy( edit, "" );
+    for ( i=0; i<(int)strlen(in); i++ )
+    {
+        switch (in[i])
+        {
             case '0': edit[i] = 'X'; break;
             case '1': edit[i] = 'A'; break;
             case '2': edit[i] = 'Y'; break;
@@ -1393,47 +1547,49 @@ char *GetUUID_Encrypt( void )
             case 'u': case 'U': edit[i] = 'N'; break;
             case 'v': case 'V': edit[i] = 'E'; break;
             case 'w': case 'W': edit[i] = 'K'; break;
-			case 'x': case 'X': edit[i] = '#'; break;
+            case 'x': case 'X': edit[i] = '#'; break;
             case 'y': case 'Y': edit[i] = '4'; break;
-			case 'z': case 'Z': edit[i] = 'J'; break;
+            case 'z': case 'Z': edit[i] = 'J'; break;
 
-			case '#': edit[i] = 'M'; break;
+            case '#': edit[i] = 'M'; break;
 
-			// no spaces or wierd characters
-			default: edit[i] = '_'; break;
-		}
-	}
-	edit[i] = '\0';
+            // no spaces or wierd characters
+            default: edit[i] = '_'; break;
+        }
+    }
+    edit[i] = '\0';
 
-	// --------------------------------
-	strcpy( out, "" );
-	out[0] = 0;
+    // --------------------------------
+    strcpy( out, "" );
+    out[0] = 0;
 
-	fulllen = strlen(edit);
-	halflen = (int)floor(fulllen*0.5);
+    fulllen = strlen(edit);
+    halflen = (int)floor(fulllen*0.5);
 
-	k = 0;
-	for( j=halflen; j<fulllen; j++ ) {
-		out[k] = edit[j];
-		k++;
-	}
+    k = 0;
+    for( j=halflen; j<fulllen; j++ ) {
+        out[k] = edit[j];
+        k++;
+    }
 
-	for( j=0; j<halflen; j++ ) {
-		out[k] = edit[j];
-		k++;
-	}
-	if( k > 32 ) { return '\0'; }
-	out[k] = '\0';
-	// --------------------------------
+    for( j=0; j<halflen; j++ ) {
+        out[k] = edit[j];
+        k++;
+    }
+    if( k > 32 ) { return '\0'; }
+    out[k] = '\0';
+    // --------------------------------
 
 	//uuidout = va("%s",out);
-	uuidout = out;
+	static char uuidout[33];
+	//strcpy(uuidout, uuid);
+	Q_strncpyz(uuidout, out, sizeof(uuidout));
+	uuidout[32] = 0;
 
-	if( !uuidout || !*uuidout ) { return '\0'; }
+    //if( !uuidout || !*uuidout ) { return '\0'; }
+    //CG_Printf( "^1UUID: ^7\'%s\' (%d)\n", uuidout, strlen(uuidout) );
 
-	//CG_Printf( "^1UUID: ^7\'%s\' (%d)\n", uuidout, strlen(uuidout) );
-
-	return uuidout;
+    return uuidout;
 }
 
 

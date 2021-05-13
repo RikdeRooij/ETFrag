@@ -573,8 +573,11 @@ void Cmd_SpawnTurret_f( gentity_t *ent ) {
 	}
 
 
-	if( turretremoved && baseremoved ) {
+	if (turretremoved && baseremoved)
+	{
+#ifdef GS_DEBUG
 		trap_SendServerCommand( ent-g_entities, va("print \"Old Turret Removed!\n\""));
+#endif
 	} else if( turretremoved || baseremoved ) {
 		trap_SendServerCommand( ent-g_entities, va("print \"ERROR removing Old Turret!\n\""));
 		return;
@@ -589,10 +592,13 @@ void Cmd_SpawnTurret_f( gentity_t *ent ) {
 // +++++++++++++
 
 	base=G_Spawn();
-	base->classname="turretbase"; // misc_mg42base
+	base->classname="misc_mg42base"; // turretbase
 	base->parent = ent;
-
-	base->s.modelindex =	G_ModelIndex("models/mapobjects/weapons/mg42b.md3");
+	//base->s.weapon = WP_MOBILE_MG42_SET;
+	
+	base->s.modelindex =	G_ModelIndex("models/mapobjects/weapons/mg42b.mdc");
+	base->model =						("models/mapobjects/weapons/mg42b.mdc");
+	base->s.modelindex2 =	G_ModelIndex("models/mapobjects/weapons/mg42b.mdc");
 	// scale is stored in 'angles2'
 	//base->s.angles2[0] = base->s.angles2[1] = base->s.angles2[2] = 1.0f;
 
@@ -605,9 +611,9 @@ void Cmd_SpawnTurret_f( gentity_t *ent ) {
 
 	VectorSet( base->r.mins, -16, -16, 2 );
 	VectorSet( base->r.maxs, 16, 16, 48);
-
-	//G_SetOrigin( base, ent->s.pos.trBase );
-	//G_SetAngle( base, ent->s.apos.trBase );
+	
+	G_SetOrigin( base, ent->s.pos.trBase );
+	G_SetAngle( base, ent->s.apos.trBase );
 
 	base->sound3to2 = -1;
 	base->s.dmgFlags = HINT_MG42;
@@ -616,10 +622,10 @@ void Cmd_SpawnTurret_f( gentity_t *ent ) {
 	//base->think=CreateTurretGun;
 	//base->nextthink=level.time+100;
 
-	trap_LinkEntity (base);
-
 	SetTurretBase( base, qfalse );
-	G_SetEntState( base, ent->entstate );
+	G_SetEntState(base, ent->entstate);
+
+	trap_LinkEntity(base);
 
 // ========================================================================
 
@@ -639,7 +645,9 @@ void Cmd_SpawnTurret_f( gentity_t *ent ) {
 
 	//turret->s.modelindex = G_ModelIndex ("models/multiplayer/mg42/mg42.md3");
 	//turret->s.modelindex = G_ModelIndex("models/multiplayer/browning/thirdperson.md3");
-	turret->s.modelindex =	G_ModelIndex("models/browning_thirdperson.md3");
+	turret->s.modelindex = G_ModelIndex("models/browning_thirdperson.md3");
+	turret->model = ("models/browning_thirdperson.md3");
+	turret->s.modelindex2 = G_ModelIndex("models/browning_thirdperson.md3");
 	// scale is stored in effect3Time
 	turret->s.effect3Time = (1.3 * 100);
 
@@ -735,7 +743,9 @@ void Cmd_TestTurret_f( gentity_t *ent ) {
 					while( (base = G_Find(base, FOFS(classname), "turretbasetest")) != NULL ) {
 						if( base->parent == ent ) {
 							G_FreeEntity( base );
+#ifdef GS_DEBUG
 							trap_SendServerCommand( ent-g_entities, va("print \"Test Turret Removed!\n\""));
+#endif
 							break;
 						}
 					}
@@ -754,9 +764,9 @@ void Cmd_TestTurret_f( gentity_t *ent ) {
 	base=G_Spawn();
 	base->classname="turretbasetest";
 	base->parent=ent;
-	base->s.modelindex =	G_ModelIndex("models/mapobjects/weapons/mg42b.md3");
-	base->model =						("models/mapobjects/weapons/mg42b.md3");
-	base->s.modelindex2 =	G_ModelIndex("models/mapobjects/weapons/mg42b.md3");
+	base->s.modelindex =	G_ModelIndex("models/mapobjects/weapons/mg42b.mdc");
+	base->model =						("models/mapobjects/weapons/mg42b.mdc");
+	base->s.modelindex2 =	G_ModelIndex("models/mapobjects/weapons/mg42b.mdc");
 	// scale is stored in 'angles2'
 	//base->s.eType = ET_GAMEMODEL;
 	//base->s.angles2[0] = base->s.angles2[1] = base->s.angles2[2] = 1.0f;

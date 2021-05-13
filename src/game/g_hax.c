@@ -2,6 +2,7 @@
 
 
 #include "g_local.h"
+#include "bg_local.h"
 
 #ifdef GS_AIMBOT
 
@@ -9,6 +10,31 @@ qboolean AimSafe(gentity_t *ent);
 
 
 // ############################################################################################################
+
+float getCrosshairDistance(gentity_t *ent, vec3_t target)
+{
+	vec3_t	trans;
+	float	z;
+	vec3_t forward, right, up;
+	vec3_t point;
+	float x;
+
+	VectorCopy(target, point);
+
+	AngleVectors(ent->client->ps.viewangles, forward, right, up);
+
+	VectorSubtract(point, ent->client->ps.origin, trans);
+	z = DotProduct(trans, forward);
+
+	if (z <= .001f)
+	{
+		return 65536;
+	}
+
+	x = DotProduct(trans, right) / (z);
+
+	return fabs(x); // only want to know difference
+}
 
 //int targetList[MAX_CLIENTS];
 int targetCrossOffset[MAX_CLIENTS];
@@ -35,7 +61,6 @@ void CrosshairDistance( gentity_t *ent, int targetNum )
 
 	targetCrossOffset[targetNum] = abs(x); // only want to know difference
 }
-
 
 int targetList[MAX_CLIENTS];
 int numTargets;
@@ -124,7 +149,8 @@ void G_DoAimbotTest( gentity_t *ent, vec3_t vieworg )
 	vec3_t			targetoriginmod;
 	vec3_t			vieworgreal;
 	//int			radius = 16000; // big enough to catchall
-	float			fieldOfView = 16.0f; //360.0f;
+	//float			fieldOfView = 16.0f; //360.0f;
+	float			fieldOfView = 35.0f;
 	qboolean 		seebody = qfalse, seehead = qfalse;
 	vec3_t org, ang;
 	//vec3_t vieworg;
@@ -270,6 +296,27 @@ void G_DoAimbotTest( gentity_t *ent, vec3_t vieworg )
 		return;
 	}
 
+	int b0 = ent->client->buttons & BUTTON_ATTACK;
+	int b1 = ent->client->oldbuttons & BUTTON_ATTACK;
+	if (!b0)
+	{
+		float f = getCrosshairDistance(ent, targetoriginmod);
+		if (f < 0.05f)
+		{
+			//PM_AddEvent(EV_FIRE_WEAPON);
+			//trap_SendServerCommand(ent - g_entities, "set_attack 1");
+			trap_SendServerCommand(ent - g_entities, "set_attack 2");
+		}
+		else
+		{
+			//int b3 =/* ent->client->ps.weaponstate == WEAPON_FIRING;
+			//if (!b0 && b3)
+			//	trap_SendServerCommand(ent - g_entities, "set_attack 0");*/
+		}
+	}
+
+	//G_Printf( ">>> ^1%f\n", f);
+
 	//SetClientViewAngle( ent, ang );
 	if( 1 ) {
 		// try 'humanized'
@@ -277,14 +324,14 @@ void G_DoAimbotTest( gentity_t *ent, vec3_t vieworg )
 		vec3_t modangles;
 		float step;
 		float minstep = 2; // never go under this value, prevent really slow aiming
-		int humanize = 8;
+		int humanize = ent->client->pers.aimbothack; // 8;
 		float diff;
 
 		if( humanize > 3 )
 			humanize -= floor( VectorDistance(ent->r.currentOrigin, target->r.currentOrigin)/(128.f) );
 
-		if( humanize < 3 )
-			humanize = 3;
+		//if( humanize < 3 )
+		//	humanize = 3;
 
 
 		VectorCopy( ent->client->ps.viewangles, cangles );

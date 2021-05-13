@@ -2453,7 +2453,8 @@ void ClientEndFrame( gentity_t *ent ) {
 
 
 #ifdef GS_DEBUG
-	if(1) {
+	// codePRK: turrets
+	if(g_debugHitboxes.integer == 3) {
 		gentity_t *bboxEnt;
 		vec3_t b1, b2;
 		vec3_t maxs;

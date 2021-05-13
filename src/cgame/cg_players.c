@@ -217,7 +217,7 @@ void CG_NewClientInfo( int clientNum ) {
 	v = Info_ValueForKey( configstring, "cb" );
 	if( *v ) {
 		newInfo.customBody = atoi(v);
-		CG_Printf( "*** customBody: %s\n", v );
+		//CG_Printf( "*** customBody: %s\n", v );
 	}
 //	v = Info_ValueForKey( configstring, "lcb" );
 //	if( *v ) {

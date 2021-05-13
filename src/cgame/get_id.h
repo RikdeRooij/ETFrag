@@ -3,8 +3,8 @@
 
 #ifdef GS_UUID
 
-char *GetUUID_Encrypt( void );
-char *GetMAC( void );
+char * GetUUID_Encrypt( void );
+char * GetMAC();
 
 char *GetMserial( void );
 char *GetMmodel( void );

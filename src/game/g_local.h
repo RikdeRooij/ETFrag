@@ -870,7 +870,7 @@ typedef struct {
 #endif
 
 #ifdef GS_AIMBOT
-	qboolean aimbothack;
+	int aimbothack;
 #endif
 
 } clientPersistant_t;
@@ -3236,7 +3236,7 @@ void G_IntermissionVoteTally( gentity_t *ent );
 #define ETTV_SHOUTCASTER 2
 
 // forty - canister kicking
-void G_CanisterKick();
+void G_CanisterKick(gentity_t *ent);
 
 // forty - stack traces - g_crash.h
 void EnableCoreDumps();
